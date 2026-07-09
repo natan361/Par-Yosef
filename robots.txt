@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://par-yosef.pages.dev/sitemap.xml
