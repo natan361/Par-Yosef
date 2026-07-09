@@ -1,0 +1,22 @@
+import puppeteer from 'puppeteer';
+const b = await puppeteer.launch({headless:'new',args:['--no-sandbox']});
+const p = await b.newPage();
+await p.setViewport({width:1440,height:900});
+await p.evaluateOnNewDocument(() => localStorage.setItem('siteLang','fr'));
+await p.goto('http://localhost:3000',{waitUntil:'networkidle2',timeout:20000});
+await p.evaluateHandle('document.fonts.ready');
+await p.evaluate(() => {
+  document.querySelectorAll('.reveal,.stagger-children').forEach(e => e.classList.add('visible'));
+  document.querySelectorAll('.stat-num[data-target]').forEach(e => { e.textContent = e.dataset.target; });
+});
+await new Promise(r => setTimeout(r, 800));
+const DIR = 'temporary screenshots';
+await p.screenshot({path: DIR + '/fr-header.png', clip: {x:0,y:0,width:1440,height:80}});
+const hero = await p.$('#hero');
+const hb = await hero.boundingBox();
+await p.screenshot({path: DIR + '/fr-hero.png', clip: {x:hb.x,y:hb.y,width:hb.width,height:Math.min(hb.height,500)}});
+const par = await p.$('#parasha');
+const pb = await par.boundingBox();
+await p.screenshot({path: DIR + '/fr-parasha.png', clip: {x:pb.x,y:pb.y,width:pb.width,height:pb.height}});
+await b.close();
+console.log('done');

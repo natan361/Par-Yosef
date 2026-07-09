@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>גלריה — פאר יוסף | Galerie — Peer Yosef</title>
+  <meta name="description" content="תמונות מחיי הקהילה של ישיבת פאר יוסף בירושלים. Photos de la communauté de la Yeshiva Peer Yosef, Jérusalem.">
+  <meta name="keywords" content="פאר יוסף, ישיבת פאר יוסף, הרב אשר עבאדי, עטרת מנשה, היכל מוהרן, ברסלב, ישיבה ברסלב, בית כנסת ירושלים, בית מדרש ירושלים, קהילה ברסלב, שיעורי תורה, Peer Yosef, Yeshivat Peer Yosef, Yeshiva Peer Yosef, Rabbi Asher Abadi, Rav Asher Abadi, Ateret Menashe, Heichal Moharan, Breslov, Breslov yeshiva, Jerusalem synagogue, Breslov Jerusalem, Torah classes Jerusalem, Jérusalem, synagogue Jérusalem, yeshiva Breslov, cours de Torah Jérusalem">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/png" href="photo/logo-main.png">
+  <link rel="apple-touch-icon" href="photo/logo-main.png">
+  <meta property="og:site_name" content="פאר יוסף">
+  <meta property="og:locale" content="he_IL">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="photo/logo-main.png">
+  <meta property="og:title" content="גלריה — פאר יוסף | Galerie — Peer Yosef">
+  <meta property="og:description" content="תמונות מחיי הקהילה של ישיבת פאר יוסף בירושלים. Photos de la communauté de la Yeshiva Peer Yosef, Jérusalem.">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@400;700&family=Noto+Sans+Hebrew:wght@300;400;500&display=swap');
+
+    :root {
+      --bg:           #f7f4ef;
+      --bg-dark:      #1E5A68;
+      --bg-card:      #ffffff;
+      --bg-elem:      #ede9e2;
+      --border:       #d4cdc3;
+      --gold:         #CC8800;
+      --gold-light:   #E8A820;
+      --white:        #ffffff;
+      --text:         #1C3D52;
+      --text-light:   #f7f4ef;
+      --muted:        #6a7585;
+      --header-bg:    rgba(30, 90, 104, 0.93);
+      --header-h:     72px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Noto Sans Hebrew', sans-serif; color: var(--text); background: var(--bg); overflow-x: hidden; }
+    body.nav-open { overflow: hidden; }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    ::selection { background: var(--gold); color: #fff; }
+
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-block; background: var(--gold); color: #fff !important;
+      border-radius: 28px; padding: 12px 32px;
+      font-family: 'Noto Sans Hebrew', sans-serif; font-size: 16px; font-weight: 500;
+      border: none; cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-green { background: #25D366; }
+
+    /* ── Section titles ── */
+    .sec-title {
+      font-family: 'Noto Serif Hebrew', serif; font-size: clamp(26px, 5vw, 40px);
+      font-weight: 700; color: var(--text); text-align: center;
+      margin-bottom: 12px; letter-spacing: -0.02em;
+    }
+    .sec-title.light { color: #fff; }
+    .gold-bar { display: block; width: 56px; height: 3px; background: var(--gold); margin: 0 auto 40px; }
+
+    /* ── White text overrides ── */
+    .footer-sitemap, .footer-sitemap h3, .footer-sitemap p,
+    .footer-sitemap a, .footer-sitemap li,
+    .footer-newsletter, .footer-newsletter h3, .footer-newsletter p,
+    .footer-strip, .footer-strip a, .footer-strip p,
+    .footer-logo-name, .footer-logo-tag { color: #ffffff !important; }
+    .nav-overlay, .nav-overlay a { color: #ffffff !important; }
+
+    /* ════════════════════════════
+       HEADER
+    ════════════════════════════ */
+    header {
+      position: fixed; top: 0; right: 0; left: 0;
+      height: var(--header-h); z-index: 1000;
+      background: var(--header-bg);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+    }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 100%; max-width: 1160px; margin: 0 auto; padding: 0 24px; gap: 12px;
+    }
+    .logo-wrap { display: flex; align-items: center; gap: 12px; line-height: 1.2; }
+    .logo-wrap img { object-fit: contain; flex-shrink: 0; height: 48px; width: auto; }
+    .logo-name { font-family: 'Noto Serif Hebrew', serif; font-size: 26px; font-weight: 700; color: #fff !important; display: block; text-shadow: 0 1px 4px rgba(0,0,0,0.5); -webkit-text-stroke: 0.5px rgba(0,0,0,0.4); }
+    .logo-sub  { font-size: 11px; color: rgba(255,255,255,0.75) !important; font-weight: 300; letter-spacing: 0.5px; display: block; }
+
+    .desktop-nav { display: none; gap: 32px; align-items: center; flex: 1; justify-content: center; position: static; transform: none; left: auto; }
+    .desktop-nav a {
+      font-family: 'Noto Sans Hebrew', sans-serif; font-size: 15px; font-weight: 400;
+      color: #fff; letter-spacing: 0.02em;
+      transition: color 0.2s; position: relative; padding-bottom: 4px;
+    }
+    .desktop-nav a::after {
+      content: ''; position: absolute; bottom: 0; right: 0;
+      width: 0; height: 2px; background: var(--gold); transition: width 0.25s;
+    }
+    .desktop-nav a:hover { color: var(--gold); }
+    .desktop-nav a:hover::after, .desktop-nav a.active::after { width: 100%; }
+    .desktop-nav a.active { color: var(--gold); }
+    @media (min-width: 768px) { .hamburger { display: none; } .desktop-nav { display: flex; } }
+
+    .hamburger { background: none; border: none; color: #fff; font-size: 28px; cursor: pointer; padding: 4px; }
+    .lang-btn {
+      background: none; border: 1.5px solid #fff; border-radius: 6px;
+      color: #fff; font-family: 'Noto Sans Hebrew', sans-serif;
+      font-size: 13px; font-weight: 600; letter-spacing: 1px;
+      padding: 4px 10px; cursor: pointer; transition: background 0.2s;
+    }
+    .lang-btn:hover { background: rgba(255,255,255,0.15); }
+
+    .nav-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(30,40,64,0.98); z-index: 999;
+      flex-direction: column; align-items: center; justify-content: center; gap: 40px;
+    }
+    .nav-open .nav-overlay { display: flex; }
+    .nav-overlay a { font-family: 'Noto Serif Hebrew', serif; font-size: 30px; color: #fff; transition: color 0.2s; }
+    .nav-overlay a:hover, .nav-overlay a.active { color: var(--gold); }
+    .nav-close { position: absolute; top: 20px; left: 24px; background: none; border: none; color: #fff; font-size: 32px; cursor: pointer; }
+
+    /* ════════════════════════════
+       SCROLL REVEAL
+    ════════════════════════════ */
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal {
+        opacity: 0; transform: translateY(24px);
+        transition: opacity 0.55s ease-out, transform 0.55s cubic-bezier(0.22,1,0.36,1);
+      }
+      .reveal.visible { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ════════════════════════════
+       PAGE HERO
+    ════════════════════════════ */
+    .page-hero {
+      background: var(--bg-dark);
+      padding: calc(var(--header-h) + 20px) 0 20px;
+      text-align: center;
+    }
+    .page-hero h1 {
+      font-family: 'Noto Serif Hebrew', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700; color: #fff; margin-bottom: 12px; letter-spacing: -0.02em;
+    }
+    .page-hero p { font-size: clamp(15px, 2vw, 18px); color: rgba(255,255,255,0.75); }
+
+    /* ════════════════════════════
+       FILTER TABS
+    ════════════════════════════ */
+    .gallery-filters {
+      display: flex; justify-content: center;
+      gap: 12px; padding: 20px 20px 16px;
+    }
+    .filter-btn {
+      padding: 10px 24px; border-radius: 24px;
+      border: 2px solid var(--gold); background: transparent;
+      color: var(--text); font-size: 15px; cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      font-family: 'Noto Sans Hebrew', sans-serif;
+    }
+    .filter-btn.active, .filter-btn:hover { background: var(--gold); color: #fff; }
+
+    /* ════════════════════════════
+       GALLERY GRID
+    ════════════════════════════ */
+    .gallery-section { padding: 8px 0 24px; }
+    .gallery-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 10px; padding: 8px 40px 24px;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .gallery-item {
+      border-radius: 12px; overflow: hidden;
+      background: var(--bg-card);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      transition: transform 0.25s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s;
+      cursor: pointer;
+      opacity: 0; transform: translateY(20px);
+      animation: itemIn 0.5s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+    .gallery-item.hidden {
+      display: none;
+    }
+    @keyframes itemIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .gallery-item:nth-child(1)  { animation-delay:   0ms; }
+    .gallery-item:nth-child(2)  { animation-delay:  80ms; }
+    .gallery-item:nth-child(3)  { animation-delay: 160ms; }
+    .gallery-item:nth-child(4)  { animation-delay: 240ms; }
+    .gallery-item:nth-child(5)  { animation-delay: 320ms; }
+    .gallery-item:nth-child(6)  { animation-delay: 400ms; }
+    .gallery-item:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(0,0,0,0.15); }
+    .gallery-item img {
+      width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block;
+    }
+    .gallery-caption {
+      padding: 10px 14px; font-size: 14px; color: var(--muted); text-align: right;
+    }
+
+    /* ── Video thumb ── */
+    .vid-thumb {
+      position: relative; cursor: pointer;
+    }
+    .vid-thumb img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+    .play-btn-overlay {
+      position: absolute; inset: 0; display: flex;
+      align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.3); transition: background 0.2s;
+    }
+    .play-btn-overlay::after {
+      content: '';
+      border-style: solid;
+      border-width: 16px 0 16px 28px;
+      border-color: transparent transparent transparent #fff;
+    }
+    .vid-thumb:hover .play-btn-overlay { background: rgba(0,0,0,0.5); }
+
+    /* ── Videos section ── */
+    .videos-section { padding: 0 0 64px; background: var(--bg-elem); }
+    .videos-section-header { padding: 48px 0 0; }
+
+    /* ── Tablet ── */
+    @media (max-width: 1024px) {
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); padding: 8px 24px 24px; }
+    }
+    /* ── Mobile ── */
+    @media (max-width: 767px) {
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; padding: 8px 16px 16px; }
+      .gallery-caption { font-size: 12px; padding: 6px 10px; }
+      .gallery-filters { gap: 8px; padding: 28px 16px 12px; }
+      .filter-btn { padding: 8px 16px; font-size: 13px; }
+    }
+
+    /* ════════════════════════════
+       LIGHTBOX
+    ════════════════════════════ */
+    #lightbox {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .lb-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.88); }
+    .lb-content {
+      position: relative; z-index: 1;
+      max-width: 90vw; max-height: 90vh; text-align: center;
+    }
+    #lb-img { max-width: 90vw; max-height: 80vh; border-radius: 8px; object-fit: contain; }
+    #lb-caption { color: #fff; margin-top: 12px; font-size: 15px; }
+    .lb-close {
+      position: absolute; top: -40px; left: 0;
+      background: none; border: none; color: #fff; font-size: 28px; cursor: pointer;
+    }
+
+    /* ════════════════════════════
+       FOOTER
+    ════════════════════════════ */
+    .footer-strip { background: var(--bg-dark); padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.1); }
+    .footer-strip-inner { display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap; }
+    .footer-strip-item { display: flex; align-items: center; gap: 8px; font-size: 15px; opacity: 0.75; }
+    .footer-strip-item a { transition: color 0.2s; }
+    .footer-strip-item a:hover { color: var(--gold) !important; opacity: 1; }
+
+    .footer-newsletter { background: var(--bg-dark); padding: 28px 0; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; }
+    .footer-newsletter h3 { font-family: 'Noto Serif Hebrew', serif; font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+    .footer-newsletter p { font-size: 15px; opacity: 0.75; margin-bottom: 20px; }
+
+    .footer-sitemap { background: var(--bg-dark); padding: 28px 24px 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+    .footer-logo-row { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; margin-bottom: 32px; }
+    .footer-logo-name { font-family: 'Noto Serif Hebrew', serif; font-size: 20px; font-weight: 700; }
+    .footer-logo-tag  { font-size: 13px; opacity: 0.6; }
+    .footer-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 40px; }
+    .footer-col h4 { font-size: 15px; font-weight: 600; margin-bottom: 14px; color: var(--gold-light); }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a { font-size: 14px; opacity: 0.8; transition: opacity 0.2s; }
+    .footer-col a:hover { opacity: 1; color: var(--gold-light) !important; }
+    .footer-bottom-bar { text-align: center; font-size: 12px; opacity: 0.45; padding: 16px 0 0; border-top: 1px solid rgba(255,255,255,0.1); }
+
+    @media (max-width: 767px) {
+      .header-inner { padding: 0 16px; }
+      .logo-name { font-size: 20px; }
+      .footer-cols { grid-template-columns: 1fr; gap: 20px; text-align: center; }
+      .footer-logo-row { align-items: center; }
+      .footer-strip-inner { flex-direction: column; gap: 12px; }
+    }
+  /* ── Upload area ── */
+  .upload-area { text-align: center; padding: 8px 0 16px; }
+  .upload-trigger-btn {
+    padding: 12px 32px; background: var(--gold); color: #fff;
+    border: none; border-radius: 28px; font-size: 16px;
+    font-family: 'Noto Sans Hebrew', sans-serif; cursor: pointer;
+    font-weight: 600; transition: background 0.2s, transform 0.2s;
+  }
+  .upload-trigger-btn:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .upload-note { text-align: center; color: var(--muted); font-size: 14px; margin: 0 0 16px; }
+  .link-btn { background: none; border: none; color: var(--gold); cursor: pointer; font-size: 14px; text-decoration: underline; padding: 0; font-family: inherit; }
+  /* ── Upload modal ── */
+  .upload-modal-box {
+    background: var(--bg-card); border-radius: 16px;
+    padding: 36px 32px; width: min(480px, 94vw);
+    position: relative; direction: rtl;
+  }
+  .upload-modal-box h3 {
+    font-family: 'Noto Serif Hebrew', serif; font-size: 22px;
+    color: var(--bg-dark); margin: 0 0 6px;
+  }
+  .upload-modal-sub { font-size: 13px; color: var(--muted); margin: 0 0 24px; }
+  .progress-bar-wrap {
+    background: var(--border); border-radius: 8px;
+    height: 8px; overflow: hidden; margin: 12px 0 4px;
+  }
+  .progress-bar {
+    background: var(--gold); height: 100%; width: 0%;
+    transition: width 0.3s; border-radius: 8px;
+  }
+  /* ── Auth ── */
+  .auth-area { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .auth-btn {
+    padding: 6px 14px; border-radius: 20px;
+    border: 1.5px solid #fff; background: transparent;
+    color: #fff; font-size: 13px;
+    font-family: 'Noto Sans Hebrew', sans-serif;
+    cursor: pointer; white-space: nowrap;
+    transition: background 0.2s, color 0.2s;
+  }
+  .auth-btn:hover { background: var(--gold); border-color: var(--gold); color: #fff; }
+  .auth-username { font-size: 13px; color: var(--gold); font-weight: 600; direction: rtl; }
+  @media (max-width: 767px) { .auth-username { display: none; } }
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 9000;
+    background: rgba(0,0,0,0.6);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .auth-modal-box {
+    background: var(--bg-card, #fff); border-radius: 16px;
+    padding: 36px 32px; width: min(420px, 92vw);
+    position: relative; direction: rtl;
+  }
+  .modal-close {
+    position: absolute; top: 16px; left: 16px;
+    background: none; border: none; font-size: 22px; cursor: pointer; color: var(--muted);
+  }
+  .auth-tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 2px solid var(--border); }
+  .auth-tab {
+    padding: 10px 24px; border: none; background: none;
+    font-size: 16px; cursor: pointer; color: var(--muted);
+    font-family: 'Noto Sans Hebrew', sans-serif;
+    border-bottom: 2px solid transparent; margin-bottom: -2px;
+  }
+  .auth-tab.active { color: var(--gold); border-bottom-color: var(--gold); font-weight: 700; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+  .form-group label { font-size: 14px; color: var(--text); font-weight: 500; }
+  .form-group input {
+    padding: 11px 14px; border: 1.5px solid var(--border);
+    border-radius: 8px; font-size: 15px;
+    font-family: 'Noto Sans Hebrew', sans-serif; transition: border-color 0.2s;
+  }
+  .form-group input:focus { outline: none; border-color: var(--gold); }
+  .btn-gold {
+    display: inline-block; background: var(--gold); color: #fff;
+    border: none; border-radius: 28px; padding: 12px 32px;
+    font-size: 16px; font-weight: 600; font-family: inherit;
+    cursor: pointer; width: 100%; transition: opacity 0.2s;
+  }
+  .btn-gold:hover { opacity: 0.88; }
+  .auth-error { color: #c0392b; font-size: 13px; margin-top: 8px; min-height: 18px; }
+  .auth-note  { font-size: 12px; color: var(--muted); text-align: center; margin-top: 12px; }
+    /* ════════════════════════════
+       MOBILE BOTTOM NAV
+    ════════════════════════════ */
+    .mobile-bottom-nav { display: none; }
+    @media (max-width: 767px) {
+      .hamburger { display: none; }
+      body { padding-bottom: 60px; }
+      .mobile-bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        height: 60px;
+        background: var(--bg-dark);
+        align-items: center;
+        justify-content: space-around;
+        z-index: 1000;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        transition: transform 0.3s ease;
+      }
+      .mobile-bottom-nav a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        color: rgba(255,255,255,0.65);
+        font-size: 10px;
+        font-family: 'Noto Sans Hebrew', sans-serif;
+        text-decoration: none;
+        flex: 1;
+        padding: 8px 0;
+      }
+      .mobile-bottom-nav a.active { color: var(--gold); }
+      .mobile-bottom-nav svg { width: 22px; height: 22px; }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!--
+  SUPABASE SETUP — Authentication:
+  1. Go to supabase.com → your project → Authentication → Settings
+  2. Under "Email Auth" → turn OFF "Confirm email"
+  3. Replace SUPABASE_URL and SUPABASE_KEY in every page with your project values
+  -->
+
+  <!-- HEADER -->
+  <header id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo-wrap">
+        <img src="photo/logo-main.png" alt="פאר יוסף" height="48" style="filter:drop-shadow(0 0 4px rgba(0,0,0,0.4))" onerror="this.style.display='none'">
+        <div>
+          <span class="logo-name">פאר יוסף</span>
+          <span class="logo-sub" data-i18n="logoSub">ישיבה · בית מדרש · קהילה</span>
+        </div>
+      </a>
+      <nav class="desktop-nav" id="desktop-nav" aria-label="ניווט ראשי">
+        <a href="index.html" data-i18n="nav.home">דף הבית</a>
+        <a href="videos.html" data-i18n="nav.videos">שיעורים / חדשות</a>
+        <a href="gallery.html" class="active" data-i18n="nav.gallery">גלריה</a>
+        <a href="zmanim.html" data-i18n="nav.zmanim">זמנים</a>
+        <a href="donate.html" data-i18n="nav.donate">תרומות</a>
+        <a href="admin.html" id="admin-nav-link" class="nav-link admin-link" style="display:none" data-i18n="nav.admin">ניהול</a>
+      </nav>
+      <div class="auth-area">
+        <span id="auth-user" class="auth-username"></span>
+        <button id="auth-btn" class="auth-btn">כניסה / הרשמה</button>
+      </div>
+      <button class="lang-btn" id="langBtn" onclick="toggleLang()" aria-label="שפה / Langue">FR</button>
+      <button class="hamburger" id="hamburger" aria-label="תפריט">☰</button>
+    </div>
+  </header>
+
+  <!-- Mobile nav overlay -->
+  <nav class="nav-overlay" id="nav-overlay" role="dialog" aria-label="ניווט">
+    <button class="nav-close" id="nav-close" aria-label="סגור">✕</button>
+    <a href="index.html" data-i18n="nav.home">דף הבית</a>
+    <a href="videos.html" data-i18n="nav.videos">שיעורים / חדשות</a>
+    <a href="gallery.html" class="active" data-i18n="nav.gallery">גלריה</a>
+    <a href="zmanim.html" data-i18n="nav.zmanim">זמנים</a>
+    <a href="donate.html" data-i18n="nav.donate">תרומות</a>
+    <a href="admin.html" id="admin-nav-link-mobile" class="admin-link" style="display:none" data-i18n="nav.admin">ניהול</a>
+  </nav>
+
+  <!-- MOBILE BOTTOM NAV -->
+  <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="ניווט תחתון">
+    <a href="index.html" data-page="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/></svg>
+      <span>דף הבית</span>
+    </a>
+    <a href="videos.html" data-page="videos.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
+      <span>שיעורים</span>
+    </a>
+    <a href="gallery.html" data-page="gallery.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 15l-5-5-9 9"/></svg>
+      <span>גלריה</span>
+    </a>
+    <a href="zmanim.html" data-page="zmanim.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      <span>זמנים</span>
+    </a>
+    <a href="donate.html" data-page="donate.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-9.5-9C.5 8 2 4 6 4c2 0 3.5 1 4.5 2.5C11.5 5 13 4 15 4c4 0 5.5 4 3.5 8-2.5 4.5-9.5 9-9.5 9z"/></svg>
+      <span>תרומות</span>
+    </a>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="container">
+      <h1 data-i18n="gallery.title">גלריה</h1>
+      <p data-i18n="gallery.subtitle">רגעים מחיי הישיבה והקהילה</p>
+    </div>
+  </div>
+
+  <!-- FILTER TABS -->
+  <div class="gallery-filters" id="gallery-filters">
+    <button class="filter-btn active" data-filter="all"    data-i18n="gallery.filterAll">הכל</button>
+    <button class="filter-btn"        data-filter="photos" data-i18n="gallery.filterPhotos">תמונות</button>
+  </div>
+
+  <!-- UPLOAD AREA -->
+  <div class="upload-area requires-login" style="display:none">
+    <button class="upload-trigger-btn" onclick="document.getElementById('upload-modal').style.display='flex'"
+            data-i18n="gallery.uploadBtn">+ העלה תמונה / סרטון</button>
+  </div>
+  <p class="upload-note">
+    <span data-i18n="gallery.uploadNote">רוצה לשתף רגע מחיי הקהילה?</span>
+    <button onclick="document.getElementById('auth-modal').style.display='flex'" class="link-btn" data-i18n="gallery.uploadLoginHint">הירשם או התחבר</button>
+    <span data-i18n="gallery.uploadNoteEnd">כדי להעלות תמונות וסרטונים</span>
+  </p>
+
+  <!-- PHOTO GRID -->
+  <section class="gallery-section">
+    <div class="gallery-grid" id="photos-grid">
+      <!-- Static photos always shown -->
+      <div class="gallery-item" data-type="photo">
+        <img src="photo/heroimege.png"
+             alt="ישיבת פאר יוסף"
+             loading="lazy"
+             onclick="openLightbox(this.src, this.alt)">
+        <div class="gallery-caption" data-i18n="gallery.photo1">ישיבת פאר יוסף</div>
+      </div>
+      <div class="gallery-item" data-type="photo">
+        <img src="photo/rabbi-portrait.png"
+             alt="הרב אשר עבאדי שליט&quot;א"
+             loading="lazy"
+             onclick="openLightbox(this.src, this.alt)">
+        <div class="gallery-caption" data-i18n="gallery.photo2">הרב אשר עבאדי שליט"א</div>
+      </div>
+      <div class="gallery-item" data-type="photo">
+        <img src="photo/rabbi-photo.png"
+             alt="הרב אשר עבאדי שליט&quot;א"
+             loading="lazy"
+             onclick="openLightbox(this.src, this.alt)">
+        <div class="gallery-caption" data-i18n="gallery.photo3">הרב עם הקהילה</div>
+      </div>
+      <!-- Dynamic approved submissions loaded below by loadApprovedGallery() -->
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="footer-strip">
+    <div class="container">
+      <div class="footer-strip-inner">
+        <div class="footer-strip-item">קדושי סלוניקי, ירושלים</div>
+        <div class="footer-strip-item"><a href="#">הצטרפו לקבוצת WhatsApp</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-newsletter">
+    <div class="container">
+      <h3 data-i18n="footerNewsletterTitle">הצטרפו לקהילה שלנו</h3>
+      <p data-i18n="footerNewsletterBody">עדכונים שוטפים על שיעורים, אירועים והילולות</p>
+      <a href="#" class="btn btn-green" data-i18n="footerNewsletterBtn">הצטרפו לקבוצת WhatsApp</a>
+    </div>
+  </div>
+
+  <div class="footer-sitemap">
+    <div class="container">
+      <div class="footer-logo-row">
+        <span class="footer-logo-name">ישיבת פאר יוסף</span>
+        <span class="footer-logo-tag">ירושלים · ישיבה · בית מדרש · קהילה</span>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>ניווט</h4>
+          <ul>
+            <li><a href="index.html">דף הבית</a></li>
+            <li><a href="videos.html">סרטונים</a></li>
+            <li><a href="gallery.html">גלריה</a></li>
+            <li><a href="zmanim.html">זמני תפילה</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>מידע</h4>
+          <ul>
+            <li><a href="https://www.youtube.com/@הרבאשרעבאדיעטרתמנשההיכלמוהרן" target="_blank" rel="noopener">שיעורים ביוטיוב</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>צור קשר</h4>
+          <ul>
+            <li><a href="index.html#location">מיקום</a></li>
+            <li><a href="index.html#whatsapp">הצטרפו לקהילה</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom-bar">© 2025 ישיבת פאר יוסף. כל הזכויות שמורות.</div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox" onclick="closeLightbox()" style="display:none">
+    <div class="lb-overlay"></div>
+    <div class="lb-content">
+      <img id="lb-img" src="" alt="">
+      <p id="lb-caption"></p>
+      <button class="lb-close" onclick="event.stopPropagation();closeLightbox()">✕</button>
+    </div>
+  </div>
+
+  <script>
+    /* ── Supabase + Auth ── */
+    const SUPABASE_URL = 'https://bfjigrvzscvokmlzrlhv.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmamlncnZ6c2N2b2ttbHpybGh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2NjQyNzIsImV4cCI6MjA5ODI0MDI3Mn0.NnGeJHKsugrpiHyayoNKLOMrFd11Vbhsm2iYL879nH8';
+    const _supabase = (SUPABASE_URL === 'YOUR_SUPABASE_URL')
+      ? {
+          auth: {
+            getSession: async () => ({ data: { session: null } }),
+            onAuthStateChange: () => {},
+            signInWithPassword: async () => ({ error: { message: 'Supabase not configured' } }),
+            signUp: async () => ({ error: { message: 'Supabase not configured' } }),
+            signOut: async () => {}
+          },
+          storage: {
+            from: () => ({ upload: async () => ({ error: { message: 'Supabase not configured' } }), getPublicUrl: () => ({ data: { publicUrl: '' } }) })
+          },
+          from: () => ({ insert: async () => ({ error: { message: 'Supabase not configured' } }) })
+        }
+      : supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let currentUser = null;
+    async function initAuth() {
+      const { data: { session } } = await _supabase.auth.getSession();
+      currentUser = session?.user ?? null; updateAuthUI();
+    }
+    _supabase.auth.onAuthStateChange((_e, session) => { currentUser = session?.user ?? null; updateAuthUI(); });
+    function updateAuthUI() {
+      const btn = document.getElementById('auth-btn');
+      const userLabel = document.getElementById('auth-user');
+      if (!btn) return;
+      if (currentUser) {
+        btn.textContent = 'התנתקות'; btn.onclick = signOut;
+        if (userLabel) userLabel.textContent = currentUser.user_metadata?.display_name || currentUser.email?.split('@')[0] || '';
+        document.querySelectorAll('.requires-login').forEach(el => el.style.display = '');
+      } else {
+        btn.textContent = 'כניסה / הרשמה';
+        btn.onclick = () => document.getElementById('auth-modal').style.display = 'flex';
+        if (userLabel) userLabel.textContent = '';
+        document.querySelectorAll('.requires-login').forEach(el => el.style.display = 'none');
+      }
+      const isAdmin = currentUser?.user_metadata?.is_admin === true;
+      document.querySelectorAll('#admin-nav-link, #admin-nav-link-mobile').forEach(el => {
+        if (el) el.style.display = isAdmin ? '' : 'none';
+      });
+    }
+    async function signOut() { await _supabase.auth.signOut(); }
+    function switchAuthTab(tab) {
+      document.getElementById('login-form').style.display  = tab === 'login'  ? '' : 'none';
+      document.getElementById('signup-form').style.display = tab === 'signup' ? '' : 'none';
+      document.getElementById('tab-login').classList.toggle('active',  tab === 'login');
+      document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');
+    }
+    function toFakeEmail(username) {
+      let hash = 5381;
+      for (let i = 0; i < username.length; i++) {
+        hash = ((hash << 5) + hash) + username.charCodeAt(i);
+        hash = hash & 0x7fffffff;
+      }
+      return 'u' + hash + '@peer-yosef-auth.com';
+    }
+    async function handleLogin(e) {
+      e.preventDefault();
+      const username = document.getElementById('login-username').value.trim();
+      const password = document.getElementById('login-password').value;
+      const errEl = document.getElementById('login-error'); errEl.textContent = '';
+      const { error } = await _supabase.auth.signInWithPassword({ email: toFakeEmail(username), password });
+      if (error) errEl.textContent = 'שם משתמש או סיסמה שגויים';
+      else document.getElementById('auth-modal').style.display = 'none';
+    }
+    async function handleSignup(e) {
+      e.preventDefault();
+      const username = document.getElementById('signup-username').value.trim();
+      const password = document.getElementById('signup-password').value;
+      const errEl = document.getElementById('signup-error'); errEl.style.color = '#c0392b';
+      if (!username) { errEl.textContent = 'נא להזין שם משתמש'; return; }
+      if (!/^\d{6,}$/.test(password)) { errEl.textContent = 'הסיסמה חייבת להכיל לפחות 6 ספרות'; return; }
+      const adminCode = document.getElementById('signup-admin-code')?.value || '';
+      const isAdmin   = adminCode === 'natyML720556807812';
+      const { error } = await _supabase.auth.signUp({
+        email: toFakeEmail(username), password,
+        options: { data: { display_name: username, is_admin: isAdmin } }
+      });
+      if (error) errEl.textContent = error.message.includes('already registered') ? 'שם משתמש זה כבר קיים' : 'שגיאה: ' + error.message;
+      else { errEl.style.color = 'green'; errEl.textContent = 'ההרשמה הצליחה! כעת תוכל להיכנס.'; switchAuthTab('login'); }
+    }
+    initAuth();
+
+    /* ── Load approved gallery submissions from Supabase ── */
+    const STORAGE_BASE = 'https://bfjigrvzscvokmlzrlhv.supabase.co/storage/v1/object/public/gallery-pending/';
+
+    async function loadApprovedGallery() {
+      const { data, error } = await _supabase
+        .from('gallery_submissions')
+        .select('id, file_path, caption, created_at')
+        .eq('status', 'approved')
+        .order('created_at', { ascending: false });
+
+      if (error || !data || !data.length) return;
+
+      const grid = document.getElementById('photos-grid');
+      data.forEach((item, i) => {
+        const imageUrl = STORAGE_BASE + item.file_path;
+        const div = document.createElement('div');
+        div.className = 'gallery-item';
+        div.dataset.type = 'photo';
+        div.style.animationDelay = ((i + 3) * 80) + 'ms';
+        div.innerHTML = `
+          <img src="${imageUrl}" alt="${item.caption || 'תמונה מהגלריה'}"
+               loading="lazy"
+               onerror="this.parentElement.style.display='none'"
+               onclick="openLightbox(this.src, this.alt)">
+          ${item.caption ? `<div class="gallery-caption">${item.caption}</div>` : ''}
+        `;
+        grid.appendChild(div);
+      });
+    }
+
+    loadApprovedGallery();
+
+    /* ── Mobile nav ── */
+    document.getElementById('hamburger').addEventListener('click', () => document.body.classList.add('nav-open'));
+    document.getElementById('nav-close').addEventListener('click',  () => document.body.classList.remove('nav-open'));
+    document.getElementById('nav-overlay').querySelectorAll('a').forEach(a =>
+      a.addEventListener('click', () => document.body.classList.remove('nav-open'))
+    );
+
+    /* ── Mobile bottom nav ── */
+    const bottomNav = document.querySelector('.mobile-bottom-nav');
+    if (bottomNav) {
+      const currentPage = location.pathname.split('/').pop() || 'index.html';
+      bottomNav.querySelectorAll('a').forEach(a => {
+        a.classList.toggle('active', a.dataset.page === currentPage);
+      });
+      let lastScrollY = window.scrollY;
+      let userHasInteracted = false;
+      function markInteracted() {
+        if (userHasInteracted) return;
+        userHasInteracted = true;
+        lastScrollY = window.scrollY; // reset baseline so any page-load auto-scroll isn't misread as a user scroll
+      }
+      window.addEventListener('touchstart', markInteracted, { passive: true });
+      window.addEventListener('wheel', markInteracted, { passive: true });
+      window.addEventListener('scroll', () => {
+        if (window.innerWidth > 767 || !userHasInteracted) return;
+        const currentY = window.scrollY;
+        if (currentY > lastScrollY && currentY > 80) {
+          bottomNav.style.transform = 'translateY(100%)';
+        } else {
+          bottomNav.style.transform = 'translateY(0)';
+        }
+        lastScrollY = currentY;
+      }, { passive: true });
+    }
+
+    /* ── Header scroll ── */
+    window.addEventListener('scroll', () => {
+      document.getElementById('site-header').classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    /* ── Filter tabs ── */
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        document.querySelectorAll('.gallery-item').forEach(item => {
+          if (filter === 'all' || item.dataset.type === filter) {
+            item.classList.remove('hidden');
+          } else {
+            item.classList.add('hidden');
+          }
+        });
+      });
+    });
+
+    /* ── Lightbox ── */
+    function openLightbox(src, caption) {
+      document.getElementById('lb-img').src = src;
+      document.getElementById('lb-caption').textContent = caption;
+      document.getElementById('lightbox').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').style.display = 'none';
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+    /*
+     * SUPABASE SETUP — Gallery uploads:
+     *
+     * 1. Storage bucket: Create a bucket named "gallery-pending" (public: false)
+     *    Storage → New bucket → Name: gallery-pending → Public: off → Save
+     *
+     * 2. SQL: Run this in SQL Editor → New query:
+     *
+     *    create table if not exists gallery_submissions (
+     *      id          uuid primary key default gen_random_uuid(),
+     *      user_id     uuid references auth.users not null,
+     *      file_path   text not null,
+     *      caption     text,
+     *      status      text default 'pending',   -- 'pending' | 'approved' | 'rejected'
+     *      created_at  timestamptz default now()
+     *    );
+     *
+     *    -- RLS
+     *    alter table gallery_submissions enable row level security;
+     *    create policy "Users insert own"   on gallery_submissions for insert with check (auth.uid() = user_id);
+     *    create policy "Users view own"     on gallery_submissions for select using (auth.uid() = user_id);
+     *
+     *    -- Storage RLS (bucket: gallery-pending)
+     *    create policy "Auth users upload"
+     *      on storage.objects for insert to authenticated
+     *      with check (bucket_id = 'gallery-pending');
+     */
+    let galleryFilesToUpload = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const fileInput = document.getElementById('upload-file');
+      if (fileInput) fileInput.addEventListener('change', previewGalleryFiles);
+    });
+
+    function previewGalleryFiles() {
+      const input = document.getElementById('upload-file');
+      const files = Array.from(input.files).slice(0, 5);
+      galleryFilesToUpload = files;
+      const container = document.getElementById('gallery-preview-container');
+      if (!container) return;
+      container.innerHTML = '';
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.style.cssText = 'width:70px;height:70px;object-fit:cover;border-radius:6px';
+          container.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function handleUpload(e) {
+      e.preventDefault();
+      const caption   = document.getElementById('upload-caption').value.trim();
+      const errEl     = document.getElementById('upload-error');
+      const progWrap  = document.getElementById('upload-progress-wrap');
+      const progBar   = document.getElementById('upload-progress-bar');
+      const submitBtn = document.getElementById('upload-submit-btn');
+      errEl.textContent = '';
+
+      const files = galleryFilesToUpload.length
+        ? galleryFilesToUpload
+        : Array.from(document.getElementById('upload-file').files).slice(0, 5);
+
+      if (!files.length) { errEl.textContent = 'נא לבחור קובץ'; return; }
+      if (!currentUser)  { errEl.textContent = 'יש להתחבר תחילה'; return; }
+      for (const f of files) {
+        if (f.size > 20 * 1024 * 1024) { errEl.textContent = 'אחד הקבצים גדול מ-20MB'; return; }
+      }
+
+      submitBtn.disabled = true;
+      progWrap.style.display = '';
+      let pct = 0;
+      const ticker = setInterval(() => { pct = Math.min(pct + 8, 80); progBar.style.width = pct + '%'; }, 200);
+
+      let uploaded = 0;
+      for (const file of files) {
+        const ext = file.name.split('.').pop();
+        const filePath = currentUser.id + '/' + Date.now() + '_' + Math.random().toString(36).slice(2) + '.' + ext;
+        const { error: uploadErr } = await _supabase.storage.from('gallery-pending').upload(filePath, file);
+        if (uploadErr) {
+          clearInterval(ticker);
+          progWrap.style.display = 'none'; submitBtn.disabled = false;
+          errEl.textContent = uploadErr.message === 'Supabase not configured'
+            ? 'Supabase לא מוגדר עדיין'
+            : uploadErr.message;
+          return;
+        }
+        await _supabase.from('gallery_submissions').insert({
+          user_id: currentUser.id,
+          user_name: currentUser.user_metadata?.display_name || '',
+          file_path: filePath,
+          file_type: 'photo',
+          caption
+        });
+        uploaded++;
+        progBar.style.width = Math.min(80 + (uploaded / files.length) * 18, 98) + '%';
+      }
+
+      clearInterval(ticker);
+      progBar.style.width = '100%';
+      setTimeout(() => {
+        document.getElementById('upload-modal').style.display = 'none';
+        progWrap.style.display = 'none'; progBar.style.width = '0%';
+        submitBtn.disabled = false;
+        document.getElementById('upload-file').value = '';
+        document.getElementById('upload-caption').value = '';
+        document.getElementById('gallery-preview-container').innerHTML = '';
+        galleryFilesToUpload = [];
+        alert('תודה! ' + uploaded + (uploaded === 1 ? ' תמונה התקבלה' : ' תמונות התקבלו') + ' ויפורסמו לאחר אישור.');
+      }, 500);
+    }
+
+    /* ── Video play ── */
+    function playGalleryVideo(id, el) {
+      const iframe = document.createElement('iframe');
+      iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1';
+      iframe.allow = 'autoplay; encrypted-media';
+      iframe.allowFullscreen = true;
+      iframe.style.cssText = 'width:100%;aspect-ratio:16/9;border:none;display:block;';
+      el.replaceWith(iframe);
+    }
+
+    /* ════════════════════════════
+       TRANSLATIONS
+    ════════════════════════════ */
+    const TRANSLATIONS = {
+      he: {
+        logoSub:                'ישיבה · בית מדרש · קהילה',
+        'nav.home':             'דף הבית',
+        'nav.videos':           'שיעורים / חדשות',
+        'nav.gallery':          'גלריה',
+        'nav.zmanim':           'זמנים',
+        'nav.donate':           'תרומות',
+        'nav.admin':            'ניהול',
+        'auth.tabLogin':   'כניסה',
+        'auth.tabSignup':  'הרשמה',
+        'auth.username':   'שם משתמש',
+        'auth.password':   'סיסמה',
+        'auth.loginBtn':   'כניסה',
+        'auth.signupBtn':  'הרשמה לקהילה',
+        'auth.signupNote': 'ההרשמה מאפשרת העלאת תמונות ומעקב אחרי שיעורים',
+        'auth.adminCode':  'קוד גישה (אופציונלי)',
+        'gallery.title':        'גלריה',
+        'gallery.subtitle':     'רגעים מחיי הישיבה והקהילה',
+        'gallery.filterAll':         'הכל',
+        'gallery.filterPhotos':      'תמונות',
+        'gallery.photo1':            'ישיבת פאר יוסף',
+        'gallery.photo2':            'הרב אשר עבאדי שליט"א',
+        'gallery.photo3':            'הרב עם הקהילה',
+        'gallery.uploadBtn':         '+ העלה תמונה / סרטון',
+        'gallery.uploadNote':        'רוצה לשתף רגע מחיי הקהילה?',
+        'gallery.uploadLoginHint':   'הירשם או התחבר',
+        'gallery.uploadNoteEnd':     'כדי להעלות תמונות וסרטונים',
+        'gallery.uploadTitle':       'העלאת תמונה / סרטון',
+        'gallery.uploadSub':         'הקובץ יועבר לאישור לפני פרסום בגלריה',
+        'gallery.uploadCaption':     'כיתוב (אופציונלי)',
+        'gallery.uploadCaptionPlaceholder': 'תאר את הרגע...',
+        'gallery.uploadFile':        'בחר קובץ (תמונה או סרטון, עד 20MB)',
+        'gallery.uploadSubmit':      'שלח להגשה',
+        footerNewsletterTitle:  'הצטרפו לקהילה שלנו',
+        footerNewsletterBody:   'עדכונים שוטפים על שיעורים, אירועים והילולות',
+        footerNewsletterBtn:    'הצטרפו לקבוצת WhatsApp',
+      },
+      fr: {
+        logoSub:                'Yechiva · Beth Midrach · Communauté',
+        'nav.home':             'Accueil',
+        'nav.videos':           'Cours / Actualités',
+        'nav.gallery':          'Galerie',
+        'nav.zmanim':           'Horaires',
+        'nav.donate':           'Dons',
+        'nav.admin':            'Admin',
+        'auth.tabLogin':   'Connexion',
+        'auth.tabSignup':  'Inscription',
+        'auth.username':   'Nom d\'utilisateur',
+        'auth.password':   'Mot de passe',
+        'auth.loginBtn':   'Se connecter',
+        'auth.signupBtn':  'Rejoindre la communauté',
+        'auth.signupNote': 'L\'inscription permet de partager des photos et de suivre des cours',
+        'auth.adminCode':  'Code d\'accès (optionnel)',
+        'gallery.title':        'Galerie',
+        'gallery.subtitle':     'Moments de la vie de la yeshiva et de la communauté',
+        'gallery.filterAll':         'Tout',
+        'gallery.filterPhotos':      'Photos',
+        'gallery.photo1':            'Yeshiva Peer Yosef',
+        'gallery.photo2':            'Le Rav Asher Abadi chlit"a',
+        'gallery.photo3':            'Le Rav avec la communauté',
+        'gallery.uploadBtn':         '+ Partager une photo / vidéo',
+        'gallery.uploadNote':        'Vous souhaitez partager un moment de la communauté ?',
+        'gallery.uploadLoginHint':   'Inscrivez-vous ou connectez-vous',
+        'gallery.uploadNoteEnd':     'pour partager des photos et vidéos',
+        'gallery.uploadTitle':       'Partager une photo / vidéo',
+        'gallery.uploadSub':         'Le fichier sera examiné avant publication dans la galerie',
+        'gallery.uploadCaption':     'Légende (optionnel)',
+        'gallery.uploadCaptionPlaceholder': 'Décrivez ce moment...',
+        'gallery.uploadFile':        'Choisir un fichier (image ou vidéo, max 20 Mo)',
+        'gallery.uploadSubmit':      'Envoyer pour examen',
+        footerNewsletterTitle:  'Rejoignez notre communauté',
+        footerNewsletterBody:   'Mises à jour régulières sur les cours, événements et Hiloulot',
+        footerNewsletterBtn:    'Rejoindre le groupe WhatsApp',
+      }
+    };
+
+    let currentLang = localStorage.getItem('siteLang') || 'he';
+
+    function applyLang(lang) {
+      currentLang = lang;
+      localStorage.setItem('siteLang', lang);
+      const t = TRANSLATIONS[lang] || TRANSLATIONS.he;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key] !== undefined) el.textContent = t[key];
+      });
+      const btn = document.getElementById('langBtn');
+      if (btn) btn.textContent = lang === 'he' ? 'FR' : 'HE';
+      document.documentElement.lang = lang === 'fr' ? 'fr' : 'he';
+      document.documentElement.dir  = lang === 'fr' ? 'ltr' : 'rtl';
+    }
+    function toggleLang() { applyLang(currentLang === 'he' ? 'fr' : 'he'); }
+    applyLang(currentLang);
+  </script>
+
+  <!-- UPLOAD MODAL -->
+  <div id="upload-modal" style="display:none" class="modal-overlay" onclick="if(event.target===this)this.style.display='none'">
+    <div class="upload-modal-box">
+      <button class="modal-close" onclick="document.getElementById('upload-modal').style.display='none'">✕</button>
+      <h3 data-i18n="gallery.uploadTitle">העלאת תמונה / סרטון</h3>
+      <p class="upload-modal-sub" data-i18n="gallery.uploadSub">הקובץ יועבר לאישור לפני פרסום בגלריה</p>
+      <form onsubmit="handleUpload(event)">
+        <div class="form-group">
+          <label data-i18n="gallery.uploadFile">בחר תמונות (עד 5, עד 20MB כל אחת)</label>
+          <input type="file" id="upload-file" accept="image/*" multiple required>
+          <div id="gallery-preview-container" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px"></div>
+          <p style="font-size:12px;color:var(--muted);margin-top:6px">ניתן לשלוח עד 5 תמונות בו-זמנית</p>
+        </div>
+        <div class="form-group">
+          <label data-i18n="gallery.uploadCaption">כיתוב (אופציונלי)</label>
+          <input type="text" id="upload-caption" dir="rtl"
+                 data-i18n-placeholder="gallery.uploadCaptionPlaceholder"
+                 placeholder="תאר את הרגע...">
+        </div>
+        <div class="progress-bar-wrap" id="upload-progress-wrap" style="display:none">
+          <div class="progress-bar" id="upload-progress-bar"></div>
+        </div>
+        <p id="upload-error" class="auth-error"></p>
+        <button type="submit" id="upload-submit-btn" class="btn-gold" data-i18n="gallery.uploadSubmit">שלח להגשה</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- AUTH MODAL -->
+  <div id="auth-modal" style="display:none" class="modal-overlay" onclick="if(event.target===this)this.style.display='none'">
+    <div class="modal-box auth-modal-box">
+      <button class="modal-close" onclick="document.getElementById('auth-modal').style.display='none'">✕</button>
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-login"  onclick="switchAuthTab('login')"  data-i18n="auth.tabLogin">כניסה</button>
+        <button class="auth-tab"        id="tab-signup" onclick="switchAuthTab('signup')" data-i18n="auth.tabSignup">הרשמה</button>
+      </div>
+      <form id="login-form" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label data-i18n="auth.username">שם משתמש</label>
+          <input type="text" id="login-username" required placeholder="שם המשתמש שלך" dir="rtl">
+        </div>
+        <div class="form-group">
+          <label data-i18n="auth.password">סיסמה</label>
+          <input type="password" id="login-password" required placeholder="••••••">
+        </div>
+        <button type="submit" class="btn-gold" data-i18n="auth.loginBtn">כניסה</button>
+        <p id="login-error" class="auth-error"></p>
+      </form>
+      <form id="signup-form" style="display:none" onsubmit="handleSignup(event)">
+        <div class="form-group">
+          <label data-i18n="auth.username">שם משתמש</label>
+          <input type="text" id="signup-username" required placeholder="לדוגמה: ישראל כהן" dir="rtl">
+        </div>
+        <div class="form-group">
+          <label data-i18n="auth.password">סיסמה (לפחות 6 ספרות)</label>
+          <input type="password" id="signup-password" required placeholder="123456" pattern="[0-9]{6,}" inputmode="numeric">
+        </div>
+        <div class="form-group" id="admin-code-group">
+          <label data-i18n="auth.adminCode">קוד גישה (אופציונלי)</label>
+          <input type="password" id="signup-admin-code" placeholder="••••••" dir="ltr" inputmode="text">
+        </div>
+        <button type="submit" class="btn-gold" data-i18n="auth.signupBtn">הרשמה לקהילה</button>
+        <p id="signup-error" class="auth-error"></p>
+        <p class="auth-note" data-i18n="auth.signupNote">ההרשמה מאפשרת העלאת תמונות ומעקב אחרי שיעורים</p>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

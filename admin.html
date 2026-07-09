@@ -1,0 +1,1832 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>פאנל ניהול — ישיבת פאר יוסף</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@400;700&family=Noto+Sans+Hebrew:wght@300;400;500&display=swap');
+
+    :root {
+      --bg:           #f7f4ef;
+      --bg-dark:      #1E5A68;
+      --bg-card:      #ffffff;
+      --bg-elem:      #ede9e2;
+      --border:       #d4cdc3;
+      --gold:         #CC8800;
+      --gold-light:   #E8A820;
+      --white:        #ffffff;
+      --text:         #1C3D52;
+      --text-light:   #f7f4ef;
+      --muted:        #6a7585;
+      --header-bg:    rgba(30, 90, 104, 0.97);
+      --header-h:     72px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Noto Sans Hebrew', sans-serif; color: var(--text); background: var(--bg); overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    /* ── Header ── */
+    header {
+      position: fixed; top: 0; right: 0; left: 0;
+      height: var(--header-h); z-index: 1000;
+      background: var(--header-bg);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.4);
+    }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 100%; max-width: 1160px; margin: 0 auto; padding: 0 24px; gap: 12px;
+    }
+    .logo-wrap { display: flex; align-items: center; gap: 12px; line-height: 1.2; text-decoration: none; }
+    .logo-wrap img { object-fit: contain; flex-shrink: 0; height: 48px; width: auto; }
+    .logo-name { font-family: 'Noto Serif Hebrew', serif; font-size: 26px; font-weight: 700; color: #ffffff; display: block; }
+    .logo-sub  { font-size: 11px; color: rgba(255,255,255,0.75); font-weight: 300; display: block; }
+    .desktop-nav { display: none; gap: 32px; align-items: center; flex: 1; justify-content: center; }
+    .desktop-nav a { font-size: 15px; color: #fff; transition: color 0.2s; }
+    .desktop-nav a:hover, .desktop-nav a.active { color: var(--gold); }
+    @media (min-width: 768px) { .hamburger { display: none; } .desktop-nav { display: flex; } }
+    .hamburger { background: none; border: none; color: #fff; font-size: 28px; cursor: pointer; }
+    .auth-area { display: flex; align-items: center; gap: 8px; }
+    .auth-username { color: var(--gold); font-size: 14px; font-weight: 500; }
+    .auth-btn { background: var(--gold); color: #fff; border: none; border-radius: 20px; padding: 8px 18px; font-family: 'Noto Sans Hebrew', sans-serif; font-size: 14px; cursor: pointer; }
+    .lang-btn { background: none; border: 1.5px solid #fff; border-radius: 6px; color: #fff; font-size: 13px; font-weight: 600; letter-spacing: 1px; padding: 4px 10px; cursor: pointer; }
+
+    .nav-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(30,40,64,0.98); z-index: 999;
+      flex-direction: column; align-items: center; justify-content: center; gap: 40px;
+    }
+    .nav-open .nav-overlay { display: flex; }
+    .nav-overlay a { font-family: 'Noto Serif Hebrew', serif; font-size: 30px; color: #fff; }
+    .nav-overlay a:hover { color: var(--gold); }
+    .nav-close { position: absolute; top: 20px; left: 24px; background: none; border: none; color: #fff; font-size: 32px; cursor: pointer; }
+
+    /* ── Admin Hero ── */
+    .admin-hero {
+      background: var(--bg-dark);
+      padding: calc(var(--header-h) + 40px) 24px 40px;
+      text-align: center;
+    }
+    .admin-hero h1 {
+      font-family: 'Noto Serif Hebrew', serif;
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .admin-hero p { color: rgba(255,255,255,0.75); font-size: 16px; }
+    .admin-hero .gold-bar { display: block; width: 56px; height: 3px; background: var(--gold); margin: 16px auto 0; }
+
+    /* ── Admin Tabs ── */
+    .admin-tabs {
+      display: flex; gap: 4px;
+      background: var(--bg-card);
+      border-bottom: 2px solid var(--border);
+      padding: 0 24px; overflow-x: auto;
+      position: sticky; top: var(--header-h); z-index: 100;
+    }
+    .admin-tab {
+      position: relative;
+      padding: 14px 20px; border: none; background: none;
+      font-size: 15px; font-family: 'Noto Sans Hebrew', sans-serif;
+      color: var(--muted); cursor: pointer;
+      border-bottom: 3px solid transparent; margin-bottom: -2px;
+      white-space: nowrap; transition: color 0.2s;
+    }
+    .admin-tab.active { color: var(--gold); border-bottom-color: var(--gold); font-weight: 700; }
+    .admin-tab:hover { color: var(--text); }
+
+    /* ── Pending-count badge (WhatsApp-style) ── */
+    .tab-badge {
+      position: absolute;
+      top: -6px;
+      left: -6px;
+      background: #E53E3E;
+      color: white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 11px;
+      font-weight: bold;
+      align-items: center;
+      justify-content: center;
+      display: none;
+    }
+
+    /* ── Admin Sections ── */
+    .admin-section { display: none; padding: 32px 24px; max-width: 1000px; margin: 0 auto; }
+    .admin-section.active { display: block; }
+    .admin-section > h2 {
+      font-family: 'Noto Serif Hebrew', serif; font-size: 24px; font-weight: 700;
+      color: var(--text); margin-bottom: 20px;
+      padding-bottom: 12px; border-bottom: 2px solid var(--border);
+    }
+
+    /* ── Pending Cards ── */
+    .pending-card {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 20px; background: var(--bg-card);
+      border: 1px solid var(--border); border-radius: 10px;
+      margin-bottom: 12px; direction: rtl; gap: 16px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .pending-info { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+    .pending-info strong { font-size: 15px; }
+    .pending-info small { font-size: 12px; color: var(--muted); }
+    .pending-type {
+      font-size: 11px; background: var(--bg-dark); color: #fff;
+      padding: 2px 8px; border-radius: 10px; width: fit-content;
+    }
+    .pending-actions { display: flex; gap: 8px; flex-shrink: 0; }
+    .btn-approve {
+      padding: 8px 18px; background: #27ae60; color: #fff; border: none;
+      border-radius: 8px; cursor: pointer; font-family: 'Noto Sans Hebrew', sans-serif;
+      font-size: 14px; font-weight: 500; transition: opacity 0.2s;
+    }
+    .btn-approve:hover { opacity: 0.85; }
+    .btn-reject {
+      padding: 8px 18px; background: #e74c3c; color: #fff; border: none;
+      border-radius: 8px; cursor: pointer; font-family: 'Noto Sans Hebrew', sans-serif;
+      font-size: 14px; font-weight: 500; transition: opacity 0.2s;
+    }
+    .btn-reject:hover { opacity: 0.85; }
+
+    /* ── Empty state ── */
+    .empty-state {
+      text-align: center; padding: 48px 24px; color: var(--muted);
+      background: var(--bg-card); border: 1px dashed var(--border); border-radius: 12px;
+    }
+    .empty-state p { font-size: 16px; }
+
+    /* ── Admin Forms ── */
+    .admin-form {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px; margin-bottom: 24px; direction: rtl;
+    }
+    .admin-form h3 { margin: 0 0 16px; color: var(--bg-dark); font-size: 17px; font-weight: 700; }
+    .admin-form .form-group { margin-bottom: 14px; }
+    .admin-form label { display: block; font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+    .admin-form input, .admin-form select, .admin-form textarea {
+      width: 100%; padding: 10px 14px; border: 1.5px solid var(--border);
+      border-radius: 8px; font-size: 14px; font-family: 'Noto Sans Hebrew', sans-serif;
+      direction: rtl; box-sizing: border-box; background: var(--bg);
+    }
+    .admin-form input:focus, .admin-form select:focus, .admin-form textarea:focus {
+      outline: none; border-color: var(--gold); background: #fff;
+    }
+    .admin-form textarea { resize: vertical; min-height: 80px; }
+    .admin-form .btn-submit {
+      background: var(--gold); color: #fff; border: none; border-radius: 24px;
+      padding: 10px 28px; font-family: 'Noto Sans Hebrew', sans-serif;
+      font-size: 15px; font-weight: 600; cursor: pointer; transition: opacity 0.2s;
+    }
+    .admin-form .btn-submit:hover { opacity: 0.88; }
+
+    /* ── Admin List Rows ── */
+    .admin-list { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 24px; }
+    .admin-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 16px; border-bottom: 1px solid var(--border);
+      direction: rtl; gap: 12px;
+    }
+    .admin-row:last-child { border-bottom: none; }
+    .admin-row-info { flex: 1; font-size: 14px; }
+    .admin-row-info strong { display: block; margin-bottom: 2px; }
+    .admin-row-info small { color: var(--muted); font-size: 12px; }
+    .admin-row-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+    .btn-delete { padding: 6px 14px; background: #e74c3c; color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:13px; font-family: 'Noto Sans Hebrew', sans-serif; flex-shrink:0; }
+    .btn-delete:hover { opacity: 0.85; }
+    .poster-upload-area { border: 2px dashed var(--border); border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; color: var(--muted); font-size: 14px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .poster-upload-area:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-toggle-active   { padding: 6px 14px; background: #27ae60; color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:13px; font-family: 'Noto Sans Hebrew', sans-serif; }
+    .btn-toggle-inactive { padding: 6px 14px; background: var(--muted); color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:13px; font-family: 'Noto Sans Hebrew', sans-serif; }
+    .btn-toggle-active:hover, .btn-toggle-inactive:hover { opacity: 0.85; }
+
+    /* ── Status filter buttons ── */
+    .status-filter { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+    .filter-btn {
+      padding: 8px 18px; border: 2px solid var(--border); background: var(--bg-card);
+      border-radius: 20px; cursor: pointer; font-size: 14px;
+      font-family: 'Noto Sans Hebrew', sans-serif; color: var(--text); transition: all 0.2s;
+    }
+    .filter-btn.active { border-color: var(--gold); color: var(--gold); font-weight: 700; }
+    .filter-btn:hover:not(.active) { border-color: var(--muted); }
+    .count-badge {
+      display: inline-block; background: var(--gold); color: #fff;
+      border-radius: 10px; padding: 0 6px; font-size: 11px; margin-right: 4px;
+    }
+
+    /* ── Blacklist tags ── */
+    .bl-tags-wrap { padding: 16px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .bl-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--bg-dark); color: #fff;
+      padding: 6px 14px; border-radius: 20px; font-size: 14px;
+    }
+    .bl-tag button { background:none; border:none; color:rgba(255,255,255,0.7); cursor:pointer; font-size:14px; padding:0; line-height:1; }
+    .bl-tag button:hover { color: #fff; }
+
+    /* ── Video grid in admin ── */
+    .admin-vid-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px;
+    }
+    @media (max-width: 767px) { .admin-vid-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
+    .admin-vid-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+    }
+    .admin-vid-thumb { position: relative; aspect-ratio: 16/9; overflow: hidden; background: #111; }
+    .admin-vid-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .admin-vid-info { padding: 10px 12px; font-size: 13px; }
+    .admin-vid-info strong { display: block; margin-bottom: 4px; font-size: 13px; line-height: 1.3; }
+    .admin-vid-badge {
+      display: inline-block; font-size: 11px; background: var(--bg-dark); color: #fff;
+      padding: 2px 8px; border-radius: 8px; margin-bottom: 6px;
+    }
+    .admin-vid-del { width: 100%; padding: 7px; background: #e74c3c; color: #fff; border: none; cursor: pointer; font-size: 13px; font-family: 'Noto Sans Hebrew', sans-serif; }
+    .admin-vid-del:hover { opacity: 0.85; }
+
+    /* ── Gallery thumbnail grid ── */
+    .gallery-thumb-wrap {
+      position: relative; width: 88px; height: 88px;
+      border-radius: 8px; overflow: hidden; flex-shrink: 0; cursor: default;
+    }
+    .gallery-thumb-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: zoom-in; transition: opacity 0.15s; }
+    .gallery-thumb-wrap:hover img { opacity: 0.7; }
+    .gallery-thumb-delete {
+      position: absolute; top: 3px; right: 3px;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: rgba(0,0,0,0.65); color: #fff; border: none;
+      font-size: 11px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      line-height: 1; opacity: 0; transition: opacity 0.15s;
+    }
+    .gallery-thumb-wrap:hover .gallery-thumb-delete { opacity: 1; }
+
+    /* ── Section sub-header ── */
+    .admin-sub-h { font-size: 16px; font-weight: 700; color: var(--text); margin: 24px 0 12px; padding-right: 0; }
+    .admin-divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+    /* ── Goal card ── */
+    .goal-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
+      padding: 16px 20px; margin-bottom: 12px; direction: rtl;
+    }
+    .goal-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .goal-card-info { flex: 1; }
+    .goal-card-info strong { font-size: 15px; display: block; margin-bottom: 4px; }
+    .goal-card-info p { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+    .goal-card-amount { font-size: 13px; color: var(--gold); font-weight: 600; }
+    .goal-card-actions { display: flex; gap: 8px; flex-shrink: 0; margin-top: 12px; }
+
+    /* ── Prayer Times management ── */
+    .ptimes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media (max-width: 767px) { .ptimes-grid { grid-template-columns: 1fr; } }
+    .ptime-row-fields { display: flex; gap: 8px; flex: 1; flex-wrap: wrap; }
+    .ptime-name-input {
+      flex: 1; min-width: 100px; padding: 8px 10px;
+      border: 1.5px solid var(--border); border-radius: 6px;
+      font-family: inherit; font-size: 14px; direction: rtl; background: var(--bg);
+    }
+    .ptime-time-input {
+      width: 110px; padding: 8px 10px;
+      border: 1.5px solid var(--border); border-radius: 6px;
+      font-family: inherit; font-size: 14px; background: var(--bg);
+    }
+    .ptime-name-input:focus, .ptime-time-input:focus { outline: none; border-color: var(--gold); background: #fff; }
+    .ptime-save-msg { font-size: 12px; color: #27ae60; font-weight: 600; white-space: nowrap; }
+
+    /* ── Info note ── */
+    .admin-note {
+      background: rgba(30,90,104,0.08); border-right: 3px solid var(--bg-dark);
+      border-radius: 4px; padding: 12px 16px; font-size: 13px;
+      color: var(--text); margin-bottom: 20px; line-height: 1.6;
+    }
+
+    /* ── Footer ── */
+    .footer-strip { background: var(--bg-dark); padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.1); }
+    .footer-strip-inner { display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap; }
+    .footer-strip-item { color: rgba(255,255,255,0.75); font-size: 15px; }
+    .footer-strip-item a { color: rgba(255,255,255,0.75); }
+
+    @media (max-width: 767px) {
+      .admin-tabs { padding: 0 8px; }
+      .admin-tab { padding: 12px 12px; font-size: 13px; }
+      .admin-section { padding: 20px 16px; }
+      .pending-card { flex-direction: column; align-items: flex-start; }
+      .pending-actions { align-self: flex-end; }
+      .admin-row { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+  <header id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo-wrap">
+        <img src="photo/logo-main.png" alt="פאר יוסף" height="48" style="filter:drop-shadow(0 0 4px rgba(0,0,0,0.4))" onerror="this.style.display='none'">
+        <div>
+          <span class="logo-name">פאר יוסף</span>
+          <span class="logo-sub">ישיבה · בית מדרש · קהילה</span>
+        </div>
+      </a>
+      <nav class="desktop-nav" id="desktop-nav" aria-label="ניווט ראשי">
+        <a href="index.html">דף הבית</a>
+        <a href="videos.html">שיעורים / חדשות</a>
+        <a href="gallery.html">גלריה</a>
+        <a href="zmanim.html">זמנים</a>
+        <a href="donate.html">תרומות</a>
+        <a href="admin.html" class="active" style="color:var(--gold)">ניהול</a>
+      </nav>
+      <div class="auth-area">
+        <span id="auth-user" class="auth-username"></span>
+        <button id="auth-btn" class="auth-btn">כניסה / הרשמה</button>
+      </div>
+      <button class="lang-btn" id="langBtn" onclick="toggleLang()" aria-label="שפה">FR</button>
+      <button class="hamburger" id="hamburger" aria-label="תפריט">☰</button>
+    </div>
+  </header>
+
+  <nav class="nav-overlay" id="nav-overlay" role="dialog" aria-label="ניווט">
+    <button class="nav-close" id="nav-close" aria-label="סגור">✕</button>
+    <a href="index.html">דף הבית</a>
+    <a href="videos.html">שיעורים / חדשות</a>
+    <a href="gallery.html">גלריה</a>
+    <a href="zmanim.html">זמנים</a>
+    <a href="donate.html">תרומות</a>
+    <a href="admin.html" style="color:var(--gold)">ניהול</a>
+  </nav>
+
+  <!-- Admin Hero -->
+  <div class="admin-hero">
+    <h1>פאנל ניהול</h1>
+    <p id="admin-welcome">טוען...</p>
+    <span class="gold-bar"></span>
+  </div>
+
+  <!-- Tabs -->
+  <div class="admin-tabs">
+    <button class="admin-tab" data-tab="popup">פוסטר קופץ</button>
+    <button class="admin-tab active" data-tab="gallery">גלריה<span class="tab-badge" id="badge-gallery"></span></button>
+    <button class="admin-tab" data-tab="events">אירועים<span class="tab-badge" id="badge-events"></span></button>
+    <button class="admin-tab" data-tab="videos">סרטונים</button>
+    <button class="admin-tab" data-tab="news">חדשות</button>
+    <button class="admin-tab" data-tab="donations">תרומות</button>
+    <button class="admin-tab" data-tab="prayers">שמות לתפילה</button>
+    <button class="admin-tab" data-tab="subscribers">רשימת תפוצה</button>
+    <button class="admin-tab" data-tab="settings">הגדרות</button>
+    <button class="admin-tab" data-tab="prayer-times">ניהול זמנים</button>
+  </div>
+
+  <!-- ── POPUP POSTER SECTION ── -->
+  <div id="section-popup" class="admin-section">
+    <h2>פוסטר קופץ לדף הבית</h2>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:20px">
+      כשיש פוסטר פעיל — הוא מופיע אוטומטית לכל מי שנכנס לאתר.
+      מחיקת הפוסטר מבטלת את הקופץ.
+    </p>
+
+    <div id="popup-current-section">
+      <p id="popup-loading" style="color:var(--muted)">טוען...</p>
+      <div id="popup-current-card" style="display:none">
+        <div class="admin-form" style="max-width:400px">
+          <p style="font-weight:600;margin:0 0 12px">פוסטר פעיל כרגע:</p>
+          <img id="popup-current-img" src="" alt="פוסטר"
+               style="width:100%;border-radius:8px;margin-bottom:14px">
+          <button class="btn-delete" onclick="deletePopupPoster()">מחק פוסטר</button>
+        </div>
+      </div>
+      <p id="popup-empty" style="color:var(--muted);display:none">
+        אין פוסטר פעיל — הקופץ לא יופיע כרגע.
+      </p>
+    </div>
+
+    <div class="admin-form" style="margin-top:24px">
+      <h3>העלאת פוסטר חדש</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">
+        העלאת פוסטר חדש תחליף את הפוסטר הקיים.
+      </p>
+      <div class="form-group">
+        <label>תמונת הפוסטר</label>
+        <div class="poster-upload-area" onclick="document.getElementById('popup-file').click()"
+             style="margin-bottom:12px">
+          <span id="popup-upload-text">לחץ לבחירת תמונה</span>
+          <img id="popup-upload-preview"
+               style="display:none;max-height:160px;border-radius:8px;margin-top:8px">
+        </div>
+        <input type="file" id="popup-file" accept="image/*" style="display:none"
+               onchange="previewPopupUpload(this)">
+      </div>
+      <button class="btn-approve" onclick="uploadPopupPoster()"
+              id="popup-upload-btn" style="width:100%;padding:12px">
+        העלה פוסטר
+      </button>
+    </div>
+  </div>
+
+  <!-- ── GALLERY SECTION ── -->
+  <div id="section-gallery" class="admin-section active">
+    <h2>אישור תמונות וסרטונים</h2>
+
+    <!-- Admin direct upload -->
+    <div class="admin-form" style="margin-bottom:32px">
+      <h3>העלאת תמונות ישירה</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">
+        תמונות שתעלה ישירות יאושרו אוטומטית ויופיעו בגלריה.
+      </p>
+      <div class="poster-upload-area" onclick="document.getElementById('admin-gallery-input').click()" id="admin-gallery-drop">
+        <span id="admin-gallery-upload-text">לחץ לבחירת תמונות (עד 100MB)</span>
+        <div id="admin-gallery-previews" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px"></div>
+      </div>
+      <input type="file" id="admin-gallery-input" accept="image/*" multiple style="display:none"
+             onchange="previewAdminGallery(this)">
+      <button class="btn-approve" onclick="uploadAdminGallery()" id="admin-gallery-btn"
+              style="width:100%;margin-top:12px;padding:12px">
+        העלה לגלריה
+      </button>
+      <p id="admin-gallery-status" style="display:none;text-align:center;margin-top:8px;font-size:14px"></p>
+    </div>
+
+    <!-- Existing approved gallery thumbnails -->
+    <div style="margin-bottom:28px">
+      <h3 style="margin-bottom:12px;font-size:17px;font-weight:700;color:var(--bg-dark)">תמונות קיימות בגלריה</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">
+        לחץ על תמונה לתצוגה מוגדלת · X למחיקה
+      </p>
+      <div id="gallery-existing-grid" style="display:flex;flex-wrap:wrap;gap:8px">
+        <p id="gallery-existing-loading" style="color:var(--muted);font-size:14px">טוען תמונות...</p>
+      </div>
+    </div>
+
+    <p id="gallery-loading" style="color:var(--muted)">טוען...</p>
+    <div class="status-filter">
+      <button class="filter-btn active" onclick="filterGallery('pending', event)">
+        ממתין לאישור <span id="count-pending" class="count-badge"></span>
+      </button>
+      <button class="filter-btn" onclick="filterGallery('approved', event)">
+        מאושרים <span id="count-approved" class="count-badge"></span>
+      </button>
+      <button class="filter-btn" onclick="filterGallery('rejected', event)">
+        נדחו <span id="count-rejected" class="count-badge"></span>
+      </button>
+    </div>
+    <div id="gallery-pending-list"></div>
+  </div>
+
+  <!-- ── EVENTS SECTION ── -->
+  <div id="section-events" class="admin-section">
+    <h2>ניהול אירועים</h2>
+
+    <!-- Add event form -->
+    <div class="admin-form">
+      <h3>הוספת אירוע חדש</h3>
+      <form id="add-event-form" onsubmit="addEvent(event)">
+        <div class="form-group">
+          <label for="ev-title">כותרת האירוע</label>
+          <input type="text" id="ev-title" placeholder="לדוגמה: שיעור פרשת השבוע" required>
+        </div>
+        <div class="form-group">
+          <label for="ev-date">תאריך</label>
+          <input type="date" id="ev-date" required onchange="fetchHebrewDate()" oninput="fetchHebrewDate()">
+        </div>
+        <div class="form-group">
+          <label for="ev-hdate">תאריך עברי</label>
+          <input type="text" id="ev-hdate" readonly placeholder="יחושב אוטומטית" style="background:var(--bg-elem);color:var(--muted)">
+        </div>
+        <div class="form-group">
+          <label for="ev-time">שעה (אופציונלי)</label>
+          <input type="time" id="ev-time">
+        </div>
+        <div class="form-group">
+          <label for="ev-location">מיקום (אופציונלי)</label>
+          <input type="text" id="ev-location" placeholder="לדוגמה: בית הכנסת פאר יוסף">
+        </div>
+        <div class="form-group">
+          <label for="ev-type">סוג</label>
+          <select id="ev-type">
+            <option value="event">אירוע</option>
+            <option value="hilula">הילולה</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="ev-desc">תיאור (אופציונלי)</label>
+          <textarea id="ev-desc" maxlength="200" placeholder="עד 200 תווים..."></textarea>
+        </div>
+        <button type="submit" class="btn-submit">הוסף אירוע</button>
+      </form>
+    </div>
+
+    <!-- Pending submissions -->
+    <p class="admin-sub-h">בקשות ממתינות לאישור</p>
+    <div id="events-pending"></div>
+
+    <hr class="admin-divider">
+
+    <!-- Approved events list -->
+    <p class="admin-sub-h">אירועים מאושרים</p>
+    <div id="events-approved-list"></div>
+  </div>
+
+  <!-- ── VIDEOS SECTION ── -->
+  <div id="section-videos" class="admin-section">
+    <h2>ניהול סרטונים מותאמים</h2>
+
+    <div style="background:#f0f9ff;border:1px solid #bde0f5;border-radius:8px;padding:14px 18px;margin-bottom:24px;direction:rtl;font-size:14px;line-height:1.7">
+      <strong>סרטוני ערוץ היוטיוב</strong> — נטענים אוטומטית מהערוץ, לא ניתן לנהל דרך פאנל זה.<br>
+      <strong>סרטונים מותאמים</strong> — הוסף כאן סרטונים שלא מהערוץ (כגון סרטוני ילדים, שיעורים חיצוניים).
+    </div>
+
+    <div class="admin-form">
+      <h3>הוספת סרטון</h3>
+      <form id="add-video-form" onsubmit="addCustomVideo(event)">
+        <div class="form-group">
+          <label for="vid-url">קישור YouTube או מזהה סרטון</label>
+          <input type="text" id="vid-url" dir="ltr" placeholder="https://youtube.com/watch?v=... או מזהה 11 תווים" required>
+        </div>
+        <div class="form-group">
+          <label for="vid-title">כותרת הסרטון</label>
+          <input type="text" id="vid-title" placeholder="שם הסרטון..." required>
+        </div>
+        <div class="form-group">
+          <label for="vid-section">קטגוריה</label>
+          <select id="vid-section">
+            <option value="rabbi">שיעורי הרב</option>
+            <option value="children">ילדים</option>
+            <option value="general">כללי</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-submit">הוסף סרטון</button>
+      </form>
+    </div>
+
+    <p class="admin-sub-h">סרטונים קיימים</p>
+    <div id="custom-videos-list"></div>
+  </div>
+
+  <!-- ── NEWS SECTION ── -->
+  <div id="section-news" class="admin-section">
+    <h2>רשימת חסימת חדשות</h2>
+
+    <div class="admin-note">
+      הוסף כאן מילים או ביטויים — כל כתבה שכותרתה מכילה אחד מהביטויים הללו לא תוצג בעמוד הבית ובעמוד הסרטונים.
+    </div>
+
+    <div class="admin-form">
+      <h3>הוספה לרשימה</h3>
+      <form id="add-blacklist-form" onsubmit="addBlacklist(event)">
+        <div class="form-group">
+          <label for="bl-phrase">ביטוי לחסימה</label>
+          <input type="text" id="bl-phrase" placeholder="לדוגמה: ניצחון, בחירות..." required>
+        </div>
+        <button type="submit" class="btn-submit">הוסף לרשימה</button>
+      </form>
+    </div>
+
+    <p class="admin-sub-h">ביטויים חסומים</p>
+    <div class="admin-list">
+      <div id="blacklist-tags" class="bl-tags-wrap">
+        <span style="color:var(--muted);font-size:14px">טוען...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DONATIONS SECTION ── -->
+  <div id="section-donations" class="admin-section">
+    <h2>מטרות תרומה</h2>
+
+    <div class="admin-form">
+      <h3>הוספת מטרת תרומה</h3>
+      <form id="add-goal-form" onsubmit="addGoal(event)">
+        <div class="form-group">
+          <label for="goal-title">כותרת המטרה</label>
+          <input type="text" id="goal-title" placeholder="לדוגמה: ספרי תורה חדשים" required>
+        </div>
+        <div class="form-group">
+          <label for="goal-desc">תיאור (אופציונלי)</label>
+          <textarea id="goal-desc" placeholder="פרטים על המטרה..."></textarea>
+        </div>
+        <div class="form-group">
+          <label for="goal-amount">סכום יעד בש"ח (אופציונלי)</label>
+          <input type="number" id="goal-amount" dir="ltr" min="0" placeholder="לדוגמה: 50000">
+        </div>
+        <button type="submit" class="btn-submit">הוסף מטרה</button>
+      </form>
+    </div>
+
+    <p class="admin-sub-h">מטרות קיימות</p>
+    <div id="goals-list"></div>
+  </div>
+
+  <!-- ── PRAYER NAMES SECTION ── -->
+  <div id="section-prayers" class="admin-section">
+    <h2>שמות לתפילה</h2>
+
+    <div class="admin-form">
+      <h3>הוספת שם לתפילה</h3>
+      <form id="add-prayer-form" onsubmit="addPrayerName(event)">
+        <div class="form-group">
+          <label for="prayer-name">שם לתפילה</label>
+          <input type="text" id="prayer-name" placeholder="לדוגמה: רחל בת לאה" required>
+        </div>
+        <div class="form-group">
+          <label for="prayer-type">סוג התפילה</label>
+          <select id="prayer-type">
+            <option value="refua">לרפואה שלמה</option>
+            <option value="nishmat">לעילוי נשמת</option>
+            <option value="hatzlacha">להצלחה</option>
+            <option value="parnasa">לפרנסה טובה</option>
+            <option value="shiduch">לשידוך טוב</option>
+            <option value="sgula">לסגולה כללית</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-submit">הוסף שם</button>
+      </form>
+    </div>
+
+    <p class="admin-sub-h">כל השמות</p>
+    <div id="prayers-list"></div>
+  </div>
+
+  <!-- ── COMMUNITY SUBSCRIBERS (WhatsApp distribution list) SECTION ── -->
+  <div id="section-subscribers" class="admin-section">
+    <h2>רשימת תפוצה — WhatsApp</h2>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:20px">
+      מנויים ברשימה מקבלים הודעת WhatsApp אוטומטית בכל פרסום אירוע חדש, בשפה שבחרו.
+    </p>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;direction:rtl">
+      <span style="background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:8px 18px;font-size:14px">
+        סה"כ מנויים פעילים: <strong id="sub-stat-total">0</strong>
+      </span>
+      <span style="background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:8px 18px;font-size:14px">
+        עברית: <strong id="sub-stat-he">0</strong>
+      </span>
+      <span style="background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:8px 18px;font-size:14px">
+        צרפתית: <strong id="sub-stat-fr">0</strong>
+      </span>
+    </div>
+
+    <div class="admin-form">
+      <h3>הוסף מנוי ידנית</h3>
+      <form id="add-subscriber-form" onsubmit="addSubscriber(event)">
+        <div class="form-group">
+          <label for="sub-name">שם מלא (אופציונלי)</label>
+          <input type="text" id="sub-name" placeholder="שם המנוי">
+        </div>
+        <div class="form-group">
+          <label for="sub-phone">מספר טלפון</label>
+          <input type="tel" id="sub-phone" dir="ltr" placeholder="05X-XXXXXXX" required>
+        </div>
+        <div class="form-group">
+          <label for="sub-lang">שפת ההודעות</label>
+          <select id="sub-lang">
+            <option value="he">עברית</option>
+            <option value="fr">Français</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-submit">הוסף מנוי</button>
+      </form>
+    </div>
+
+    <p class="admin-sub-h">כל המנויים</p>
+    <div id="subscribers-list"></div>
+  </div>
+
+  <!-- ── SETTINGS SECTION ── -->
+  <div id="section-settings" class="admin-section">
+    <h2>הגדרות התראות WhatsApp</h2>
+
+    <div style="background:#e8f5e9;border:1px solid #a5d6a7;border-radius:10px;
+                padding:14px 18px;margin-bottom:24px;direction:rtl;font-size:14px">
+      מחובר דרך Green API — שליחת הודעות WhatsApp אוטומטית בכל הגשת אירוע
+    </div>
+
+    <div class="admin-form">
+      <h3>מספרי WhatsApp לקבלת התראות</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">
+        כל מספר שברשימה יקבל הודעת WhatsApp כשמוגשת בקשת אירוע חדשה.
+      </p>
+      <div class="form-group" style="display:flex;gap:10px">
+        <input type="text" id="notif-phone"
+               placeholder="972556807812" dir="ltr" style="flex:1">
+        <input type="text" id="notif-label"
+               placeholder="תווית (אופציונלי)" dir="rtl" style="flex:1">
+      </div>
+      <button class="btn-approve" onclick="addNotifNumber()" style="width:100%;padding:12px">
+        הוסף מספר
+      </button>
+    </div>
+
+    <div id="notif-list" style="margin-top:8px"></div>
+  </div>
+
+  <!-- ── PRAYER TIMES SECTION ── -->
+  <div id="section-prayer-times" class="admin-section">
+    <h2>ניהול זמני תפילה</h2>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:20px">
+      עריכת זמני התפילה הקבועים המוצגים בדף "זמנים". זמני מוצאי שבת מחושבים אוטומטית לפי לוח השנה ואינם נערכים כאן.
+    </p>
+
+    <button class="btn-approve" onclick="togglePtimeAddForm()" style="margin-bottom:20px">הוסף זמן</button>
+
+    <div class="admin-form" id="ptime-add-form-wrap" style="display:none">
+      <h3>הוספת זמן תפילה חדש</h3>
+      <form id="add-ptime-form" onsubmit="addPrayerTime(event)">
+        <div class="form-group">
+          <label for="ptime-new-daytype">סוג יום</label>
+          <select id="ptime-new-daytype">
+            <option value="weekday">ימי חול</option>
+            <option value="shabbat">שבת / חגים</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="ptime-new-name">שם התפילה</label>
+          <input type="text" id="ptime-new-name" placeholder="לדוגמה: תפילת מנחה" required>
+        </div>
+        <div class="form-group">
+          <label for="ptime-new-time">שעה</label>
+          <input type="time" id="ptime-new-time" required>
+        </div>
+        <button type="submit" class="btn-submit">הוסף זמן</button>
+      </form>
+    </div>
+
+    <div class="ptimes-grid">
+      <div class="ptimes-col">
+        <p class="admin-sub-h" style="margin-top:0">ימי חול</p>
+        <div class="admin-list" id="ptimes-weekday-list"></div>
+      </div>
+      <div class="ptimes-col">
+        <p class="admin-sub-h" style="margin-top:0">שבת / חגים</p>
+        <div class="admin-list" id="ptimes-shabbat-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer-strip">
+    <div class="container" style="max-width:1160px;margin:0 auto;padding:0 24px">
+      <div class="footer-strip-inner">
+        <div class="footer-strip-item">קדושי סלוניקי, ירושלים</div>
+        <div class="footer-strip-item"><a href="index.html">חזרה לאתר</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Lightbox -->
+  <div id="admin-lightbox" style="display:none;position:fixed;inset:0;
+       background:rgba(0,0,0,0.87);z-index:9999;align-items:center;
+       justify-content:center;padding:20px;cursor:zoom-out"
+       onclick="closeAdminLightbox()">
+    <img id="admin-lightbox-img" src="" alt="" style="max-width:90vw;max-height:90vh;
+         border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,0.5)">
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://bfjigrvzscvokmlzrlhv.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmamlncnZ6c2N2b2ttbHpybGh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2NjQyNzIsImV4cCI6MjA5ODI0MDI3Mn0.NnGeJHKsugrpiHyayoNKLOMrFd11Vbhsm2iYL879nH8';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    // TODO: update to the real production domain once the site is deployed — used only in outgoing WhatsApp links
+    const SITE_URL = 'https://peer-yosef.co.il';
+
+    /* ── Admin Guard ── */
+    async function guardAdmin() {
+      const { data: { session } } = await _supabase.auth.getSession();
+      if (!session || session.user?.user_metadata?.is_admin !== true) {
+        window.location.href = 'index.html';
+        return null;
+      }
+      return session.user;
+    }
+
+    let adminUser = null;
+
+    async function init() {
+      adminUser = await guardAdmin();
+      if (!adminUser) return;
+
+      const name = adminUser.user_metadata?.display_name || adminUser.email?.split('@')[0] || 'מנהל';
+      document.getElementById('admin-welcome').textContent = 'ברוך הבא, ' + name;
+      document.getElementById('auth-user').textContent = name;
+      document.getElementById('auth-btn').textContent = 'התנתקות';
+      document.getElementById('auth-btn').onclick = async () => {
+        await _supabase.auth.signOut();
+        window.location.href = 'index.html';
+      };
+
+      autoCleanEvents();
+      loadPopupAdmin();
+      loadGalleryAll();
+      loadExistingGallery();
+      loadEvents();
+      loadCustomVideos();
+      loadBlacklist();
+      loadGoals();
+      loadPrayerNames();
+      loadSubscribers();
+      loadNotifNumbers();
+      loadPrayerTimes();
+
+      refreshTabBadges();
+      setInterval(refreshTabBadges, 60000);
+    }
+
+    /* ── Tab badges (pending-count, WhatsApp-style) ──
+       prayer_names has no approval workflow (no status column), so it gets no badge. */
+    function setTabBadge(id, count) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (!count) { el.style.display = 'none'; return; }
+      el.textContent = count > 9 ? '9+' : String(count);
+      el.style.display = 'flex';
+    }
+
+    async function getPendingCount(table) {
+      const { count, error } = await _supabase
+        .from(table).select('*', { count: 'exact', head: true })
+        .eq('status', 'pending');
+      if (error) { console.error('Badge count error (' + table + '):', error); return 0; }
+      return count || 0;
+    }
+
+    async function refreshTabBadges() {
+      const [galleryCount, eventsCount] = await Promise.all([
+        getPendingCount('gallery_submissions'),
+        getPendingCount('events'),
+      ]);
+      setTabBadge('badge-gallery', galleryCount);
+      setTabBadge('badge-events', eventsCount);
+    }
+
+    /* ── Tab Switching ── */
+    document.querySelectorAll('.admin-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('section-' + btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    /* ═══════════════════════════════
+       GALLERY
+    ═══════════════════════════════ */
+    let _currentGalleryFilter = 'pending';
+
+    async function loadGalleryAll() {
+      const loadingEl = document.getElementById('gallery-loading');
+      const { data, error } = await _supabase
+        .from('gallery_submissions').select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Gallery load error:', error);
+        loadingEl.textContent = 'שגיאה בטעינה: ' + error.message;
+        return;
+      }
+      loadingEl.style.display = 'none';
+
+      window._galleryData = data || [];
+      const pending  = (data || []).filter(d => d.status === 'pending');
+      const approved = (data || []).filter(d => d.status === 'approved');
+      const rejected = (data || []).filter(d => d.status === 'rejected');
+
+      document.getElementById('count-pending').textContent  = pending.length  || '';
+      document.getElementById('count-approved').textContent = approved.length || '';
+      document.getElementById('count-rejected').textContent = rejected.length || '';
+
+      filterGallery(_currentGalleryFilter);
+    }
+
+    function filterGallery(status, evt) {
+      _currentGalleryFilter = status;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      if (evt?.target) evt.target.closest('.filter-btn').classList.add('active');
+      else {
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          if (b.textContent.includes(status === 'pending' ? 'ממתין' : status === 'approved' ? 'מאושרים' : 'נדחו'))
+            b.classList.add('active');
+        });
+      }
+
+      const items = (window._galleryData || []).filter(d => d.status === status);
+      const list  = document.getElementById('gallery-pending-list');
+      const labels = { pending: 'אין בקשות ממתינות לאישור', approved: 'אין פריטים מאושרים', rejected: 'אין פריטים שנדחו' };
+
+      if (!items.length) {
+        list.innerHTML = `<p style="color:var(--muted);padding:20px 0">${labels[status]}</p>`;
+        return;
+      }
+
+      list.innerHTML = items.map(item => `
+        <div class="pending-card" id="pending-${item.id}">
+          <div class="pending-info">
+            <span class="pending-type">${item.file_type === 'photo' ? 'תמונה' : 'סרטון'}</span>
+            <strong>${item.caption || 'ללא כיתוב'}</strong>
+            <small>הוגש על ידי: ${item.user_name || 'אנונימי'}</small>
+            <small>${new Date(item.created_at).toLocaleDateString('he-IL')}</small>
+            <small style="color:var(--muted)">סטטוס: ${item.status}</small>
+          </div>
+          <div class="pending-actions">
+            ${item.status !== 'approved' ? `<button class="btn-approve" onclick="approveGallery(${item.id})">אשר</button>` : ''}
+            ${item.status !== 'rejected' ? `<button class="btn-reject"  onclick="rejectGallery(${item.id})">דחה</button>` : ''}
+            <button class="btn-delete" onclick="deleteGalleryItem(${item.id})">מחק</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function approveGallery(id) {
+      await _supabase.from('gallery_submissions').update({ status: 'approved' }).eq('id', id);
+      await loadGalleryAll();
+      const existingGrid = document.getElementById('gallery-existing-grid');
+      if (existingGrid) {
+        existingGrid.innerHTML = '<p id="gallery-existing-loading" style="color:var(--muted);font-size:14px">טוען תמונות...</p>';
+        await loadExistingGallery();
+      }
+    }
+    async function rejectGallery(id) {
+      await _supabase.from('gallery_submissions').update({ status: 'rejected' }).eq('id', id);
+      await loadGalleryAll();
+    }
+    async function deleteGalleryItem(id) {
+      if (!confirm('למחוק לצמיתות?')) return;
+      await _supabase.from('gallery_submissions').delete().eq('id', id);
+      await loadGalleryAll();
+    }
+
+    /* ═══════════════════════════════
+       EVENTS
+    ═══════════════════════════════ */
+    async function autoCleanEvents() {
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      await _supabase.from('events')
+        .delete()
+        .lt('event_date', yesterday.toISOString().slice(0, 10))
+        .eq('status', 'approved');
+    }
+
+    async function loadEvents() {
+      const { data: pending, error: err1 } = await _supabase.from('events')
+        .select('*').eq('status', 'pending').order('event_date');
+      const { data: approved, error: err2 } = await _supabase.from('events')
+        .select('*').eq('status', 'approved').order('event_date');
+      if (err1) console.error('Events pending error:', err1);
+      if (err2) console.error('Events approved error:', err2);
+      renderEventsPending(pending || []);
+      renderEventsApproved(approved || []);
+    }
+
+    let _pendingEventsData = [];
+
+    function renderEventsPending(items) {
+      _pendingEventsData = items;
+      const el = document.getElementById('events-pending');
+      if (!items.length) {
+        el.innerHTML = '<p style="color:var(--muted);padding:12px 0">אין בקשות אירועים ממתינות לאישור</p>';
+        return;
+      }
+      el.innerHTML = items.map(item => `
+        <div class="pending-card" id="ev-pending-${item.id}">
+          ${item.poster_url ? `<img src="${item.poster_url}" style="width:80px;height:80px;object-fit:cover;border-radius:8px;flex-shrink:0">` : ''}
+          <div class="pending-info">
+            <span class="pending-type">${item.event_type === 'hilula' ? 'הילולה' : 'אירוע'}</span>
+            <strong>${item.title}</strong>
+            <small>${item.event_date}${item.event_time ? ' בשעה ' + item.event_time : ''}${item.hebrew_date ? ' / ' + item.hebrew_date : ''}</small>
+            ${item.location ? `<small>מיקום: ${item.location}</small>` : ''}
+            <small>הוגש על ידי: ${item.submitted_by_name || 'אנונימי'}</small>
+            ${item.description ? `<small>${item.description}</small>` : ''}
+          </div>
+          <div class="pending-actions">
+            <button class="btn-approve" onclick="approveEvent(${item.id})">אשר</button>
+            <button class="btn-reject"  onclick="rejectEvent(${item.id})">דחה</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    let _approvedEventsData = [];
+
+    function renderEventsApproved(items) {
+      _approvedEventsData = items;
+      const el = document.getElementById('events-approved-list');
+      if (!items.length) {
+        el.innerHTML = '<p style="color:var(--muted);padding:12px 0">אין אירועים מאושרים</p>';
+        return;
+      }
+      el.innerHTML = '<div class="admin-list">' + items.map(item => `
+        <div class="admin-row">
+          <div>
+            <strong>${item.title}</strong>
+            <small style="display:block;color:var(--muted)">${item.event_date}${item.event_time ? ' ' + item.event_time : ''} · ${item.event_type === 'hilula' ? 'הילולה' : 'אירוע'}${item.location ? ' • ' + item.location : ''}</small>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="btn-approve" onclick="sendEventBlastById(${item.id})">שלח לתפוצה</button>
+            <button class="btn-delete" onclick="deleteEvent(${item.id})">מחק</button>
+          </div>
+        </div>
+      `).join('') + '</div>';
+    }
+
+    async function approveEvent(id) {
+      const ev = _pendingEventsData.find(e => e.id === id);
+      await _supabase.from('events').update({ status: 'approved' }).eq('id', id);
+      loadEvents();
+      if (ev) sendEventBlast(ev); // fire-and-forget — admin publishing a pending event is Flow B too
+    }
+    async function rejectEvent(id) {
+      await _supabase.from('events').update({ status: 'rejected' }).eq('id', id);
+      loadEvents();
+    }
+    async function deleteEvent(id) {
+      if (!confirm('למחוק אירוע זה?')) return;
+      await _supabase.from('events').delete().eq('id', id);
+      loadEvents();
+    }
+    async function addEvent(e) {
+      e.preventDefault();
+      const title       = document.getElementById('ev-title').value;
+      const event_date  = document.getElementById('ev-date').value;
+      const event_time  = document.getElementById('ev-time').value || null;
+      const location    = document.getElementById('ev-location').value.trim() || null;
+      const hebrew_date = document.getElementById('ev-hdate').value.trim() || null;
+      const event_type  = document.getElementById('ev-type').value;
+      const description = document.getElementById('ev-desc').value;
+      const eventData = { title, event_date, event_time, location, hebrew_date, event_type, description, status: 'approved' };
+      const { error } = await _supabase.from('events').insert(eventData);
+      if (error) { alert('שגיאה: ' + error.message); return; }
+      e.target.reset();
+      loadEvents();
+      sendEventBlast(eventData); // fire-and-forget — notifies WhatsApp subscribers
+    }
+
+    /* ── Hebcal Gregorian → Hebrew date auto-fill ── */
+    async function fetchHebrewDate() {
+      const dateVal = document.getElementById('ev-date').value;
+      const hdateEl = document.getElementById('ev-hdate');
+      if (!dateVal) { hdateEl.value = ''; return; }
+      const [gy, gm, gd] = dateVal.split('-').map(Number);
+      try {
+        const res = await fetch(`https://www.hebcal.com/converter?cfg=json&gy=${gy}&gm=${gm}&gd=${gd}&g2h=1`);
+        const data = await res.json();
+        const parts = data.heDateParts;
+        hdateEl.value = parts ? `${parts.d} ${parts.m} ${parts.y}` : (data.hebrew || '');
+      } catch (err) {
+        console.warn('Hebrew date fetch failed:', err);
+      }
+    }
+
+    /* ── WhatsApp distribution blast (community_subscribers) ──
+       Same Green API endpoint as sendWhatsAppNotification() in index.html. */
+    async function sendGreenApiMessage(phone, message) {
+      try {
+        await fetch('https://api.green-api.com/waInstance710701667663/sendMessage/57cf4fbf87324fc48816dbd75d63e859e732ae7c75d04dc1b5', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chatId: phone + '@c.us', message })
+        });
+      } catch (e) { /* fire-and-forget — never block the caller */ }
+    }
+
+    /* Community-subscriber template only — admin notifications (sendWhatsAppNotification
+       in index.html) keep the 🔴 style and are untouched by this function. */
+    function buildEventBlastMessage(eventData, lang) {
+      const dateLine = eventData.hebrew_date
+        ? eventData.event_date + ' | ' + eventData.hebrew_date
+        : eventData.event_date;
+      if (lang === 'fr') {
+        return '✨ Nouvel événement — Peer Yosef ✨\n' +
+          '━━━━━━━━━━━━━━\n' +
+          eventData.title + '\n' +
+          '📅 Date: ' + dateLine + '\n' +
+          (eventData.event_time ? '🕐 Heure: ' + eventData.event_time + '\n' : '') +
+          (eventData.location   ? '📍 Lieu: '  + eventData.location   + '\n' : '') +
+          '\nPlus de détails sur le site:\n' + SITE_URL + '/#events';
+      }
+      return '✨ אירוע חדש בפאר יוסף ✨\n' +
+        '━━━━━━━━━━━━━━\n' +
+        eventData.title + '\n' +
+        '📅 תאריך: ' + dateLine + '\n' +
+        (eventData.event_time ? '🕐 שעה: '   + eventData.event_time + '\n' : '') +
+        (eventData.location   ? '📍 מיקום: ' + eventData.location   + '\n' : '') +
+        '\nפרטים מלאים באתר:\n' + SITE_URL + '/#events';
+    }
+
+    async function sendEventBlast(eventData) {
+      const { data: subs, error } = await _supabase
+        .from('community_subscribers').select('phone, language').eq('is_active', true);
+      if (error) { console.error('Subscriber blast fetch error:', error); return; }
+      if (!subs?.length) return;
+      for (const sub of subs) {
+        sendGreenApiMessage(sub.phone, buildEventBlastMessage(eventData, sub.language));
+        await new Promise(r => setTimeout(r, 200)); // avoid rate limiting
+      }
+    }
+
+    function sendEventBlastById(id) {
+      const ev = _approvedEventsData.find(e => e.id === id);
+      if (!ev) return;
+      if (!confirm('לשלוח הודעת WhatsApp לכל המנויים הפעילים על אירוע זה?')) return;
+      sendEventBlast(ev);
+      alert('ההודעות נשלחות ברקע.');
+    }
+
+    /* ═══════════════════════════════
+       VIDEOS
+    ═══════════════════════════════ */
+    const SECTION_LABELS = { rabbi: 'שיעורי הרב', children: 'ילדים', general: 'כללי' };
+
+    async function loadCustomVideos() {
+      const { data, error } = await _supabase.from('custom_videos').select('*').order('created_at', { ascending: false });
+      const el = document.getElementById('custom-videos-list');
+      if (error) { el.innerHTML = '<div class="empty-state"><p>שגיאה: ' + error.message + '</p></div>'; return; }
+      renderCustomVideos(data || []);
+    }
+
+    function renderCustomVideos(items) {
+      const el = document.getElementById('custom-videos-list');
+      if (!items.length) {
+        el.innerHTML = '<p style="color:var(--muted);padding:12px 0">לא נוספו סרטונים מותאמים עדיין.</p>';
+        return;
+      }
+      el.innerHTML = '<div class="admin-vid-grid">' + items.map(v => `
+        <div class="admin-vid-card">
+          <div class="admin-vid-thumb">
+            <img src="https://img.youtube.com/vi/${v.youtube_id}/mqdefault.jpg" alt="${v.title}" loading="lazy">
+          </div>
+          <div class="admin-vid-info">
+            <span class="admin-vid-badge">${SECTION_LABELS[v.section] || v.section}</span>
+            <strong>${v.title}</strong>
+          </div>
+          <button class="admin-vid-del" onclick="deleteCustomVideo(${v.id})">מחק</button>
+        </div>
+      `).join('') + '</div>';
+    }
+
+    async function addCustomVideo(e) {
+      e.preventDefault();
+      const raw   = document.getElementById('vid-url').value.trim();
+      const id    = raw.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1] || raw;
+      const title   = document.getElementById('vid-title').value;
+      const section = document.getElementById('vid-section').value;
+      if (!id || id.length !== 11) { alert('מזהה YouTube לא תקין — חייב להיות 11 תווים'); return; }
+      const { error } = await _supabase.from('custom_videos').insert({ youtube_id: id, title, section });
+      if (error) { alert('שגיאה: ' + error.message); return; }
+      e.target.reset();
+      loadCustomVideos();
+    }
+
+    async function deleteCustomVideo(id) {
+      if (!confirm('למחוק סרטון זה?')) return;
+      await _supabase.from('custom_videos').delete().eq('id', id);
+      loadCustomVideos();
+    }
+
+    /* ═══════════════════════════════
+       NEWS BLACKLIST
+    ═══════════════════════════════ */
+    async function loadBlacklist() {
+      const { data, error } = await _supabase.from('news_blacklist').select('*').order('created_at');
+      const container = document.getElementById('blacklist-tags');
+      if (error) { container.innerHTML = '<span style="color:red;font-size:13px">שגיאה: ' + error.message + '</span>'; return; }
+      if (!data?.length) {
+        container.innerHTML = '<span style="color:var(--muted);font-size:14px">רשימת החסימה ריקה — כל הכתבות מוצגות.</span>';
+        return;
+      }
+      container.innerHTML = data.map(item =>
+        `<span class="bl-tag">${item.title_contains}
+          <button onclick="deleteBlacklist(${item.id})" title="הסר">✕</button>
+        </span>`
+      ).join('');
+    }
+
+    async function addBlacklist(e) {
+      e.preventDefault();
+      const phrase = document.getElementById('bl-phrase').value.trim();
+      if (!phrase) return;
+      const { error } = await _supabase.from('news_blacklist').insert({ title_contains: phrase });
+      if (error) { alert('שגיאה: ' + error.message); return; }
+      document.getElementById('bl-phrase').value = '';
+      loadBlacklist();
+    }
+
+    async function deleteBlacklist(id) {
+      await _supabase.from('news_blacklist').delete().eq('id', id);
+      loadBlacklist();
+    }
+
+    /* ═══════════════════════════════
+       DONATION GOALS
+    ═══════════════════════════════ */
+    async function loadGoals() {
+      const { data, error } = await _supabase.from('donation_goals').select('*').order('created_at', { ascending: false });
+      const el = document.getElementById('goals-list');
+      if (error) { el.innerHTML = '<div class="empty-state"><p>שגיאה: ' + error.message + '</p></div>'; return; }
+      renderGoals(data || []);
+    }
+
+    function renderGoals(items) {
+      const el = document.getElementById('goals-list');
+      if (!items.length) {
+        el.innerHTML = '<p style="color:var(--muted);padding:12px 0">לא נוספו מטרות תרומה עדיין.</p>';
+        return;
+      }
+      el.innerHTML = items.map(g => `
+        <div class="goal-card">
+          <div class="goal-card-top">
+            <div class="goal-card-info">
+              <strong>${g.title}</strong>
+              ${g.description ? '<p>' + g.description + '</p>' : ''}
+              ${g.target_amount ? '<span class="goal-card-amount">יעד: ₪' + Number(g.target_amount).toLocaleString('he-IL') + '</span>' : ''}
+            </div>
+          </div>
+          <div class="goal-card-actions">
+            <button class="${g.is_active ? 'btn-toggle-active' : 'btn-toggle-inactive'}"
+              onclick="toggleGoal(${g.id}, ${g.is_active})">
+              ${g.is_active ? 'פעיל' : 'לא פעיל'}
+            </button>
+            <button class="btn-delete" onclick="deleteGoal(${g.id})">מחק</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function addGoal(e) {
+      e.preventDefault();
+      const amountVal = document.getElementById('goal-amount').value;
+      const { error } = await _supabase.from('donation_goals').insert({
+        title:         document.getElementById('goal-title').value,
+        description:   document.getElementById('goal-desc').value,
+        target_amount: amountVal ? parseInt(amountVal) : null,
+        is_active:     true
+      });
+      if (error) { alert('שגיאה: ' + error.message); return; }
+      e.target.reset();
+      loadGoals();
+    }
+
+    async function toggleGoal(id, current) {
+      await _supabase.from('donation_goals').update({ is_active: !current }).eq('id', id);
+      loadGoals();
+    }
+
+    async function deleteGoal(id) {
+      if (!confirm('למחוק מטרה זו?')) return;
+      await _supabase.from('donation_goals').delete().eq('id', id);
+      loadGoals();
+    }
+
+    /* ═══════════════════════════════
+       PRAYER NAMES
+    ═══════════════════════════════ */
+    const PRAYER_TYPE_LABELS = { refua: 'לרפואה שלמה', nishmat: 'לעילוי נשמת', hatzlacha: 'להצלחה', parnasa: 'לפרנסה טובה', shiduch: 'לשידוך טוב', sgula: 'לסגולה כללית' };
+    let _prayerNamesData = [];
+
+    async function loadPrayerNames() {
+      const { data, error } = await _supabase.from('prayer_names').select('*').order('created_at', { ascending: false });
+      const el = document.getElementById('prayers-list');
+      if (error) { el.innerHTML = '<div class="empty-state"><p>שגיאה: ' + error.message + '</p></div>'; return; }
+      _prayerNamesData = data || [];
+      renderPrayerNames(_prayerNamesData);
+    }
+
+    function renderPrayerNames(items) {
+      const el = document.getElementById('prayers-list');
+      if (!items.length) {
+        el.innerHTML = '<p style="color:var(--muted);padding:12px 0">לא נוספו שמות עדיין.</p>';
+        return;
+      }
+      el.innerHTML = '<div class="admin-list">' + items.map(p => `
+        <div class="admin-row" id="prayer-row-${p.id}">
+          <div class="admin-row-info">
+            <strong>${p.name}</strong>
+            <small>${PRAYER_TYPE_LABELS[p.type] || p.type} · ${new Date(p.created_at).toLocaleDateString('he-IL')}</small>
+          </div>
+          <div class="admin-row-actions">
+            <button class="btn-toggle-inactive" onclick="editPrayerName(${p.id})">ערוך</button>
+            <button class="btn-delete" onclick="deletePrayerName(${p.id})">מחק</button>
+          </div>
+        </div>
+      `).join('') + '</div>';
+    }
+
+    async function addPrayerName(e) {
+      e.preventDefault();
+      const name = document.getElementById('prayer-name').value.trim();
+      const type = document.getElementById('prayer-type').value;
+      if (!name) return;
+      const { error } = await _supabase.from('prayer_names').insert({ name, type });
+      if (error) { alert('שגיאה: ' + error.message); return; }
+      e.target.reset();
+      loadPrayerNames();
+    }
+
+    function editPrayerName(id) {
+      const row  = document.getElementById('prayer-row-' + id);
+      const item = _prayerNamesData.find(p => p.id === id);
+      if (!row || !item) return;
+      row.innerHTML = `
+        <div class="admin-row-info" style="display:flex;gap:8px;flex:1;flex-wrap:wrap">
+          <input type="text" id="edit-name-${id}" value="${item.name.replace(/"/g,'&quot;')}"
+                 style="flex:1;min-width:120px;padding:8px 10px;border:1.5px solid var(--border);border-radius:6px;font-family:inherit;font-size:14px;direction:rtl">
+          <select id="edit-type-${id}" style="padding:8px 10px;border:1.5px solid var(--border);border-radius:6px;font-family:inherit;font-size:14px">
+            ${Object.entries(PRAYER_TYPE_LABELS).map(([val, label]) =>
+              `<option value="${val}" ${item.type === val ? 'selected' : ''}>${label}</option>`).join('')}
+          </select>
+        </div>
+        <div class="admin-row-actions">
+          <button class="btn-approve" onclick="savePrayerName(${id})">שמור</button>
+          <button class="btn-toggle-inactive" onclick="renderPrayerNames(_prayerNamesData)">בטל</button>
+        </div>
+      `;
+    }
+
+    async function savePrayerName(id) {
+      const name = document.getElementById('edit-name-' + id).value.trim();
+      const type = document.getElementById('edit-type-' + id).value;
+      if (!name) return;
+      const { error } = await _supabase.from('prayer_names').update({ name, type }).eq('id', id);
+      if (error) { alert('שגיאה: ' + error.message); return; }
+      loadPrayerNames();
+    }
+
+    async function deletePrayerName(id) {
+      if (!confirm('למחוק שם זה?')) return;
+      await _supabase.from('prayer_names').delete().eq('id', id);
+      loadPrayerNames();
+    }
+
+    /* ═══════════════════════════════
+       COMMUNITY SUBSCRIBERS (WhatsApp distribution list)
+    ═══════════════════════════════ */
+    let _subscribersData = [];
+
+    function normalizeIsraeliPhone(raw) {
+      const digits = raw.replace(/\D/g, '');
+      if (digits.startsWith('972')) return digits;
+      if (digits.startsWith('0')) return '972' + digits.slice(1);
+      return digits;
+    }
+
+    async function loadSubscribers() {
+      const { data, error } = await _supabase.from('community_subscribers').select('*').order('created_at', { ascending: false });
+      const el = document.getElementById('subscribers-list');
+      if (error) { el.innerHTML = '<div class="empty-state"><p>שגיאה: ' + error.message + '</p></div>'; return; }
+      _subscribersData = data || [];
+      renderSubscriberStats(_subscribersData);
+      renderSubscribers(_subscribersData);
+    }
+
+    function renderSubscriberStats(items) {
+      const active = items.filter(s => s.is_active);
+      document.getElementById('sub-stat-total').textContent = active.length;
+      document.getElementById('sub-stat-he').textContent = active.filter(s => s.language !== 'fr').length;
+      document.getElementById('sub-stat-fr').textContent = active.filter(s => s.language === 'fr').length;
+    }
+
+    function renderSubscribers(items) {
+      const el = document.getElementById('subscribers-list');
+      if (!items.length) {
+        el.innerHTML = '<p style="color:var(--muted);padding:12px 0">אין מנויים עדיין.</p>';
+        return;
+      }
+      el.innerHTML = '<div class="admin-list">' + items.map(s => `
+        <div class="admin-row">
+          <div class="admin-row-info">
+            <strong>${s.full_name || 'ללא שם'}</strong>
+            <small>${s.phone} · ${s.language === 'fr' ? 'צרפתית' : 'עברית'} · ${new Date(s.created_at).toLocaleDateString('he-IL')}</small>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="${s.is_active ? 'btn-toggle-active' : 'btn-toggle-inactive'}" onclick="toggleSubscriber(${s.id}, ${s.is_active})">
+              ${s.is_active ? 'פעיל' : 'כבוי'}
+            </button>
+            <button class="btn-delete" onclick="deleteSubscriber(${s.id})">מחק</button>
+          </div>
+        </div>
+      `).join('') + '</div>';
+    }
+
+    async function addSubscriber(e) {
+      e.preventDefault();
+      const full_name = document.getElementById('sub-name').value.trim();
+      const phoneRaw  = document.getElementById('sub-phone').value.trim();
+      const language  = document.getElementById('sub-lang').value;
+      if (!phoneRaw) { alert('הכנס מספר טלפון'); return; }
+      const { error } = await _supabase.from('community_subscribers').insert({
+        full_name: full_name || null,
+        phone: normalizeIsraeliPhone(phoneRaw),
+        language,
+        source: 'admin'
+      });
+      if (error) { alert('שגיאה: ' + error.message); return; }
+      e.target.reset();
+      loadSubscribers();
+    }
+
+    async function toggleSubscriber(id, current) {
+      await _supabase.from('community_subscribers').update({ is_active: !current }).eq('id', id);
+      loadSubscribers();
+    }
+
+    async function deleteSubscriber(id) {
+      if (!confirm('למחוק מנוי זה?')) return;
+      await _supabase.from('community_subscribers').delete().eq('id', id);
+      loadSubscribers();
+    }
+
+    /* ═══════════════════════════════
+       PRAYER TIMES (זמנים page)
+    ═══════════════════════════════ */
+    let _prayerTimesData = [];
+
+    async function loadPrayerTimes() {
+      const { data, error } = await _supabase.from('prayer_times').select('*').order('sort_order', { ascending: true });
+      const weekdayEl = document.getElementById('ptimes-weekday-list');
+      if (error) {
+        if (weekdayEl) weekdayEl.innerHTML = '<div class="empty-state"><p>שגיאה: ' + error.message + '</p></div>';
+        return;
+      }
+      _prayerTimesData = data || [];
+      renderPrayerTimes();
+    }
+
+    function ptimeRowHTML(p) {
+      const nameEsc = String(p.display_name).replace(/"/g, '&quot;');
+      return `
+        <div class="admin-row" id="ptime-row-${p.id}">
+          <div class="ptime-row-fields">
+            <input type="text" class="ptime-name-input" id="ptime-name-${p.id}" value="${nameEsc}">
+            <input type="time" class="ptime-time-input" id="ptime-time-${p.id}" value="${p.prayer_time}">
+          </div>
+          <div class="admin-row-actions">
+            <span class="ptime-save-msg" id="ptime-msg-${p.id}"></span>
+            <button class="btn-approve" onclick="savePrayerTime(${p.id})">שמור</button>
+            <button class="btn-delete" onclick="deletePrayerTime(${p.id})">מחק</button>
+          </div>
+        </div>`;
+    }
+
+    function renderPrayerTimes() {
+      const weekdayEl = document.getElementById('ptimes-weekday-list');
+      const shabbatEl = document.getElementById('ptimes-shabbat-list');
+      const weekday = _prayerTimesData.filter(p => p.day_type === 'weekday');
+      const shabbat = _prayerTimesData.filter(p => p.day_type === 'shabbat');
+      weekdayEl.innerHTML = weekday.length ? weekday.map(ptimeRowHTML).join('')
+        : '<p style="color:var(--muted);padding:12px 16px">אין זמנים מוגדרים.</p>';
+      shabbatEl.innerHTML = shabbat.length ? shabbat.map(ptimeRowHTML).join('')
+        : '<p style="color:var(--muted);padding:12px 16px">אין זמנים מוגדרים.</p>';
+    }
+
+    async function savePrayerTime(id) {
+      const nameInput = document.getElementById('ptime-name-' + id);
+      const timeInput = document.getElementById('ptime-time-' + id);
+      const msgEl     = document.getElementById('ptime-msg-' + id);
+      const display_name = nameInput.value.trim();
+      const prayer_time  = timeInput.value;
+      if (!display_name || !prayer_time) { alert('נא למלא שם ושעה'); return; }
+      const { error } = await _supabase.from('prayer_times')
+        .update({ display_name, prayer_time, updated_at: new Date().toISOString() })
+        .eq('id', id);
+      if (error) { alert('שגיאה: ' + error.message); return; }
+      const item = _prayerTimesData.find(p => p.id === id);
+      if (item) { item.display_name = display_name; item.prayer_time = prayer_time; }
+      if (msgEl) {
+        msgEl.textContent = 'נשמר ✓';
+        setTimeout(() => { if (msgEl) msgEl.textContent = ''; }, 2500);
+      }
+    }
+
+    async function deletePrayerTime(id) {
+      if (!confirm('למחוק זמן תפילה זה?')) return;
+      await _supabase.from('prayer_times').delete().eq('id', id);
+      loadPrayerTimes();
+    }
+
+    function togglePtimeAddForm() {
+      const wrap = document.getElementById('ptime-add-form-wrap');
+      wrap.style.display = wrap.style.display === 'none' ? 'block' : 'none';
+    }
+
+    async function addPrayerTime(e) {
+      e.preventDefault();
+      const day_type     = document.getElementById('ptime-new-daytype').value;
+      const display_name = document.getElementById('ptime-new-name').value.trim();
+      const prayer_time  = document.getElementById('ptime-new-time').value;
+      if (!display_name || !prayer_time) return;
+      const existingCount = _prayerTimesData.filter(p => p.day_type === day_type).length;
+      const prayer_key = day_type + '_custom_' + Date.now();
+      const { error } = await _supabase.from('prayer_times').insert({
+        day_type, prayer_key, display_name, prayer_time, sort_order: existingCount + 1
+      });
+      if (error) { alert('שגיאה: ' + error.message); return; }
+      e.target.reset();
+      document.getElementById('ptime-add-form-wrap').style.display = 'none';
+      loadPrayerTimes();
+    }
+
+    /* ── Mobile Nav ── */
+    document.getElementById('hamburger').addEventListener('click', () => document.body.classList.add('nav-open'));
+    document.getElementById('nav-close').addEventListener('click', () => document.body.classList.remove('nav-open'));
+    document.getElementById('nav-overlay').querySelectorAll('a').forEach(a =>
+      a.addEventListener('click', () => document.body.classList.remove('nav-open'))
+    );
+
+    function toggleLang() {
+      const btn = document.getElementById('langBtn');
+      btn.textContent = btn.textContent === 'FR' ? 'HE' : 'FR';
+    }
+
+    /* ── Notification Numbers ── */
+    async function loadNotifNumbers() {
+      const { data } = await _supabase.from('notification_numbers')
+        .select('*').order('created_at');
+      const list = document.getElementById('notif-list');
+      if (!list) return;
+      if (!data?.length) {
+        list.innerHTML = '<p style="color:var(--muted);margin-top:8px">אין מספרים מוגדרים</p>';
+        return;
+      }
+      list.innerHTML = `<div class="admin-list">` + data.map(n => `
+        <div class="admin-row">
+          <div>
+            <strong>+${n.phone}</strong>
+            ${n.label ? `<small style="display:block;color:var(--muted)">${n.label}</small>` : ''}
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="${n.is_active ? 'btn-toggle-active' : 'btn-toggle-inactive'}"
+                    onclick="toggleNotif(${n.id}, ${n.is_active})">
+              ${n.is_active ? 'פעיל' : 'כבוי'}
+            </button>
+            <button class="btn-delete" onclick="deleteNotif(${n.id})">מחק</button>
+          </div>
+        </div>
+      `).join('') + `</div>`;
+    }
+
+    async function addNotifNumber() {
+      const phone = document.getElementById('notif-phone').value.trim();
+      const label = document.getElementById('notif-label').value.trim();
+      if (!phone) { alert('הכנס מספר טלפון'); return; }
+      await _supabase.from('notification_numbers')
+        .insert({ phone, label: label || null });
+      document.getElementById('notif-phone').value = '';
+      document.getElementById('notif-label').value = '';
+      loadNotifNumbers();
+    }
+
+    async function toggleNotif(id, current) {
+      await _supabase.from('notification_numbers')
+        .update({ is_active: !current }).eq('id', id);
+      loadNotifNumbers();
+    }
+
+    async function deleteNotif(id) {
+      if (!confirm('למחוק מספר זה?')) return;
+      await _supabase.from('notification_numbers').delete().eq('id', id);
+      loadNotifNumbers();
+    }
+
+    /* ── Admin Gallery Direct Upload ── */
+    let adminGalleryFiles = [];
+
+    function previewAdminGallery(input) {
+      adminGalleryFiles = Array.from(input.files);
+      const container = document.getElementById('admin-gallery-previews');
+      container.innerHTML = '';
+      adminGalleryFiles.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.style.cssText = 'width:80px;height:80px;object-fit:cover;border-radius:6px';
+          container.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      });
+      const totalMB = (adminGalleryFiles.reduce((s, f) => s + f.size, 0) / 1024 / 1024).toFixed(1);
+      document.getElementById('admin-gallery-upload-text').textContent =
+        adminGalleryFiles.length + ' תמונות נבחרו (' + totalMB + 'MB)';
+    }
+
+    async function uploadAdminGallery() {
+      if (!adminGalleryFiles.length) { alert('בחר תמונות קודם'); return; }
+      const btn = document.getElementById('admin-gallery-btn');
+      const status = document.getElementById('admin-gallery-status');
+      btn.disabled = true; btn.textContent = 'מעלה...';
+      status.style.display = 'block'; status.style.color = 'var(--muted)';
+      let uploaded = 0, failed = 0;
+      for (const file of adminGalleryFiles) {
+        try {
+          const ext = file.name.split('.').pop();
+          const fileName = 'admin_' + Date.now() + '_' + Math.random().toString(36).slice(2) + '.' + ext;
+          const filePath = 'admin/' + fileName;
+          const { error: upErr } = await _supabase.storage
+            .from('gallery-pending')
+            .upload(filePath, file, { cacheControl: '3600', upsert: false });
+          if (upErr) throw upErr;
+          const { error: dbErr } = await _supabase.from('gallery_submissions').insert({
+            user_id: adminUser.id,
+            user_name: 'מנהל אתר',
+            file_path: filePath,
+            file_type: 'photo',
+            caption: '',
+            status: 'approved'
+          });
+          if (dbErr) throw dbErr;
+          uploaded++;
+        } catch (e) {
+          console.error('Upload failed:', e);
+          failed++;
+        }
+        status.textContent = 'הועלו ' + uploaded + ' מתוך ' + adminGalleryFiles.length + '...';
+      }
+      if (failed === 0) {
+        status.style.color = '#155724';
+        status.textContent = uploaded + ' תמונות הועלו בהצלחה!';
+      } else {
+        status.style.color = '#721c24';
+        status.textContent = uploaded + ' הועלו, ' + failed + ' נכשלו.';
+      }
+      adminGalleryFiles = [];
+      document.getElementById('admin-gallery-input').value = '';
+      document.getElementById('admin-gallery-previews').innerHTML = '';
+      document.getElementById('admin-gallery-upload-text').textContent = 'לחץ לבחירת תמונות (עד 100MB)';
+      btn.disabled = false; btn.textContent = 'העלה לגלריה';
+      await loadGalleryAll();
+      // Reload existing thumbnails grid after upload
+      const existingGrid = document.getElementById('gallery-existing-grid');
+      if (existingGrid) {
+        existingGrid.innerHTML = '<p id="gallery-existing-loading" style="color:var(--muted);font-size:14px">טוען תמונות...</p>';
+        await loadExistingGallery();
+      }
+    }
+
+    /* ── Gallery Existing Thumbnails ── */
+    const GALLERY_STORAGE_BASE = 'https://bfjigrvzscvokmlzrlhv.supabase.co/storage/v1/object/public/gallery-pending/';
+
+    async function loadExistingGallery() {
+      const grid = document.getElementById('gallery-existing-grid');
+      const loading = document.getElementById('gallery-existing-loading');
+      if (!grid) return;
+
+      const { data, error } = await _supabase
+        .from('gallery_submissions')
+        .select('id, file_path, caption, user_name')
+        .eq('status', 'approved')
+        .order('created_at', { ascending: false });
+
+      if (loading) loading.remove();
+
+      if (error || !data || !data.length) {
+        grid.innerHTML = '<p style="color:var(--muted);font-size:14px">אין תמונות מאושרות בגלריה עדיין.</p>';
+        return;
+      }
+
+      grid.innerHTML = data.map(item => {
+        const imageUrl = GALLERY_STORAGE_BASE + item.file_path;
+        return `
+          <div class="gallery-thumb-wrap" id="thumb-${item.id}">
+            <img src="${imageUrl}" alt="${item.caption || 'תמונה'}" loading="lazy"
+                 title="${item.user_name || 'מנהל אתר'}"
+                 onclick="openAdminLightbox('${imageUrl}')"
+                 onerror="this.parentElement.style.display='none'">
+            <button class="gallery-thumb-delete"
+                    onclick="event.stopPropagation();deleteGalleryImage(${item.id}, '${item.file_path}')"
+                    title="מחק">✕</button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openAdminLightbox(url) {
+      document.getElementById('admin-lightbox-img').src = url;
+      document.getElementById('admin-lightbox').style.display = 'flex';
+    }
+    function closeAdminLightbox() {
+      document.getElementById('admin-lightbox').style.display = 'none';
+    }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeAdminLightbox();
+    });
+
+    async function deleteGalleryImage(id, filePath) {
+      if (!confirm('למחוק תמונה זו מהגלריה?')) return;
+      try {
+        const { error } = await _supabase
+          .from('gallery_submissions')
+          .delete()
+          .eq('id', id);
+        if (error) throw error;
+
+        // Try to delete from storage too
+        try {
+          await _supabase.storage.from('gallery-pending').remove([filePath]);
+        } catch (storageErr) {
+          console.warn('Could not delete from storage:', storageErr);
+        }
+
+        const thumb = document.getElementById('thumb-' + id);
+        if (thumb) thumb.remove();
+
+        const grid = document.getElementById('gallery-existing-grid');
+        if (grid && !grid.querySelector('.gallery-thumb-wrap')) {
+          grid.innerHTML = '<p style="color:var(--muted);font-size:14px">אין תמונות מאושרות בגלריה עדיין.</p>';
+        }
+
+        // Refresh the pending/approved/rejected counts
+        await loadGalleryAll();
+      } catch (err) {
+        alert('שגיאה במחיקה: ' + (err.message || 'נסה שוב'));
+      }
+    }
+
+    /* ── Popup Poster Admin ── */
+    function previewPopupUpload(input) {
+      const file = input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = document.getElementById('popup-upload-preview');
+        img.src = e.target.result;
+        img.style.display = 'block';
+        document.getElementById('popup-upload-text').textContent = file.name;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    async function loadPopupAdmin() {
+      document.getElementById('popup-loading').style.display = 'block';
+      const { data } = await _supabase
+        .from('popup_poster')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
+      document.getElementById('popup-loading').style.display = 'none';
+
+      if (data?.image_url) {
+        document.getElementById('popup-current-card').style.display = 'block';
+        document.getElementById('popup-empty').style.display = 'none';
+        document.getElementById('popup-current-img').src = data.image_url;
+        window._currentPopupId = data.id;
+      } else {
+        document.getElementById('popup-current-card').style.display = 'none';
+        document.getElementById('popup-empty').style.display = 'block';
+        window._currentPopupId = null;
+      }
+    }
+
+    async function uploadPopupPoster() {
+      const file = document.getElementById('popup-file')?.files[0];
+      if (!file) { alert('בחר תמונה קודם'); return; }
+
+      const btn = document.getElementById('popup-upload-btn');
+      btn.disabled = true;
+      btn.textContent = 'מעלה...';
+
+      try {
+        if (window._currentPopupId) {
+          await _supabase.from('popup_poster').delete().eq('id', window._currentPopupId);
+        }
+
+        const ext = file.name.split('.').pop();
+        const fileName = 'popup_' + Date.now() + '.' + ext;
+        const { data: up, error: upErr } = await _supabase.storage
+          .from('popup-posters')
+          .upload(fileName, file, { cacheControl: '3600', upsert: false });
+        if (upErr) throw upErr;
+
+        const { data: urlData } = _supabase.storage
+          .from('popup-posters')
+          .getPublicUrl(up.path);
+
+        await _supabase.from('popup_poster').insert({ image_url: urlData.publicUrl });
+
+        document.getElementById('popup-file').value = '';
+        document.getElementById('popup-upload-preview').style.display = 'none';
+        document.getElementById('popup-upload-text').textContent = 'לחץ לבחירת תמונה';
+
+        await loadPopupAdmin();
+      } catch (err) {
+        alert('שגיאה: ' + (err.message || 'נסה שוב'));
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'העלה פוסטר';
+      }
+    }
+
+    async function deletePopupPoster() {
+      if (!confirm('למחוק את הפוסטר? הקופץ יפסיק להופיע לגולשים.')) return;
+      await _supabase.from('popup_poster').delete().eq('id', window._currentPopupId);
+      await loadPopupAdmin();
+    }
+
+    init();
+  </script>
+</body>
+</html>

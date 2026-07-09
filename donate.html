@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>תרומות — פאר יוסף | Dons — Peer Yosef | Donations</title>
+  <meta name="description" content="תמכו בישיבת פאר יוסף — ישיבה ובית מדרש ברסלב בירושלים. Soutenez la Yeshiva Peer Yosef, Jérusalem.">
+  <meta name="keywords" content="פאר יוסף, ישיבת פאר יוסף, הרב אשר עבאדי, עטרת מנשה, היכל מוהרן, ברסלב, ישיבה ברסלב, בית כנסת ירושלים, בית מדרש ירושלים, קהילה ברסלב, שיעורי תורה, Peer Yosef, Yeshivat Peer Yosef, Yeshiva Peer Yosef, Rabbi Asher Abadi, Rav Asher Abadi, Ateret Menashe, Heichal Moharan, Breslov, Breslov yeshiva, Jerusalem synagogue, Breslov Jerusalem, Torah classes Jerusalem, Jérusalem, synagogue Jérusalem, yeshiva Breslov, cours de Torah Jérusalem">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/png" href="photo/logo-main.png">
+  <link rel="apple-touch-icon" href="photo/logo-main.png">
+  <meta property="og:site_name" content="פאר יוסף">
+  <meta property="og:locale" content="he_IL">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="photo/logo-main.png">
+  <meta property="og:title" content="תרומות — פאר יוסף | Dons — Peer Yosef | Donations">
+  <meta property="og:description" content="תמכו בישיבת פאר יוסף — ישיבה ובית מדרש ברסלב בירושלים. Soutenez la Yeshiva Peer Yosef, Jérusalem.">
+
+  <!--
+  SQL to run in Supabase > SQL Editor:
+
+  CREATE TABLE prayer_names (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    type TEXT NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+  );
+  ALTER TABLE prayer_names ENABLE ROW LEVEL SECURITY;
+  CREATE POLICY "public_insert" ON prayer_names FOR INSERT WITH CHECK (true);
+  CREATE POLICY "public_select" ON prayer_names FOR SELECT USING (true);
+  -->
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@400;700;800&family=Noto+Sans+Hebrew:wght@300;400;500&display=swap');
+
+    :root {
+      --bg:           #f7f4ef;
+      --bg-dark:      #1E5A68;
+      --bg-card:      #ffffff;
+      --bg-elem:      #ede9e2;
+      --border:       #d4cdc3;
+      --gold:         #CC8800;
+      --gold-light:   #E8A820;
+      --white:        #ffffff;
+      --text:         #1C3D52;
+      --muted:        #6a7585;
+      --header-bg:    rgba(30, 90, 104, 0.93);
+      --header-h:     72px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Noto Sans Hebrew', sans-serif; color: var(--text); background: var(--bg); overflow-x: hidden; }
+    body.nav-open { overflow: hidden; }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    ::selection { background: var(--gold); color: #fff; }
+
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+
+    .btn {
+      display: inline-block; background: var(--gold); color: #fff !important;
+      border-radius: 28px; padding: 12px 32px;
+      font-family: 'Noto Sans Hebrew', sans-serif; font-size: 16px; font-weight: 500;
+      border: none; cursor: pointer; transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-green { background: #25D366; }
+
+    .sec-title {
+      font-family: 'Noto Serif Hebrew', serif; font-size: clamp(26px, 5vw, 40px);
+      font-weight: 700; color: var(--text); text-align: center;
+      margin-bottom: 12px; letter-spacing: -0.02em;
+    }
+    .sec-title.light { color: #fff; }
+    .gold-bar { display: block; width: 56px; height: 3px; background: var(--gold); margin: 0 auto 20px; }
+
+    /* Footer white overrides */
+    .footer-sitemap, .footer-sitemap h3, .footer-sitemap p,
+    .footer-sitemap a, .footer-sitemap li,
+    .footer-newsletter, .footer-newsletter h3, .footer-newsletter p,
+    .footer-strip, .footer-strip a, .footer-strip p,
+    .footer-logo-name, .footer-logo-tag { color: #fff !important; }
+    .nav-overlay, .nav-overlay a { color: #fff !important; }
+
+    /* ════ HEADER ════ */
+    header {
+      position: fixed; top: 0; right: 0; left: 0;
+      height: var(--header-h); z-index: 1000;
+      background: var(--header-bg); box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+    }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 100%; max-width: 1160px; margin: 0 auto; padding: 0 24px; gap: 12px;
+    }
+    .logo-wrap { display: flex; align-items: center; gap: 12px; line-height: 1.2; }
+    .logo-wrap img { height: 48px; width: auto; object-fit: contain; flex-shrink: 0; }
+    .logo-name { font-family: 'Noto Serif Hebrew', serif; font-size: 26px; font-weight: 700; color: #fff !important; display: block; text-shadow: 0 1px 4px rgba(0,0,0,0.5); -webkit-text-stroke: 0.5px rgba(0,0,0,0.4); }
+    .logo-sub  { font-size: 11px; color: rgba(255,255,255,0.75) !important; font-weight: 300; letter-spacing: 0.5px; display: block; }
+
+    .desktop-nav { display: none; gap: 28px; align-items: center; flex: 1; justify-content: center; position: static; transform: none; left: auto; }
+    .desktop-nav a {
+      font-size: 15px; font-weight: 400; color: #fff;
+      transition: color 0.2s; position: relative; padding-bottom: 4px;
+    }
+    .desktop-nav a::after { content: ''; position: absolute; bottom: 0; right: 0; width: 0; height: 2px; background: var(--gold); transition: width 0.25s; }
+    .desktop-nav a:hover { color: var(--gold); }
+    .desktop-nav a:hover::after, .desktop-nav a.active::after { width: 100%; }
+    .desktop-nav a.active { color: var(--gold); }
+    @media (min-width: 768px) { .hamburger { display: none; } .desktop-nav { display: flex; } }
+
+    .hamburger { background: none; border: none; color: #fff; font-size: 28px; cursor: pointer; padding: 4px; }
+    .lang-btn {
+      background: none; border: 1.5px solid #fff; border-radius: 6px;
+      color: #fff; font-size: 13px; font-weight: 600; letter-spacing: 1px;
+      padding: 4px 10px; cursor: pointer; font-family: inherit; transition: background 0.2s;
+    }
+    .lang-btn:hover { background: rgba(255,255,255,0.15); }
+
+    .nav-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(30,40,64,0.98); z-index: 999;
+      flex-direction: column; align-items: center; justify-content: center; gap: 40px;
+    }
+    .nav-open .nav-overlay { display: flex; }
+    .nav-overlay a { font-family: 'Noto Serif Hebrew', serif; font-size: 30px; color: #fff; transition: color 0.2s; }
+    .nav-overlay a:hover, .nav-overlay a.active { color: var(--gold); }
+    .nav-close { position: absolute; top: 20px; left: 24px; background: none; border: none; color: #fff; font-size: 32px; cursor: pointer; }
+
+    /* ════ REVEAL ════ */
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.55s ease-out, transform 0.55s cubic-bezier(0.22,1,0.36,1); }
+      .reveal.visible { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ════ PAGE HERO ════ */
+    .page-hero {
+      background: var(--bg-dark);
+      padding: calc(var(--header-h) + 20px) 0 20px;
+      text-align: center;
+    }
+    .page-hero h1 {
+      font-family: 'Noto Serif Hebrew', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700; color: #fff; margin-bottom: 12px; letter-spacing: -0.02em;
+    }
+    .page-hero p { font-size: clamp(15px, 2vw, 18px); color: rgba(255,255,255,0.75); }
+
+    /* ════ SECTIONS ════ */
+    .donate-section { padding: 24px 0; }
+    .donate-section.alt { background: var(--bg-card); }
+    .donate-section.dark { background: var(--bg-dark); }
+    .donate-section.tinted { background: var(--bg-elem); }
+
+    /* ════ EXPENSES ════ */
+    .expense-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    @media (min-width: 1024px) { .expense-grid { grid-template-columns: repeat(4, 1fr); } }
+
+    .expense-card {
+      background: var(--bg-dark);
+      border-radius: 16px; padding: 28px 24px;
+      text-align: center; color: #fff;
+    }
+    .expense-icon { margin: 0 auto 16px; opacity: 0.9; }
+    .expense-label { font-size: 15px; color: rgba(255,255,255,0.8); margin-bottom: 10px; }
+    .expense-amount {
+      font-size: clamp(26px, 3.5vw, 34px);
+      font-weight: 800; color: #ffffff;
+      font-family: 'Noto Serif Hebrew', serif;
+      direction: ltr; display: block;
+    }
+
+    .expense-total {
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--bg-dark); border-radius: 12px; padding: 18px 28px;
+      color: #fff; font-size: 17px; font-weight: 500;
+    }
+    .expense-total-amount {
+      font-family: 'Noto Serif Hebrew', serif;
+      font-size: 28px; font-weight: 800; color: #ffffff; direction: ltr;
+    }
+
+    /* ════ WHY DONATE ════ */
+    .why-block { max-width: 680px; margin: 0 auto; text-align: center; }
+    .why-quote {
+      font-family: 'Noto Serif Hebrew', serif;
+      font-size: clamp(18px, 2.5vw, 24px);
+      font-weight: 700; color: var(--bg-dark);
+      line-height: 1.7; margin-bottom: 24px;
+      border-right: 4px solid var(--gold); padding-right: 20px; text-align: right;
+    }
+    .why-note { font-size: 15px; color: var(--muted); line-height: 1.9; }
+    .why-note p { margin-bottom: 4px; }
+
+    /* ════ PAYMENT ════ */
+    .demo-banner {
+      background: #FFF3CD; border: 1px solid #E6A800; border-radius: 10px;
+      padding: 14px 20px; color: #856404; text-align: center;
+      font-size: 15px; margin-bottom: 28px;
+    }
+    .pay-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    }
+    @media (max-width: 767px) { .pay-grid { grid-template-columns: 1fr; } }
+
+    .pay-card {
+      background: var(--bg-card); border-radius: 16px; padding: 32px 24px;
+      text-align: center; box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      border: 1px solid var(--border);
+    }
+    .pay-card-icon { margin: 0 auto 16px; }
+    .pay-card-title {
+      font-family: 'Noto Serif Hebrew', serif;
+      font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 10px;
+    }
+    .pay-card-text { font-size: 14px; color: var(--muted); margin-bottom: 6px; }
+    .pay-card-sub  { font-size: 12px; color: var(--gold); margin-bottom: 20px; }
+    .btn-disabled {
+      display: inline-block; background: var(--gold); color: #fff;
+      border-radius: 28px; padding: 11px 28px; font-size: 15px; font-weight: 500;
+      border: none; font-family: inherit;
+      opacity: 0.4; cursor: not-allowed; pointer-events: none;
+    }
+
+    /* ════ NAMES FORM ════ */
+    .names-form-wrap {
+      background: var(--bg-card); border-radius: 16px; padding: 36px 32px;
+      max-width: 560px; margin: 0 auto;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.07);
+    }
+    .form-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
+    .form-label { font-size: 14px; font-weight: 500; color: var(--text); }
+    .form-input, .form-select {
+      padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px;
+      font-size: 15px; direction: rtl; font-family: inherit; color: var(--text);
+      background: var(--bg); transition: border-color 0.2s;
+    }
+    .form-input:focus, .form-select:focus { border-color: var(--gold); outline: none; }
+    .form-submit {
+      width: 100%; padding: 14px; background: var(--gold); color: #fff;
+      border: none; border-radius: 28px; font-size: 16px; font-weight: 600;
+      font-family: inherit; cursor: pointer; transition: opacity 0.2s, transform 0.15s;
+      margin-top: 8px;
+    }
+    .form-submit:hover { opacity: 0.88; transform: translateY(-1px); }
+    .form-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .toast {
+      display: none; margin-top: 16px; padding: 12px 18px; border-radius: 8px;
+      font-size: 15px; text-align: center; font-weight: 500;
+    }
+    .toast.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; display: block; }
+    .toast.error   { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; display: block; }
+
+    .demo-mode-note {
+      background: #FFF3CD; border: 1px solid #E6A800; border-radius: 8px;
+      padding: 10px 16px; color: #856404; font-size: 13px; text-align: center;
+      margin-bottom: 20px;
+    }
+
+    /* ════ NAMES LIST ════ */
+    .names-loading { text-align: center; padding: 32px; color: var(--muted); font-size: 15px; }
+    .names-empty   { text-align: center; padding: 24px; color: var(--muted); font-size: 15px; }
+    .names-chips   { display: flex; flex-wrap: wrap; padding: 8px 0; gap: 0; }
+    .name-chip {
+      display: inline-flex; flex-direction: column;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-right: 3px solid var(--gold); border-radius: 8px;
+      padding: 8px 14px; margin: 6px; text-align: right;
+    }
+    .chip-type { font-size: 11px; color: var(--gold); font-weight: 600; margin-bottom: 2px; }
+    .chip-name { font-size: 14px; color: var(--text); font-weight: 500; }
+
+    /* ════ PRAYER NAMES TICKER ════ */
+    .names-ticker {
+      position: absolute;
+      inset: 0;
+      background: rgba(247, 244, 239, 0.55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-right: 3px solid var(--gold);
+      border-radius: 16px;
+      padding: 20px 14px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .names-ticker-title {
+      font-family: 'Noto Serif Hebrew', serif;
+      color: #1C1C1C;
+      font-size: 17px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 12px;
+      flex-shrink: 0;
+    }
+    .names-ticker-viewport {
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+      position: relative;
+      -webkit-mask-image: linear-gradient(to bottom, transparent, #000 8%, #000 92%, transparent);
+              mask-image: linear-gradient(to bottom, transparent, #000 8%, #000 92%, transparent);
+    }
+    .names-ticker-track {
+      display: flex;
+      flex-direction: column;
+      animation: namesTickerScroll linear infinite;
+      animation-duration: 30s;
+    }
+    .names-ticker-viewport:hover .names-ticker-track { animation-play-state: paused; }
+    .names-ticker-entry {
+      padding: 10px 6px;
+      text-align: center;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      flex-shrink: 0;
+    }
+    .names-ticker-name { color: #1C1C1C; font-weight: 700; font-size: 15px; }
+    .names-ticker-type { color: #555; font-size: 11px; margin-top: 3px; }
+    .names-ticker-spacer { flex-shrink: 0; }
+    @keyframes namesTickerScroll {
+      from { transform: translateY(0); }
+      to   { transform: translateY(-50%); }
+    }
+
+    /* ════ DONATE PAGE LAYOUT (main content + ticker column) ════ */
+    .donate-layout {
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      gap: 24px;
+      align-items: stretch;
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .donate-main { min-width: 0; }
+    .donate-main .container { max-width: none; }
+    .donate-main > .donate-section { border-radius: 16px; margin-bottom: 16px; }
+    .donate-main > .donate-section:last-child { margin-bottom: 0; }
+    .donate-ticker-col { min-width: 0; min-height: 320px; position: relative; }
+
+    /* ════ FOOTER ════ */
+    .footer-strip { background: var(--bg-dark); padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.1); }
+    .footer-strip-inner { display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap; }
+    .footer-strip-item { display: flex; align-items: center; gap: 8px; font-size: 15px; opacity: 0.75; }
+    .footer-strip-item a { transition: color 0.2s; }
+    .footer-strip-item a:hover { color: var(--gold) !important; opacity: 1; }
+    .footer-newsletter { background: var(--bg-dark); padding: 28px 0; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; }
+    .footer-newsletter h3 { font-family: 'Noto Serif Hebrew', serif; font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+    .footer-newsletter p  { font-size: 15px; opacity: 0.75; margin-bottom: 20px; }
+    .footer-sitemap { background: var(--bg-dark); padding: 28px 24px 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+    .footer-logo-row { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; margin-bottom: 32px; }
+    .footer-logo-name { font-family: 'Noto Serif Hebrew', serif; font-size: 20px; font-weight: 700; }
+    .footer-logo-tag  { font-size: 13px; opacity: 0.6; }
+    .footer-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 40px; }
+    .footer-col h4 { font-size: 15px; font-weight: 600; margin-bottom: 14px; color: var(--gold-light); }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a  { font-size: 14px; opacity: 0.8; transition: opacity 0.2s; }
+    .footer-col a:hover { opacity: 1; color: var(--gold-light) !important; }
+    .footer-bottom-bar { text-align: center; font-size: 12px; opacity: 0.45; padding: 16px 0 0; border-top: 1px solid rgba(255,255,255,0.1); }
+
+    @media (max-width: 767px) {
+      .header-inner { padding: 0 16px; }
+      .logo-name { font-size: 20px; }
+      .donate-section { padding: 20px 0; }
+      .names-form-wrap { padding: 24px 18px; }
+      .expense-total { flex-direction: column; gap: 8px; text-align: center; padding: 16px 20px; }
+      .footer-cols { grid-template-columns: 1fr; gap: 20px; text-align: center; }
+      .footer-logo-row { align-items: center; }
+      .footer-strip-inner { flex-direction: column; gap: 12px; }
+      .why-quote { font-size: 17px; }
+      .donate-layout { display: block; padding: 0; max-width: none; }
+      .donate-main > .donate-section { border-radius: 0; margin-bottom: 0; }
+      .donate-ticker-col { display: none; }
+    }
+  /* ── Auth ── */
+  .auth-area { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .auth-btn {
+    padding: 6px 14px; border-radius: 20px;
+    border: 1.5px solid #fff; background: transparent;
+    color: #fff; font-size: 13px;
+    font-family: 'Noto Sans Hebrew', sans-serif;
+    cursor: pointer; white-space: nowrap;
+    transition: background 0.2s, color 0.2s;
+  }
+  .auth-btn:hover { background: var(--gold); border-color: var(--gold); color: #fff; }
+  .auth-username { font-size: 13px; color: var(--gold); font-weight: 600; direction: rtl; }
+  @media (max-width: 767px) { .auth-username { display: none; } }
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 9000;
+    background: rgba(0,0,0,0.6);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .auth-modal-box {
+    background: var(--bg-card, #fff); border-radius: 16px;
+    padding: 36px 32px; width: min(420px, 92vw);
+    position: relative; direction: rtl;
+  }
+  .modal-close {
+    position: absolute; top: 16px; left: 16px;
+    background: none; border: none; font-size: 22px; cursor: pointer; color: var(--muted);
+  }
+  .auth-tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 2px solid var(--border); }
+  .auth-tab {
+    padding: 10px 24px; border: none; background: none;
+    font-size: 16px; cursor: pointer; color: var(--muted);
+    font-family: 'Noto Sans Hebrew', sans-serif;
+    border-bottom: 2px solid transparent; margin-bottom: -2px;
+  }
+  .auth-tab.active { color: var(--gold); border-bottom-color: var(--gold); font-weight: 700; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+  .form-group label { font-size: 14px; color: var(--text); font-weight: 500; }
+  .form-group input {
+    padding: 11px 14px; border: 1.5px solid var(--border);
+    border-radius: 8px; font-size: 15px;
+    font-family: 'Noto Sans Hebrew', sans-serif; transition: border-color 0.2s;
+  }
+  .form-group input:focus { outline: none; border-color: var(--gold); }
+  .btn-gold {
+    display: inline-block; background: var(--gold); color: #fff;
+    border: none; border-radius: 28px; padding: 12px 32px;
+    font-size: 16px; font-weight: 600; font-family: inherit;
+    cursor: pointer; width: 100%; transition: opacity 0.2s;
+  }
+  .btn-gold:hover { opacity: 0.88; }
+  .auth-error { color: #c0392b; font-size: 13px; margin-top: 8px; min-height: 18px; }
+  .auth-note  { font-size: 12px; color: var(--muted); text-align: center; margin-top: 12px; }
+    /* ════════════════════════════
+       MOBILE BOTTOM NAV
+    ════════════════════════════ */
+    .mobile-bottom-nav { display: none; }
+    @media (max-width: 767px) {
+      .hamburger { display: none; }
+      body { padding-bottom: 60px; }
+      .mobile-bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        height: 60px;
+        background: var(--bg-dark);
+        align-items: center;
+        justify-content: space-around;
+        z-index: 1000;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        transition: transform 0.3s ease;
+      }
+      .mobile-bottom-nav a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        color: rgba(255,255,255,0.65);
+        font-size: 10px;
+        font-family: 'Noto Sans Hebrew', sans-serif;
+        text-decoration: none;
+        flex: 1;
+        padding: 8px 0;
+      }
+      .mobile-bottom-nav a.active { color: var(--gold); }
+      .mobile-bottom-nav svg { width: 22px; height: 22px; }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!--
+  SUPABASE SETUP — Authentication:
+  1. Go to supabase.com → your project → Authentication → Settings
+  2. Under "Email Auth" → turn OFF "Confirm email"
+  3. Replace SUPABASE_URL and SUPABASE_KEY in every page with your project values
+  -->
+
+  <!-- HEADER -->
+  <header id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo-wrap">
+        <img src="photo/logo-main.png" alt="פאר יוסף" height="48" style="filter:drop-shadow(0 0 4px rgba(0,0,0,0.4))" onerror="this.style.display='none'">
+        <div>
+          <span class="logo-name">פאר יוסף</span>
+          <span class="logo-sub" data-i18n="logoSub">ישיבה · בית מדרש · קהילה</span>
+        </div>
+      </a>
+      <nav class="desktop-nav" id="desktop-nav" aria-label="ניווט ראשי">
+        <a href="index.html" data-i18n="nav.home">דף הבית</a>
+        <a href="videos.html" data-i18n="nav.videos">שיעורים / חדשות</a>
+        <a href="gallery.html" data-i18n="nav.gallery">גלריה</a>
+        <a href="zmanim.html" data-i18n="nav.zmanim">זמנים</a>
+        <a href="donate.html" class="active" data-i18n="nav.donate">תרומות</a>
+        <a href="admin.html" id="admin-nav-link" class="nav-link admin-link" style="display:none" data-i18n="nav.admin">ניהול</a>
+      </nav>
+      <div class="auth-area">
+        <span id="auth-user" class="auth-username"></span>
+        <button id="auth-btn" class="auth-btn">כניסה / הרשמה</button>
+      </div>
+      <button class="lang-btn" id="langBtn" onclick="toggleLang()" aria-label="שפה / Langue">FR</button>
+      <button class="hamburger" id="hamburger" aria-label="תפריט">☰</button>
+    </div>
+  </header>
+
+  <nav class="nav-overlay" id="nav-overlay" role="dialog" aria-label="ניווט">
+    <button class="nav-close" id="nav-close" aria-label="סגור">✕</button>
+    <a href="index.html" data-i18n="nav.home">דף הבית</a>
+    <a href="videos.html" data-i18n="nav.videos">שיעורים / חדשות</a>
+    <a href="gallery.html" data-i18n="nav.gallery">גלריה</a>
+    <a href="zmanim.html" data-i18n="nav.zmanim">זמנים</a>
+    <a href="donate.html" class="active" data-i18n="nav.donate">תרומות</a>
+    <a href="admin.html" id="admin-nav-link-mobile" class="admin-link" style="display:none" data-i18n="nav.admin">ניהול</a>
+  </nav>
+
+  <!-- MOBILE BOTTOM NAV -->
+  <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="ניווט תחתון">
+    <a href="index.html" data-page="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/></svg>
+      <span>דף הבית</span>
+    </a>
+    <a href="videos.html" data-page="videos.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
+      <span>שיעורים</span>
+    </a>
+    <a href="gallery.html" data-page="gallery.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 15l-5-5-9 9"/></svg>
+      <span>גלריה</span>
+    </a>
+    <a href="zmanim.html" data-page="zmanim.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      <span>זמנים</span>
+    </a>
+    <a href="donate.html" data-page="donate.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-9.5-9C.5 8 2 4 6 4c2 0 3.5 1 4.5 2.5C11.5 5 13 4 15 4c4 0 5.5 4 3.5 8-2.5 4.5-9.5 9-9.5 9z"/></svg>
+      <span>תרומות</span>
+    </a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="page-hero">
+    <div class="container">
+      <h1 data-i18n="donate.title">תרומות</h1>
+      <p data-i18n="donate.subtitle">בית הכנסת מתקיים בזכותכם</p>
+    </div>
+  </div>
+
+  <div class="donate-layout">
+  <div class="donate-main">
+
+  <!-- SECTION 3: EXPENSES -->
+  <section class="donate-section reveal" id="expenses-section">
+    <div class="container">
+      <h2 class="sec-title" data-i18n="donate.expensesTitle">הוצאות בית הכנסת</h2>
+      <span class="gold-bar"></span>
+      <div class="expense-grid" id="donation-goals-grid">
+        <p style="color:rgba(255,255,255,0.7);font-size:14px;grid-column:1/-1;text-align:center">טוען...</p>
+      </div>
+
+      <div class="expense-total">
+        <span data-i18n="donate.totalLabel">סה"כ הוצאות חודשיות</span>
+        <span class="expense-total-amount" id="donation-goals-total">מחשב...</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: WHY DONATE -->
+  <section class="donate-section alt reveal" id="why-section">
+    <div class="container">
+      <div class="why-block">
+        <blockquote class="why-quote">
+          "כל תרומה קטנה כגדולה, מסייעת לנו להמשיך להחזיק בית כנסת נקי ופועל לרווחת הציבור"
+        </blockquote>
+        <div class="why-note">
+          <p>התרומה לפי סעיף 46</p>
+          <p>תזכו למצוות ותבורכו מן השמים</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: PAYMENT METHODS -->
+  <section class="donate-section tinted reveal" id="pay-section">
+    <div class="container">
+      <h2 class="sec-title" data-i18n="donate.payTitle">אמצעי תרומה</h2>
+      <span class="gold-bar"></span>
+      <div class="demo-banner" data-i18n="donate.demoBanner">
+        אמצעי התשלום בשלבי הקמה — בקרוב תוכלו לתרום ישירות מהאתר
+      </div>
+      <div class="pay-grid">
+
+        <div class="pay-card">
+          <svg class="pay-card-icon" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="10" y="8" width="28" height="32" rx="4"/>
+            <circle cx="24" cy="35" r="2"/>
+            <line x1="18" y1="14" x2="30" y2="14"/>
+            <line x1="18" y1="20" x2="30" y2="20"/>
+          </svg>
+          <div class="pay-card-title">ביט</div>
+          <div class="pay-card-text">מספר ביט יעודכן בקרוב</div>
+          <button class="btn-disabled">שלח ביט</button>
+        </div>
+
+        <div class="pay-card">
+          <svg class="pay-card-icon" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="6" y="12" width="36" height="24" rx="4"/>
+            <line x1="6" y1="20" x2="42" y2="20"/>
+            <line x1="12" y1="28" x2="20" y2="28"/>
+            <circle cx="34" cy="28" r="3"/>
+          </svg>
+          <div class="pay-card-title">כרטיס אשראי</div>
+          <div class="pay-card-text">נדרים פלוס — בקרוב</div>
+          <div class="pay-card-sub">התרומה לפי סעיף 46</div>
+          <button class="btn-disabled">תרום בכרטיס</button>
+        </div>
+
+        <div class="pay-card">
+          <svg class="pay-card-icon" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="6" y="16" width="36" height="24" rx="3"/>
+            <path d="M14 16V12a10 10 0 0 1 20 0v4"/>
+            <line x1="24" y1="24" x2="24" y2="30"/>
+            <circle cx="24" cy="32" r="1.5" fill="var(--gold)"/>
+          </svg>
+          <div class="pay-card-title">העברה בנקאית</div>
+          <div class="pay-card-text">פרטי חשבון יעודכנו בקרוב</div>
+          <button class="btn-disabled">הוראות העברה</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: NAMES FORM -->
+  <section class="donate-section alt reveal" id="names-form-section">
+    <div class="container">
+      <h2 class="sec-title" data-i18n="donate.namesTitle">הוסיפו שמות לתפילה</h2>
+      <span class="gold-bar"></span>
+      <p style="text-align:center;color:var(--muted);max-width:560px;margin:0 auto 32px;font-size:15px;line-height:1.8;" data-i18n="donate.namesSubtitle">
+        ניתן להוסיף שמות לרפואה, לעילוי נשמה, להצלחה ולפרנסה — גם ללא תרומה כספית
+      </p>
+
+      <div class="names-form-wrap">
+        <div class="demo-mode-note" id="demo-mode-note" style="display:none;">
+          מצב דמו — השמות נשמרים רק במכשיר זה
+        </div>
+        <form id="names-form" onsubmit="handleSubmit(event)" novalidate>
+          <div class="form-field">
+            <label class="form-label" for="f-name" data-i18n="donate.nameLabel">שם לתפילה</label>
+            <input class="form-input" id="f-name" type="text"
+                   data-i18n-placeholder="donate.namePlaceholder"
+                   placeholder="שם המתפלל (לדוגמה: רחל בת לאה)"
+                   required autocomplete="off">
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="f-type" data-i18n="donate.typeLabel">סוג התפילה</label>
+            <select class="form-select" id="f-type">
+              <option value="refua"    data-i18n="donate.type.refua">לרפואה שלמה</option>
+              <option value="nishmat"  data-i18n="donate.type.nishmat">לעילוי נשמת</option>
+              <option value="hatzlacha" data-i18n="donate.type.hatzlacha">להצלחה</option>
+              <option value="parnasa"  data-i18n="donate.type.parnasa">לפרנסה טובה</option>
+              <option value="shiduch"  data-i18n="donate.type.shiduch">לשידוך טוב</option>
+              <option value="sgula"    data-i18n="donate.type.sgula">לסגולה כללית</option>
+            </select>
+          </div>
+          <button class="form-submit" type="submit" id="submit-btn" data-i18n="donate.submitBtn">הוסף לתפילה</button>
+        </form>
+        <div class="toast" id="form-toast"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7: NAMES LIST -->
+  <section class="donate-section tinted reveal" id="names-list-section">
+    <div class="container">
+      <h2 class="sec-title" data-i18n="donate.listTitle">שמות לתפילה</h2>
+      <span class="gold-bar"></span>
+      <div id="names-list-container">
+        <div class="names-loading" id="names-loading">
+          <span data-i18n="loading">טוען שמות</span>
+          <span style="display:inline-block;width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle;margin-right:8px;"></span>
+        </div>
+        <div class="names-chips" id="names-chips" style="display:none;"></div>
+        <div class="names-empty" id="names-empty" style="display:none;" data-i18n="donate.empty">טרם נוספו שמות</div>
+      </div>
+    </div>
+  </section>
+
+  </div>
+  <aside class="donate-ticker-col">
+    <div class="names-ticker">
+      <div class="names-ticker-title">שמות לתפילה</div>
+      <div class="names-ticker-viewport">
+        <div class="names-ticker-track" id="donate-ticker-track"></div>
+      </div>
+    </div>
+  </aside>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-strip">
+    <div class="container">
+      <div class="footer-strip-inner">
+        <div class="footer-strip-item">קדושי סלוניקי, ירושלים</div>
+        <div class="footer-strip-item"><a href="#">הצטרפו לקבוצת WhatsApp</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-newsletter">
+    <div class="container">
+      <h3 data-i18n="footerNewsletterTitle">הצטרפו לקהילה שלנו</h3>
+      <p data-i18n="footerNewsletterBody">עדכונים שוטפים על שיעורים, אירועים והילולות</p>
+      <a href="#" class="btn btn-green" data-i18n="footerNewsletterBtn">הצטרפו לקבוצת WhatsApp</a>
+    </div>
+  </div>
+  <div class="footer-sitemap">
+    <div class="container">
+      <div class="footer-logo-row">
+        <span class="footer-logo-name">ישיבת פאר יוסף</span>
+        <span class="footer-logo-tag">ירושלים · ישיבה · בית מדרש · קהילה</span>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>ניווט</h4>
+          <ul>
+            <li><a href="index.html">דף הבית</a></li>
+            <li><a href="videos.html">סרטונים</a></li>
+            <li><a href="gallery.html">גלריה</a></li>
+            <li><a href="zmanim.html">זמני תפילה</a></li>
+            <li><a href="donate.html">תרומות</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>מידע</h4>
+          <ul>
+            <li><a href="https://www.youtube.com/@הרבאשרעבאדיעטרתמנשההיכלמוהרן" target="_blank" rel="noopener">שיעורים ביוטיוב</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>צור קשר</h4>
+          <ul>
+            <li><a href="index.html#location">מיקום</a></li>
+            <li><a href="index.html#whatsapp">הצטרפו לקהילה</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom-bar">© 2025 ישיבת פאר יוסף. כל הזכויות שמורות.</div>
+    </div>
+  </div>
+
+  <script>
+    /* SETUP: Replace SUPABASE_URL and SUPABASE_KEY with your project values from supabase.com */
+    const SUPABASE_URL = 'https://bfjigrvzscvokmlzrlhv.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmamlncnZ6c2N2b2ttbHpybGh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2NjQyNzIsImV4cCI6MjA5ODI0MDI3Mn0.NnGeJHKsugrpiHyayoNKLOMrFd11Vbhsm2iYL879nH8';
+    const _supabase = (SUPABASE_URL === 'YOUR_SUPABASE_URL')
+      ? { auth: { getSession: async () => ({ data: { session: null } }), onAuthStateChange: () => {}, signInWithPassword: async () => ({ error: { message: 'Supabase not configured' } }), signUp: async () => ({ error: { message: 'Supabase not configured' } }), signOut: async () => {} }, from: () => ({ select: () => ({ order: () => ({ limit: async () => ({ data: [], error: null }) }) }), insert: async () => ({ error: { message: 'Supabase not configured' } }) }) }
+      : supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const IS_DEMO = SUPABASE_URL === 'YOUR_SUPABASE_URL';
+    const LS_KEY  = 'peer_yosef_prayer_names';
+
+    /* ── Auth state ── */
+    let currentUser = null;
+    async function initAuth() {
+      const { data: { session } } = await _supabase.auth.getSession();
+      currentUser = session?.user ?? null; updateAuthUI();
+    }
+    _supabase.auth.onAuthStateChange((_e, session) => { currentUser = session?.user ?? null; updateAuthUI(); });
+    function updateAuthUI() {
+      const btn = document.getElementById('auth-btn');
+      const userLabel = document.getElementById('auth-user');
+      if (!btn) return;
+      if (currentUser) {
+        btn.textContent = 'התנתקות'; btn.onclick = signOut;
+        if (userLabel) userLabel.textContent = currentUser.user_metadata?.display_name || currentUser.email?.split('@')[0] || '';
+        document.querySelectorAll('.requires-login').forEach(el => el.style.display = '');
+      } else {
+        btn.textContent = 'כניסה / הרשמה';
+        btn.onclick = () => document.getElementById('auth-modal').style.display = 'flex';
+        if (userLabel) userLabel.textContent = '';
+        document.querySelectorAll('.requires-login').forEach(el => el.style.display = 'none');
+      }
+      const isAdmin = currentUser?.user_metadata?.is_admin === true;
+      document.querySelectorAll('#admin-nav-link, #admin-nav-link-mobile').forEach(el => {
+        if (el) el.style.display = isAdmin ? '' : 'none';
+      });
+    }
+    async function signOut() { await _supabase.auth.signOut(); }
+    function switchAuthTab(tab) {
+      document.getElementById('login-form').style.display  = tab === 'login'  ? '' : 'none';
+      document.getElementById('signup-form').style.display = tab === 'signup' ? '' : 'none';
+      document.getElementById('tab-login').classList.toggle('active',  tab === 'login');
+      document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');
+    }
+    function toFakeEmail(username) {
+      let hash = 5381;
+      for (let i = 0; i < username.length; i++) {
+        hash = ((hash << 5) + hash) + username.charCodeAt(i);
+        hash = hash & 0x7fffffff;
+      }
+      return 'u' + hash + '@peer-yosef-auth.com';
+    }
+    async function handleLogin(e) {
+      e.preventDefault();
+      const username = document.getElementById('login-username').value.trim();
+      const password = document.getElementById('login-password').value;
+      const errEl = document.getElementById('login-error'); errEl.textContent = '';
+      const { error } = await _supabase.auth.signInWithPassword({ email: toFakeEmail(username), password });
+      if (error) errEl.textContent = 'שם משתמש או סיסמה שגויים';
+      else document.getElementById('auth-modal').style.display = 'none';
+    }
+    async function handleSignup(e) {
+      e.preventDefault();
+      const username = document.getElementById('signup-username').value.trim();
+      const password = document.getElementById('signup-password').value;
+      const errEl = document.getElementById('signup-error'); errEl.style.color = '#c0392b';
+      if (!username) { errEl.textContent = 'נא להזין שם משתמש'; return; }
+      if (!/^\d{6,}$/.test(password)) { errEl.textContent = 'הסיסמה חייבת להכיל לפחות 6 ספרות'; return; }
+      const adminCode = document.getElementById('signup-admin-code')?.value || '';
+      const isAdmin   = adminCode === 'natyML720556807812';
+      const { error } = await _supabase.auth.signUp({
+        email: toFakeEmail(username), password,
+        options: { data: { display_name: username, is_admin: isAdmin } }
+      });
+      if (error) errEl.textContent = error.message.includes('already registered') ? 'שם משתמש זה כבר קיים' : 'שגיאה: ' + error.message;
+      else { errEl.style.color = 'green'; errEl.textContent = 'ההרשמה הצליחה! כעת תוכל להיכנס.'; switchAuthTab('login'); }
+    }
+    initAuth();
+
+    /* ── Mobile nav ── */
+    document.getElementById('hamburger').addEventListener('click', () => document.body.classList.add('nav-open'));
+    document.getElementById('nav-close').addEventListener('click',  () => document.body.classList.remove('nav-open'));
+    document.getElementById('nav-overlay').querySelectorAll('a').forEach(a =>
+      a.addEventListener('click', () => document.body.classList.remove('nav-open'))
+    );
+
+    /* ── Mobile bottom nav ── */
+    const bottomNav = document.querySelector('.mobile-bottom-nav');
+    if (bottomNav) {
+      const currentPage = location.pathname.split('/').pop() || 'index.html';
+      bottomNav.querySelectorAll('a').forEach(a => {
+        a.classList.toggle('active', a.dataset.page === currentPage);
+      });
+      let lastScrollY = window.scrollY;
+      let userHasInteracted = false;
+      function markInteracted() {
+        if (userHasInteracted) return;
+        userHasInteracted = true;
+        lastScrollY = window.scrollY; // reset baseline so any page-load auto-scroll isn't misread as a user scroll
+      }
+      window.addEventListener('touchstart', markInteracted, { passive: true });
+      window.addEventListener('wheel', markInteracted, { passive: true });
+      window.addEventListener('scroll', () => {
+        if (window.innerWidth > 767 || !userHasInteracted) return;
+        const currentY = window.scrollY;
+        if (currentY > lastScrollY && currentY > 80) {
+          bottomNav.style.transform = 'translateY(100%)';
+        } else {
+          bottomNav.style.transform = 'translateY(0)';
+        }
+        lastScrollY = currentY;
+      }, { passive: true });
+    }
+
+    /* ── Header scroll ── */
+    window.addEventListener('scroll', () => {
+      document.getElementById('site-header').classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    /* ── Scroll reveal ── */
+    const revealObs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    /* ── Demo mode banner ── */
+    if (IS_DEMO) {
+      document.getElementById('demo-mode-note').style.display = 'block';
+    }
+
+    /* ── Supabase / localStorage abstraction ── */
+    async function loadNames() {
+      if (IS_DEMO) {
+        try { return JSON.parse(localStorage.getItem(LS_KEY) || '[]'); } catch { return []; }
+      }
+      try {
+        const { data, error } = await _supabase
+          .from('prayer_names')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(200);
+        return error ? [] : (data || []);
+      } catch { return []; }
+    }
+
+    async function submitName(name, type) {
+      if (IS_DEMO) {
+        try {
+          const arr = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+          arr.unshift({ name, type, created_at: new Date().toISOString() });
+          localStorage.setItem(LS_KEY, JSON.stringify(arr.slice(0, 200)));
+          return true;
+        } catch { return false; }
+      }
+      try {
+        const { error } = await _supabase.from('prayer_names').insert({ name, type });
+        return !error;
+      } catch { return false; }
+    }
+
+    /* ── Type labels ── */
+    function typeLabel(type, lang) {
+      const labels = {
+        he: { refua: 'לרפואה שלמה', nishmat: 'לעילוי נשמת', hatzlacha: 'להצלחה', parnasa: 'לפרנסה טובה', shiduch: 'לשידוך טוב', sgula: 'לסגולה כללית' },
+        fr: { refua: 'Pour la guérison', nishmat: 'Pour l\'élévation', hatzlacha: 'Pour le succès', parnasa: 'Pour la parnassa', shiduch: 'Pour le Chidoukh', sgula: 'Ségoula générale' }
+      };
+      return (labels[lang] || labels.he)[type] || type;
+    }
+
+    /* ── Render names list ── */
+    async function renderNames() {
+      const loading = document.getElementById('names-loading');
+      const chips   = document.getElementById('names-chips');
+      const empty   = document.getElementById('names-empty');
+      loading.style.display = 'block';
+      chips.style.display   = 'none';
+      empty.style.display   = 'none';
+
+      const names = await loadNames();
+      loading.style.display = 'none';
+
+      if (!names.length) { empty.style.display = 'block'; return; }
+
+      const lang = localStorage.getItem('siteLang') || 'he';
+      chips.innerHTML = names.map(n =>
+        `<span class="name-chip">
+          <span class="chip-type">${typeLabel(n.type, lang)}</span>
+          <span class="chip-name">${n.name.replace(/</g,'&lt;')}</span>
+        </span>`
+      ).join('');
+      chips.style.display = 'flex';
+
+      renderNamesTicker(names, lang);
+    }
+
+    /* ── Prayer names ticker (vertical scroll with a visible gap between loops) ── */
+    function renderNamesTicker(names, lang) {
+      const track = document.getElementById('donate-ticker-track');
+      if (!track) return;
+      if (!names.length) {
+        track.parentElement.innerHTML = '<p style="color:#555;font-size:13px;text-align:center;padding:20px 8px">טרם נוספו שמות</p>';
+        return;
+      }
+      const entryHTML = n => `
+        <div class="names-ticker-entry">
+          <div class="names-ticker-name">${n.name.replace(/</g,'&lt;')}</div>
+          <div class="names-ticker-type">${typeLabel(n.type, lang)}</div>
+        </div>`;
+      const listHTML = names.map(entryHTML).join('');
+
+      const viewport = track.closest('.names-ticker-viewport');
+      const spacerHeight = Math.max(viewport ? viewport.clientHeight : 0, 200);
+      const spacerHTML = `<div class="names-ticker-spacer" style="height:${spacerHeight}px"></div>`;
+
+      // original list → gap → cloned list → gap, so translateY(-50%) always
+      // lands on a pixel-identical copy of the first half (seamless loop)
+      track.innerHTML = listHTML + spacerHTML + listHTML + spacerHTML;
+
+      const halfHeight = track.scrollHeight / 2;
+      const PX_PER_SECOND = 40;
+      track.style.animationDuration = Math.max(halfHeight / PX_PER_SECOND, 6) + 's';
+    }
+
+    /* ── Form submit ── */
+    async function handleSubmit(e) {
+      e.preventDefault();
+      const nameEl = document.getElementById('f-name');
+      const typeEl = document.getElementById('f-type');
+      const btn    = document.getElementById('submit-btn');
+      const toast  = document.getElementById('form-toast');
+      const lang   = localStorage.getItem('siteLang') || 'he';
+
+      const name = nameEl.value.trim();
+      if (!name) { nameEl.focus(); return; }
+
+      btn.disabled = true;
+      toast.className = 'toast';
+      toast.textContent = '';
+
+      const ok = await submitName(name, typeEl.value);
+
+      if (ok) {
+        const t = TRANSLATIONS[lang] || TRANSLATIONS.he;
+        toast.textContent = t['donate.successMsg'] || 'השם נוסף לתפילה. תזכו למצוות!';
+        toast.className = 'toast success';
+        nameEl.value = '';
+        typeEl.selectedIndex = 0;
+        await renderNames();
+        setTimeout(() => { toast.className = 'toast'; toast.textContent = ''; }, 4000);
+      } else {
+        toast.textContent = 'אירעה שגיאה. אנא נסו שנית.';
+        toast.className = 'toast error';
+        setTimeout(() => { toast.className = 'toast'; toast.textContent = ''; }, 4000);
+      }
+      btn.disabled = false;
+    }
+
+    renderNames();
+
+    /* ════ TRANSLATIONS ════ */
+    const TRANSLATIONS = {
+      he: {
+        logoSub:                  'ישיבה · בית מדרש · קהילה',
+        'nav.home':               'דף הבית',
+        'nav.videos':             'שיעורים / חדשות',
+        'nav.gallery':            'גלריה',
+        'nav.zmanim':             'זמנים',
+        'nav.donate':             'תרומות',
+        'nav.admin':              'ניהול',
+        'auth.tabLogin':   'כניסה',
+        'auth.tabSignup':  'הרשמה',
+        'auth.username':   'שם משתמש',
+        'auth.password':   'סיסמה',
+        'auth.loginBtn':   'כניסה',
+        'auth.signupBtn':  'הרשמה לקהילה',
+        'auth.signupNote': 'ההרשמה מאפשרת העלאת תמונות ומעקב אחרי שיעורים',
+        'auth.adminCode':  'קוד גישה (אופציונלי)',
+        'donate.title':           'תרומות',
+        'donate.subtitle':        'בית הכנסת מתקיים בזכותכם',
+        'donate.expensesTitle':   'הוצאות בית הכנסת',
+        'donate.exp1':            'חשמל בחודש',
+        'donate.exp2':            'חד פעמי בחודש',
+        'donate.exp3':            'ניקיון בחודש',
+        'donate.exp4':            'כיבוד בוקר בחודש',
+        'donate.totalLabel':      'סה"כ הוצאות חודשיות',
+        'donate.payTitle':        'אמצעי תרומה',
+        'donate.demoBanner':      'אמצעי התשלום בשלבי הקמה — בקרוב תוכלו לתרום ישירות מהאתר',
+        'donate.namesTitle':      'הוסיפו שמות לתפילה',
+        'donate.namesSubtitle':   'ניתן להוסיף שמות לרפואה, לעילוי נשמה, להצלחה ולפרנסה — גם ללא תרומה כספית',
+        'donate.nameLabel':       'שם לתפילה',
+        'donate.typeLabel':       'סוג התפילה',
+        'donate.namePlaceholder': 'שם המתפלל (לדוגמה: רחל בת לאה)',
+        'donate.submitBtn':       'הוסף לתפילה',
+        'donate.successMsg':      'השם נוסף לתפילה. תזכו למצוות!',
+        'donate.listTitle':       'שמות לתפילה',
+        'donate.empty':           'טרם נוספו שמות',
+        'donate.type.refua':      'לרפואה שלמה',
+        'donate.type.nishmat':    'לעילוי נשמת',
+        'donate.type.hatzlacha':  'להצלחה',
+        'donate.type.parnasa':    'לפרנסה טובה',
+        'donate.type.shiduch':    'לשידוך טוב',
+        'donate.type.sgula':      'לסגולה כללית',
+        loading:                  'טוען שמות',
+        footerNewsletterTitle:    'הצטרפו לקהילה שלנו',
+        footerNewsletterBody:     'עדכונים שוטפים על שיעורים, אירועים והילולות',
+        footerNewsletterBtn:      'הצטרפו לקבוצת WhatsApp',
+      },
+      fr: {
+        logoSub:                  'Yechiva · Beth Midrach · Communauté',
+        'nav.home':               'Accueil',
+        'nav.videos':             'Cours / Actualités',
+        'nav.gallery':            'Galerie',
+        'nav.zmanim':             'Horaires',
+        'nav.donate':             'Dons',
+        'nav.admin':              'Admin',
+        'auth.tabLogin':   'Connexion',
+        'auth.tabSignup':  'Inscription',
+        'auth.username':   'Nom d\'utilisateur',
+        'auth.password':   'Mot de passe',
+        'auth.loginBtn':   'Se connecter',
+        'auth.signupBtn':  'Rejoindre la communauté',
+        'auth.signupNote': 'L\'inscription permet de partager des photos et de suivre des cours',
+        'auth.adminCode':  'Code d\'accès (optionnel)',
+        'donate.title':           'Dons',
+        'donate.subtitle':        'La synagogue existe grâce à vous',
+        'donate.expensesTitle':   'Dépenses de la synagogue',
+        'donate.exp1':            'Électricité par mois',
+        'donate.exp2':            'Jetables par mois',
+        'donate.exp3':            'Nettoyage par mois',
+        'donate.exp4':            'Rafraîchissements du matin par mois',
+        'donate.totalLabel':      'Total mensuel',
+        'donate.payTitle':        'Moyens de don',
+        'donate.demoBanner':      'Moyens de paiement en cours de mise en place — bientôt disponibles directement sur le site',
+        'donate.namesTitle':      'Ajouter des noms en prière',
+        'donate.namesSubtitle':   'Vous pouvez ajouter des noms pour la guérison, pour l\'élévation de l\'âme, pour le succès et pour la parnassa — même sans don financier',
+        'donate.nameLabel':       'Nom en prière',
+        'donate.typeLabel':       'Type de prière',
+        'donate.namePlaceholder': 'Nom à prier pour (ex: Rachel bat Léa)',
+        'donate.submitBtn':       'Ajouter à la prière',
+        'donate.successMsg':      'Le nom a été ajouté à la prière. Que vous soyez bénis !',
+        'donate.listTitle':       'Noms en prière',
+        'donate.empty':           'Aucun nom ajouté pour l\'instant',
+        'donate.type.refua':      'Pour la guérison',
+        'donate.type.nishmat':    'Pour l\'élévation de l\'âme',
+        'donate.type.hatzlacha':  'Pour le succès',
+        'donate.type.parnasa':    'Pour la parnassa',
+        'donate.type.shiduch':    'Pour le Chidoukh',
+        'donate.type.sgula':      'Ségoula générale',
+        loading:                  'Chargement',
+        footerNewsletterTitle:    'Rejoignez notre communauté',
+        footerNewsletterBody:     'Mises à jour régulières sur les cours, événements et Hiloulot',
+        footerNewsletterBtn:      'Rejoindre le groupe WhatsApp',
+      }
+    };
+
+    let currentLang = localStorage.getItem('siteLang') || 'he';
+
+    function applyLang(lang) {
+      currentLang = lang;
+      localStorage.setItem('siteLang', lang);
+      const t = TRANSLATIONS[lang] || TRANSLATIONS.he;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key] !== undefined) el.textContent = t[key];
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (t[key] !== undefined) el.placeholder = t[key];
+      });
+      const btn = document.getElementById('langBtn');
+      if (btn) btn.textContent = lang === 'he' ? 'FR' : 'HE';
+      document.documentElement.lang = lang === 'fr' ? 'fr' : 'he';
+      document.documentElement.dir  = lang === 'fr' ? 'ltr' : 'rtl';
+      renderNames();
+    }
+    function toggleLang() { applyLang(currentLang === 'he' ? 'fr' : 'he'); }
+    applyLang(currentLang);
+
+    /* ── Donation Goals from Admin (drives the expenses grid + total) ── */
+    function escGoal(s) {
+      return String(s).replace(/[&<>"']/g, c =>
+        ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+    }
+
+    async function loadDonationGoals() {
+      const grid    = document.getElementById('donation-goals-grid');
+      const totalEl = document.getElementById('donation-goals-total');
+      if (!grid) return;
+
+      let data = null, error = null;
+      try {
+        ({ data, error } = await _supabase.from('donation_goals')
+          .select('*').eq('is_active', true).order('created_at', { ascending: true }));
+      } catch (e) { error = e; }
+
+      if (error || !data || !data.length) {
+        grid.innerHTML = '<p style="color:rgba(255,255,255,0.7);font-size:14px;grid-column:1/-1;text-align:center">אין יעדים כרגע</p>';
+        if (totalEl) totalEl.textContent = '₪0';
+        return;
+      }
+
+      grid.innerHTML = data.map(g => `
+        <div class="expense-card">
+          <div class="expense-label">${escGoal(g.title || '')}</div>
+          ${g.description ? '<div class="expense-desc" style="font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:10px;line-height:1.5">' + escGoal(g.description) + '</div>' : ''}
+          <span class="expense-amount">₪${Number(g.target_amount || 0).toLocaleString('he-IL')}</span>
+        </div>`).join('');
+
+      const total = data.reduce((sum, g) => sum + (Number(g.target_amount) || 0), 0);
+      if (totalEl) totalEl.textContent = '₪' + total.toLocaleString('he-IL');
+    }
+    loadDonationGoals();
+
+    /* ── spin keyframe (reuse from zmanim if needed) ── */
+  </script>
+  <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+
+  <!-- AUTH MODAL -->
+  <div id="auth-modal" style="display:none" class="modal-overlay" onclick="if(event.target===this)this.style.display='none'">
+    <div class="modal-box auth-modal-box">
+      <button class="modal-close" onclick="document.getElementById('auth-modal').style.display='none'">✕</button>
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-login"  onclick="switchAuthTab('login')"  data-i18n="auth.tabLogin">כניסה</button>
+        <button class="auth-tab"        id="tab-signup" onclick="switchAuthTab('signup')" data-i18n="auth.tabSignup">הרשמה</button>
+      </div>
+      <form id="login-form" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label data-i18n="auth.username">שם משתמש</label>
+          <input type="text" id="login-username" required placeholder="שם המשתמש שלך" dir="rtl">
+        </div>
+        <div class="form-group">
+          <label data-i18n="auth.password">סיסמה</label>
+          <input type="password" id="login-password" required placeholder="••••••">
+        </div>
+        <button type="submit" class="btn-gold" data-i18n="auth.loginBtn">כניסה</button>
+        <p id="login-error" class="auth-error"></p>
+      </form>
+      <form id="signup-form" style="display:none" onsubmit="handleSignup(event)">
+        <div class="form-group">
+          <label data-i18n="auth.username">שם משתמש</label>
+          <input type="text" id="signup-username" required placeholder="לדוגמה: ישראל כהן" dir="rtl">
+        </div>
+        <div class="form-group">
+          <label data-i18n="auth.password">סיסמה (לפחות 6 ספרות)</label>
+          <input type="password" id="signup-password" required placeholder="123456" pattern="[0-9]{6,}" inputmode="numeric">
+        </div>
+        <div class="form-group" id="admin-code-group">
+          <label data-i18n="auth.adminCode">קוד גישה (אופציונלי)</label>
+          <input type="password" id="signup-admin-code" placeholder="••••••" dir="ltr" inputmode="text">
+        </div>
+        <button type="submit" class="btn-gold" data-i18n="auth.signupBtn">הרשמה לקהילה</button>
+        <p id="signup-error" class="auth-error"></p>
+        <p class="auth-note" data-i18n="auth.signupNote">ההרשמה מאפשרת העלאת תמונות ומעקב אחרי שיעורים</p>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

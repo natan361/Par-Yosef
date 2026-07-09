@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>זמני תפילה — פאר יוסף | Horaires — Peer Yosef</title>
+  <meta name="description" content="זמני תפילה ושבת של ישיבת פאר יוסף בירושלים. Horaires de prières et de Shabbat — Yeshiva Peer Yosef, Jérusalem.">
+  <meta name="keywords" content="פאר יוסף, ישיבת פאר יוסף, הרב אשר עבאדי, עטרת מנשה, היכל מוהרן, ברסלב, ישיבה ברסלב, בית כנסת ירושלים, בית מדרש ירושלים, קהילה ברסלב, שיעורי תורה, Peer Yosef, Yeshivat Peer Yosef, Yeshiva Peer Yosef, Rabbi Asher Abadi, Rav Asher Abadi, Ateret Menashe, Heichal Moharan, Breslov, Breslov yeshiva, Jerusalem synagogue, Breslov Jerusalem, Torah classes Jerusalem, Jérusalem, synagogue Jérusalem, yeshiva Breslov, cours de Torah Jérusalem">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/png" href="photo/logo-main.png">
+  <link rel="apple-touch-icon" href="photo/logo-main.png">
+  <meta property="og:site_name" content="פאר יוסף">
+  <meta property="og:locale" content="he_IL">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="photo/logo-main.png">
+  <meta property="og:title" content="זמני תפילה — פאר יוסף | Horaires — Peer Yosef">
+  <meta property="og:description" content="זמני תפילה ושבת של ישיבת פאר יוסף בירושלים. Horaires de prières et de Shabbat — Yeshiva Peer Yosef, Jérusalem.">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@400;700&family=Noto+Sans+Hebrew:wght@300;400;500&display=swap');
+
+    :root {
+      --bg:           #f7f4ef;
+      --bg-dark:      #1E5A68;
+      --bg-card:      #ffffff;
+      --bg-elem:      #ede9e2;
+      --border:       #d4cdc3;
+      --gold:         #CC8800;
+      --gold-light:   #E8A820;
+      --teal-light:   #A5D7DC;
+      --white:        #ffffff;
+      --text:         #1C3D52;
+      --text-light:   #f7f4ef;
+      --muted:        #6a7585;
+      --header-bg:    rgba(30, 90, 104, 0.93);
+      --header-h:     72px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Noto Sans Hebrew', 'Heebo', sans-serif; color: var(--text); background: var(--bg); overflow-x: hidden; }
+    body.nav-open { overflow: hidden; }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    ::selection { background: var(--gold); color: #fff; }
+
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-block;
+      background: var(--gold);
+      color: #ffffff !important;
+      border-radius: 28px;
+      padding: 12px 32px;
+      font-family: 'Noto Sans Hebrew', 'Heebo', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn-green { background: #25D366; }
+
+    /* ── Section titles ── */
+    .sec-title {
+      font-family: 'Noto Serif Hebrew', 'David Libre', serif;
+      font-size: clamp(18px, 3vw, 22px);
+      font-weight: 700;
+      color: var(--text);
+      text-align: center;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+    .sec-title.light { color: #ffffff; }
+    .sec-sub { font-size: 14px; color: var(--muted); text-align: center; margin-bottom: 16px; }
+    .gold-bar {
+      display: block; width: 56px; height: 3px;
+      background: var(--gold); margin: 0 auto 20px;
+    }
+
+    /* ── White text overrides ── */
+    .footer-sitemap, .footer-sitemap h3, .footer-sitemap p,
+    .footer-sitemap a, .footer-sitemap li,
+    .footer-newsletter, .footer-newsletter h3, .footer-newsletter p,
+    .footer-strip, .footer-strip a, .footer-strip p,
+    .footer-logo-name, .footer-logo-tag { color: #ffffff !important; }
+    .nav-overlay, .nav-overlay a { color: #ffffff !important; }
+
+    /* ════════════════════════════
+       HEADER
+    ════════════════════════════ */
+    header {
+      position: fixed; top: 0; right: 0; left: 0;
+      height: var(--header-h); z-index: 1000;
+      background: var(--header-bg);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+    }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 100%; max-width: 1160px; margin: 0 auto; padding: 0 24px; gap: 12px;
+      position: relative;
+    }
+    .logo-wrap { display: flex; align-items: center; gap: 12px; line-height: 1.2; text-decoration: none; }
+    .logo-wrap img { object-fit: contain; flex-shrink: 0; display: block; height: 48px; width: auto; }
+    .logo-name { font-family: 'Noto Serif Hebrew', 'David Libre', serif; font-size: 26px; font-weight: 700; color: #ffffff !important; display: block; text-shadow: 0 1px 4px rgba(0,0,0,0.5); -webkit-text-stroke: 0.5px rgba(0,0,0,0.4); }
+    .logo-sub  { font-size: 11px; color: rgba(255,255,255,0.75) !important; font-weight: 300; letter-spacing: 0.5px; display: block; }
+
+    .desktop-nav { display: none; gap: 32px; align-items: center; flex: 1; justify-content: center; position: static; transform: none; left: auto; }
+    .desktop-nav a {
+      font-family: 'Noto Sans Hebrew', 'Heebo', sans-serif; font-size: 15px; font-weight: 400;
+      color: #ffffff; letter-spacing: 0.02em;
+      transition: color 0.2s ease; position: relative; padding-bottom: 4px;
+    }
+    .desktop-nav a::after {
+      content: ''; position: absolute; bottom: 0; right: 0;
+      width: 0; height: 2px; background: var(--gold); transition: width 0.25s ease;
+    }
+    .desktop-nav a:hover { color: var(--gold); }
+    .desktop-nav a:hover::after, .desktop-nav a.active::after { width: 100%; }
+    .desktop-nav a.active { color: var(--gold); }
+    @media (min-width: 768px) { .hamburger { display: none; } .desktop-nav { display: flex; } }
+
+    .hamburger { background: none; border: none; color: #ffffff; font-size: 28px; cursor: pointer; line-height: 1; padding: 4px; }
+    .hamburger:hover { opacity: 0.7; }
+
+    .lang-btn {
+      background: none; border: 1.5px solid #ffffff; border-radius: 6px;
+      color: #ffffff; font-family: 'Noto Sans Hebrew', 'Heebo', sans-serif;
+      font-size: 13px; font-weight: 600; letter-spacing: 1px;
+      padding: 4px 10px; cursor: pointer; line-height: 1.4;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+    .lang-btn:hover { background: rgba(255,255,255,0.15); }
+
+    .nav-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(30,40,64,0.98); z-index: 999;
+      flex-direction: column; align-items: center; justify-content: center; gap: 40px;
+    }
+    .nav-open .nav-overlay { display: flex; }
+    .nav-overlay a { font-family: 'Noto Serif Hebrew', 'David Libre', serif; font-size: 30px; color: #fff; transition: color 0.2s ease; }
+    .nav-overlay a:hover { color: var(--gold); }
+    .nav-overlay a.active { color: var(--gold); }
+    .nav-close { position: absolute; top: 20px; left: 24px; background: none; border: none; color: #fff; font-size: 32px; cursor: pointer; line-height: 1; }
+
+    /* ════════════════════════════
+       SCROLL REVEAL
+    ════════════════════════════ */
+    .reveal { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal {
+        opacity: 0; transform: translateY(20px);
+        transition: opacity 0.55s ease-out, transform 0.55s cubic-bezier(0.22,1,0.36,1);
+        will-change: transform, opacity;
+      }
+      .reveal.visible { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ════════════════════════════
+       PAGE HERO
+    ════════════════════════════ */
+    .page-hero {
+      background: var(--bg-dark);
+      padding: calc(var(--header-h) + 16px) 0 16px;
+      min-height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .page-hero h1 {
+      font-family: 'Noto Serif Hebrew', 'David Libre', serif;
+      font-size: clamp(24px, 4vw, 32px);
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+    .page-hero p {
+      font-size: clamp(13px, 1.6vw, 15px);
+      color: rgba(255,255,255,0.75);
+    }
+
+    /* ════════════════════════════
+       SECTIONS
+    ════════════════════════════ */
+    .zman-section { padding: 20px 0; }
+    .zman-section.alt { background: var(--bg-card); }
+    .zman-section.dark { background: var(--bg-dark); }
+
+    /* ════════════════════════════
+       SHABBAT CARD (API)
+    ════════════════════════════ */
+    .shabbat-card {
+      background: var(--bg-dark);
+      border-radius: 20px;
+      padding: 22px 26px;
+      color: #ffffff;
+      max-width: 680px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+    .shabbat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 4px; height: 100%;
+      background: var(--gold);
+    }
+    .shabbat-parasha {
+      font-size: 13px;
+      color: var(--gold-light);
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .shabbat-parasha-name {
+      font-family: 'Noto Serif Hebrew', 'David Libre', serif;
+      font-size: clamp(18px, 2.5vw, 24px);
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 14px;
+    }
+    .shabbat-times-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 480px) { .shabbat-times-grid { grid-template-columns: 1fr; } }
+    .shabbat-time-item {
+      background: rgba(255,255,255,0.07);
+      border-radius: 12px;
+      padding: 10px 14px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .shabbat-time-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+    .shabbat-time-value {
+      font-family: 'Noto Serif Hebrew', 'David Libre', serif;
+      font-size: clamp(20px, 3vw, 26px);
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.02em;
+    }
+    .shabbat-badge {
+      display: inline-block;
+      font-size: 10px;
+      background: rgba(204,136,0,0.2);
+      color: var(--gold-light);
+      border: 1px solid rgba(204,136,0,0.4);
+      border-radius: 4px;
+      padding: 2px 6px;
+      margin-top: 4px;
+      font-weight: 600;
+    }
+    .shabbat-loading {
+      text-align: center;
+      padding: 40px;
+      color: rgba(255,255,255,0.6);
+      font-size: 15px;
+    }
+    .spin {
+      display: inline-block;
+      width: 24px; height: 24px;
+      border: 3px solid rgba(255,255,255,0.2);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .shabbat-error { color: rgba(255,255,255,0.55); text-align: center; padding: 24px; font-size: 15px; }
+
+    /* ════════════════════════════
+       PRAYER TIMES TABLE
+    ════════════════════════════ */
+    .prayer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 767px) { .prayer-grid { grid-template-columns: 1fr; gap: 14px; } }
+
+    .prayer-card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    }
+    .prayer-card-header {
+      background: var(--bg-dark);
+      padding: 10px 20px;
+      font-family: 'Noto Serif Hebrew', 'David Libre', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .prayer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s ease;
+    }
+    .prayer-row:last-child { border-bottom: none; }
+    .prayer-row:hover { background: var(--bg-elem); }
+    .prayer-row.dynamic { background: rgba(204,136,0,0.04); }
+    /* the last static row is followed by the dynamic motzash rows outside this
+       container, so it still needs its divider even though it's :last-child here */
+    #shabbat-prayers-list .prayer-row:last-child { border-bottom: 1px solid var(--border); }
+    .prayer-times-loading { text-align: center; padding: 16px 0; }
+    .prayer-times-loading .spin-light {
+      display: inline-block;
+      width: 20px; height: 20px;
+      border: 3px solid rgba(0,0,0,0.1);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    .prayer-name {
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .prayer-time {
+      font-family: 'Noto Serif Hebrew', 'David Libre', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.02em;
+    }
+    .prayer-time-dynamic {
+      font-family: 'Noto Serif Hebrew', 'David Libre', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .dynamic-badge {
+      display: inline-block;
+      font-size: 9px;
+      background: rgba(204,136,0,0.15);
+      color: var(--gold);
+      border-radius: 3px;
+      padding: 1px 5px;
+      margin-right: 6px;
+      font-weight: 600;
+      vertical-align: middle;
+    }
+
+    /* ════════════════════════════
+       SHIURIM CARD
+    ════════════════════════════ */
+    .shiur-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 24px;
+      max-width: 560px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .shiur-main {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .shiur-days {
+      font-family: 'Noto Serif Hebrew', 'David Libre', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .shiur-when {
+      font-size: 18px;
+      color: white;
+      font-weight: 500;
+    }
+    .shiur-note {
+      font-size: 14px;
+      color: rgba(255,255,255,0.65);
+      margin: 0;
+    }
+    .btn-gold {
+      display: inline-block;
+      background: var(--gold);
+      color: #ffffff !important;
+      border-radius: 28px;
+      padding: 12px 32px;
+      font-family: 'Noto Sans Hebrew', 'Heebo', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+    .btn-gold:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* ════════════════════════════
+       HALACHIC TIMES
+    ════════════════════════════ */
+    .halachic-date {
+      text-align: center;
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .halachic-list {
+      max-width: 680px;
+      margin: 0 auto;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    }
+    .zman-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      direction: rtl;
+    }
+    .zman-row:nth-child(even) { background: var(--bg); }
+    .zman-row:nth-child(odd)  { background: var(--bg-card); }
+    .zman-row:last-child { border-bottom: none; }
+    .zman-label { color: var(--text); font-size: 14px; font-weight: 500; }
+    .zman-time  { color: var(--text); font-weight: 700; font-size: 15px; font-family: monospace; letter-spacing: 0.03em; }
+    .zmanim-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 6px 12px;
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 600;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      direction: rtl;
+    }
+    .zmanim-divider hr {
+      flex: 1;
+      border: none;
+      border-top: 1px solid var(--gold);
+      opacity: 0.4;
+    }
+    .halachic-loading {
+      text-align: center; padding: 40px;
+      color: var(--muted); font-size: 15px;
+    }
+    @media (max-width: 767px) {
+      .zman-row { padding: 10px 14px; }
+      .zman-label { font-size: 13px; }
+      .zman-time  { font-size: 14px; }
+      .zmanim-divider { padding: 8px 14px; font-size: 12px; }
+    }
+
+    /* ════════════════════════════
+       FOOTER
+    ════════════════════════════ */
+    .footer-strip { background: var(--bg-dark); padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.1); }
+    .footer-strip-inner { display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap; }
+    .footer-strip-item { display: flex; align-items: center; gap: 8px; font-size: 15px; opacity: 0.75; }
+    .footer-strip-item a { transition: color 0.2s ease; }
+    .footer-strip-item a:hover { color: var(--gold) !important; opacity: 1; }
+
+    .footer-newsletter { background: var(--bg-dark); padding: 28px 0; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; }
+    .footer-newsletter h3 { font-family: 'Noto Serif Hebrew', 'David Libre', serif; font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+    .footer-newsletter p { font-size: 15px; opacity: 0.75; margin-bottom: 20px; }
+
+    .footer-sitemap { background: var(--bg-dark); padding: 28px 24px 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+    .footer-logo-row { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; margin-bottom: 32px; }
+    .footer-logo-name { font-family: 'Noto Serif Hebrew', 'David Libre', serif; font-size: 20px; font-weight: 700; }
+    .footer-logo-tag { font-size: 13px; opacity: 0.6; }
+    .footer-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 40px; }
+    .footer-col h4 { font-size: 15px; font-weight: 600; margin-bottom: 14px; color: var(--gold-light); }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a { font-size: 14px; opacity: 0.8; transition: opacity 0.2s ease; }
+    .footer-col a:hover { opacity: 1; color: var(--gold-light) !important; }
+    .footer-bottom-bar { text-align: center; font-size: 12px; opacity: 0.45; padding: 16px 0 0; border-top: 1px solid rgba(255,255,255,0.1); }
+
+    /* ════════════════════════════
+       MOBILE
+    ════════════════════════════ */
+    @media (max-width: 767px) {
+      .header-inner { padding: 0 16px; }
+      .logo-name { font-size: 20px; }
+      .zman-section { padding: 20px 0; }
+      .shabbat-card { padding: 18px 16px; }
+      .shiur-card { padding: 18px 16px; }
+      .prayer-card-header { padding: 10px 16px; font-size: 14px; }
+      .prayer-row { padding: 8px 12px; }
+      .prayer-name { font-size: 13px; }
+      .prayer-time { font-size: 15px; }
+      .footer-cols { grid-template-columns: 1fr; gap: 20px; text-align: center; }
+      .footer-logo-row { align-items: center; }
+      .footer-strip-inner { flex-direction: column; gap: 12px; }
+    }
+  /* ── Auth ── */
+  .auth-area { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .auth-btn {
+    padding: 6px 14px; border-radius: 20px;
+    border: 1.5px solid #fff; background: transparent;
+    color: #fff; font-size: 13px;
+    font-family: 'Noto Sans Hebrew', sans-serif;
+    cursor: pointer; white-space: nowrap;
+    transition: background 0.2s, color 0.2s;
+  }
+  .auth-btn:hover { background: var(--gold); border-color: var(--gold); color: #fff; }
+  .auth-username { font-size: 13px; color: var(--gold); font-weight: 600; direction: rtl; }
+  @media (max-width: 767px) { .auth-username { display: none; } }
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 9000;
+    background: rgba(0,0,0,0.6);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .auth-modal-box {
+    background: var(--bg-card, #fff); border-radius: 16px;
+    padding: 36px 32px; width: min(420px, 92vw);
+    position: relative; direction: rtl;
+  }
+  .modal-close {
+    position: absolute; top: 16px; left: 16px;
+    background: none; border: none; font-size: 22px; cursor: pointer; color: var(--muted);
+  }
+  .auth-tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 2px solid var(--border); }
+  .auth-tab {
+    padding: 10px 24px; border: none; background: none;
+    font-size: 16px; cursor: pointer; color: var(--muted);
+    font-family: 'Noto Sans Hebrew', sans-serif;
+    border-bottom: 2px solid transparent; margin-bottom: -2px;
+  }
+  .auth-tab.active { color: var(--gold); border-bottom-color: var(--gold); font-weight: 700; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+  .form-group label { font-size: 14px; color: var(--text); font-weight: 500; }
+  .form-group input {
+    padding: 11px 14px; border: 1.5px solid var(--border);
+    border-radius: 8px; font-size: 15px;
+    font-family: 'Noto Sans Hebrew', sans-serif; transition: border-color 0.2s;
+  }
+  .form-group input:focus { outline: none; border-color: var(--gold); }
+  .btn-gold {
+    display: inline-block; background: var(--gold); color: #fff;
+    border: none; border-radius: 28px; padding: 12px 32px;
+    font-size: 16px; font-weight: 600; font-family: inherit;
+    cursor: pointer; width: 100%; transition: opacity 0.2s;
+  }
+  .btn-gold:hover { opacity: 0.88; }
+  .auth-error { color: #c0392b; font-size: 13px; margin-top: 8px; min-height: 18px; }
+  .auth-note  { font-size: 12px; color: var(--muted); text-align: center; margin-top: 12px; }
+    /* ════════════════════════════
+       MOBILE BOTTOM NAV
+    ════════════════════════════ */
+    .mobile-bottom-nav { display: none; }
+    @media (max-width: 767px) {
+      .hamburger { display: none; }
+      body { padding-bottom: 60px; }
+      .mobile-bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        height: 60px;
+        background: var(--bg-dark);
+        align-items: center;
+        justify-content: space-around;
+        z-index: 1000;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        transition: transform 0.3s ease;
+      }
+      .mobile-bottom-nav a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        color: rgba(255,255,255,0.65);
+        font-size: 10px;
+        font-family: 'Noto Sans Hebrew', sans-serif;
+        text-decoration: none;
+        flex: 1;
+        padding: 8px 0;
+      }
+      .mobile-bottom-nav a.active { color: var(--gold); }
+      .mobile-bottom-nav svg { width: 22px; height: 22px; }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!--
+  SUPABASE SETUP — Authentication:
+  1. Go to supabase.com → your project → Authentication → Settings
+  2. Under "Email Auth" → turn OFF "Confirm email"
+  3. Replace SUPABASE_URL and SUPABASE_KEY in every page with your project values
+  -->
+
+  <!-- HEADER -->
+  <header id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo-wrap">
+        <img src="photo/logo-main.png" alt="פאר יוסף" height="48" style="filter:drop-shadow(0 0 4px rgba(0,0,0,0.4))" onerror="this.style.display='none'">
+        <div>
+          <span class="logo-name">פאר יוסף</span>
+          <span class="logo-sub" data-i18n="logoSub">ישיבה · בית מדרש · קהילה</span>
+        </div>
+      </a>
+      <nav class="desktop-nav" id="desktop-nav" aria-label="ניווט ראשי">
+        <a href="index.html" data-i18n="nav.home">דף הבית</a>
+        <a href="videos.html" data-i18n="nav.videos">שיעורים / חדשות</a>
+        <a href="gallery.html" data-i18n="nav.gallery">גלריה</a>
+        <a href="zmanim.html" class="active" data-i18n="nav.zmanim">זמנים</a>
+        <a href="donate.html" data-i18n="nav.donate">תרומות</a>
+        <a href="admin.html" id="admin-nav-link" class="nav-link admin-link" style="display:none" data-i18n="nav.admin">ניהול</a>
+      </nav>
+      <div class="auth-area">
+        <span id="auth-user" class="auth-username"></span>
+        <button id="auth-btn" class="auth-btn">כניסה / הרשמה</button>
+      </div>
+      <button class="lang-btn" id="langBtn" onclick="toggleLang()" aria-label="שפה / Langue">FR</button>
+      <button class="hamburger" id="hamburger" aria-label="תפריט">☰</button>
+    </div>
+  </header>
+
+  <!-- Mobile overlay -->
+  <nav class="nav-overlay" id="nav-overlay" role="dialog" aria-label="ניווט">
+    <button class="nav-close" id="nav-close" aria-label="סגור">✕</button>
+    <a href="index.html" data-i18n="nav.home">דף הבית</a>
+    <a href="videos.html" data-i18n="nav.videos">שיעורים / חדשות</a>
+    <a href="gallery.html" data-i18n="nav.gallery">גלריה</a>
+    <a href="zmanim.html" class="active" data-i18n="nav.zmanim">זמנים</a>
+    <a href="donate.html" data-i18n="nav.donate">תרומות</a>
+    <a href="admin.html" id="admin-nav-link-mobile" class="admin-link" style="display:none" data-i18n="nav.admin">ניהול</a>
+  </nav>
+
+  <!-- MOBILE BOTTOM NAV -->
+  <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="ניווט תחתון">
+    <a href="index.html" data-page="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/></svg>
+      <span>דף הבית</span>
+    </a>
+    <a href="videos.html" data-page="videos.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
+      <span>שיעורים</span>
+    </a>
+    <a href="gallery.html" data-page="gallery.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 15l-5-5-9 9"/></svg>
+      <span>גלריה</span>
+    </a>
+    <a href="zmanim.html" data-page="zmanim.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      <span>זמנים</span>
+    </a>
+    <a href="donate.html" data-page="donate.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-9.5-9C.5 8 2 4 6 4c2 0 3.5 1 4.5 2.5C11.5 5 13 4 15 4c4 0 5.5 4 3.5 8-2.5 4.5-9.5 9-9.5 9z"/></svg>
+      <span>תרומות</span>
+    </a>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="container">
+      <h1 data-i18n="pageTitle">זמני תפילה</h1>
+      <p data-i18n="pageSubtitle">ישיבת פאר יוסף — ירושלים</p>
+    </div>
+  </div>
+
+  <!-- SECTION 3: Shabbat / Chag card (API) -->
+  <section class="zman-section reveal" id="shabbat-section">
+    <div class="container">
+      <h2 class="sec-title" data-i18n="shabbatTitle">זמני שבת / חג</h2>
+      <span class="gold-bar"></span>
+      <div class="shabbat-card" id="shabbat-card">
+        <div class="shabbat-loading" id="shabbat-loading">
+          <span data-i18n="loading">טוען זמנים</span><span class="spin"></span>
+        </div>
+        <div id="shabbat-content" style="display:none;">
+          <div class="shabbat-parasha" data-i18n="parashaLabel">פרשת השבוע</div>
+          <div class="shabbat-parasha-name" id="shabbat-parasha-name"></div>
+          <div class="shabbat-times-grid">
+            <div class="shabbat-time-item">
+              <div class="shabbat-time-label" data-i18n="candlesLabel">כניסת שבת / חג</div>
+              <div class="shabbat-time-value" id="shabbat-candles">—</div>
+            </div>
+            <div class="shabbat-time-item">
+              <div class="shabbat-time-label" data-i18n="havdalahRegLabel">יציאת שבת / חג (רגיל)</div>
+              <div class="shabbat-time-value" id="shabbat-havdalah-reg">—</div>
+            </div>
+            <div class="shabbat-time-item">
+              <div class="shabbat-time-label" data-i18n="havdalahRTLabel">צאת שבת — רבנו תם</div>
+              <div class="shabbat-time-value" id="shabbat-havdalah-rt">—</div>
+            </div>
+          </div>
+        </div>
+        <div id="shabbat-error" class="shabbat-error" style="display:none;" data-i18n="apiError">לא ניתן לטעון זמנים כרגע</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4 + 5: Prayer times tables -->
+  <section class="zman-section alt reveal" id="prayer-section">
+    <div class="container">
+      <h2 class="sec-title" data-i18n="prayerTitle">זמני תפילה</h2>
+      <span class="gold-bar"></span>
+      <div class="prayer-grid">
+
+        <!-- Weekday -->
+        <div class="prayer-card">
+          <div class="prayer-card-header" data-i18n="weekdayTitle">ימי חול</div>
+          <div id="weekday-prayers-list">
+            <div class="prayer-row">
+              <span class="prayer-name" data-i18n="netz">תפילת נץ</span>
+              <span class="prayer-time">05:20</span>
+            </div>
+            <div class="prayer-row">
+              <span class="prayer-name" data-i18n="shacharit">תפילת שחרית</span>
+              <span class="prayer-time">09:00</span>
+            </div>
+            <div class="prayer-row">
+              <span class="prayer-name" data-i18n="mincha">תפילת מנחה</span>
+              <span class="prayer-time">19:20</span>
+            </div>
+            <div class="prayer-row">
+              <span class="prayer-name" data-i18n="arvit">תפילת ערבית</span>
+              <span class="prayer-time">19:50</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shabbat / Chag -->
+        <div class="prayer-card">
+          <div class="prayer-card-header" data-i18n="shabbatPrayerTitle">שבת / חגים</div>
+          <div id="shabbat-prayers-list">
+            <div class="prayer-row">
+              <span class="prayer-name" data-i18n="netz">תפילת נץ</span>
+              <span class="prayer-time">05:20</span>
+            </div>
+            <div class="prayer-row">
+              <span class="prayer-name" data-i18n="shacharitShabbat">תפילת שחרית</span>
+              <span class="prayer-time">08:45</span>
+            </div>
+            <div class="prayer-row">
+              <span class="prayer-name" data-i18n="minchaShabbat">תפילת מנחה</span>
+              <span class="prayer-time">18:00</span>
+            </div>
+          </div>
+          <div class="prayer-row dynamic">
+            <span class="prayer-name">
+              <span class="dynamic-badge" data-i18n="dynamicBadge">לפי זמן</span>
+              <span data-i18n="arvitMotzash1">ערבית מוצ"ש (מניין א׳)</span>
+            </span>
+            <span class="prayer-time-dynamic" id="motzash-reg">—</span>
+          </div>
+          <div class="prayer-row dynamic">
+            <span class="prayer-name">
+              <span class="dynamic-badge" data-i18n="dynamicBadge">לפי זמן</span>
+              <span data-i18n="arvitMotzash2">ערבית מוצ"ש (מניין ב׳ — רבנו תם)</span>
+            </span>
+            <span class="prayer-time-dynamic" id="motzash-rt">—</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: Rabbi's Shiurim -->
+  <section class="zman-section dark reveal" id="shiur-section">
+    <div class="container">
+      <h2 class="sec-title light" data-i18n="shiurTitle">שיעורי הרב אשר עבאדי שליט"א</h2>
+      <span class="gold-bar"></span>
+      <div class="shiur-card">
+        <div class="shiur-main">
+          <span class="shiur-days" data-i18n="shiur.days">ימים א׳–ה׳</span>
+          <span class="shiur-when" data-i18n="shiur.when">מידי ערב לאחר תפילת ערבית</span>
+        </div>
+        <p class="shiur-note" data-i18n="shiur.note">הזמן משתנה בהתאם לזמן תפילת ערבית</p>
+        <a href="videos.html" class="btn-gold" data-i18n="shiur.btn">לשיעורים בוידאו</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7: Halachic times (API, today) -->
+  <section class="zman-section reveal" id="halachic-section">
+    <div class="container">
+      <h2 class="sec-title" data-i18n="halachicTitle">זמנים הלכתיים להיום</h2>
+      <span class="gold-bar"></span>
+      <div class="halachic-date" id="halachic-date"></div>
+      <div id="halachic-loading" class="halachic-loading">
+        <span data-i18n="loading">טוען זמנים</span><span class="spin" style="border-top-color:var(--gold);border-color:rgba(0,0,0,0.1);"></span>
+      </div>
+      <div class="halachic-list" id="halachic-grid" style="display:none;"></div>
+      <div id="halachic-error" style="display:none; text-align:center; color:var(--muted); padding:24px; font-size:15px;" data-i18n="apiError">לא ניתן לטעון זמנים כרגע</div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="footer-strip">
+    <div class="container">
+      <div class="footer-strip-inner">
+        <div class="footer-strip-item">קדושי סלוניקי, ירושלים</div>
+        <div class="footer-strip-item"><a href="#">הצטרפו לקבוצת WhatsApp</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-newsletter">
+    <div class="container">
+      <h3 data-i18n="footerNewsletterTitle">הצטרפו לקהילה שלנו</h3>
+      <p data-i18n="footerNewsletterBody">עדכונים שוטפים על שיעורים, אירועים והילולות</p>
+      <a href="#" class="btn btn-green" data-i18n="footerNewsletterBtn">הצטרפו לקבוצת WhatsApp</a>
+    </div>
+  </div>
+
+  <div class="footer-sitemap">
+    <div class="container">
+      <div class="footer-logo-row">
+        <span class="footer-logo-name">ישיבת פאר יוסף</span>
+        <span class="footer-logo-tag">ירושלים · ישיבה · בית מדרש · קהילה</span>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>ניווט</h4>
+          <ul>
+            <li><a href="index.html">דף הבית</a></li>
+            <li><a href="videos.html">סרטונים</a></li>
+            <li><a href="zmanim.html">זמני תפילה</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>מידע</h4>
+          <ul>
+            <li><a href="https://www.youtube.com/@הרבאשרעבאדיעטרתמנשההיכלמוהרן" target="_blank" rel="noopener">שיעורים ביוטיוב</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>צור קשר</h4>
+          <ul>
+            <li><a href="index.html#location">מיקום</a></li>
+            <li><a href="index.html#whatsapp">הצטרפו לקהילה</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom-bar">© 2025 ישיבת פאר יוסף. כל הזכויות שמורות.</div>
+    </div>
+  </div>
+
+  <script>
+    /* ── Supabase + Auth ── */
+    const SUPABASE_URL = 'https://bfjigrvzscvokmlzrlhv.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmamlncnZ6c2N2b2ttbHpybGh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2NjQyNzIsImV4cCI6MjA5ODI0MDI3Mn0.NnGeJHKsugrpiHyayoNKLOMrFd11Vbhsm2iYL879nH8';
+    const _supabase = (SUPABASE_URL === 'YOUR_SUPABASE_URL')
+      ? { auth: { getSession: async () => ({ data: { session: null } }), onAuthStateChange: () => {}, signInWithPassword: async () => ({ error: { message: 'Supabase not configured' } }), signUp: async () => ({ error: { message: 'Supabase not configured' } }), signOut: async () => {} } }
+      : supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let currentUser = null;
+    async function initAuth() {
+      const { data: { session } } = await _supabase.auth.getSession();
+      currentUser = session?.user ?? null; updateAuthUI();
+    }
+    _supabase.auth.onAuthStateChange((_e, session) => { currentUser = session?.user ?? null; updateAuthUI(); });
+    function updateAuthUI() {
+      const btn = document.getElementById('auth-btn');
+      const userLabel = document.getElementById('auth-user');
+      if (!btn) return;
+      if (currentUser) {
+        btn.textContent = 'התנתקות'; btn.onclick = signOut;
+        if (userLabel) userLabel.textContent = currentUser.user_metadata?.display_name || currentUser.email?.split('@')[0] || '';
+        document.querySelectorAll('.requires-login').forEach(el => el.style.display = '');
+      } else {
+        btn.textContent = 'כניסה / הרשמה';
+        btn.onclick = () => document.getElementById('auth-modal').style.display = 'flex';
+        if (userLabel) userLabel.textContent = '';
+        document.querySelectorAll('.requires-login').forEach(el => el.style.display = 'none');
+      }
+      const isAdmin = currentUser?.user_metadata?.is_admin === true;
+      document.querySelectorAll('#admin-nav-link, #admin-nav-link-mobile').forEach(el => {
+        if (el) el.style.display = isAdmin ? '' : 'none';
+      });
+    }
+    async function signOut() { await _supabase.auth.signOut(); }
+    function switchAuthTab(tab) {
+      document.getElementById('login-form').style.display  = tab === 'login'  ? '' : 'none';
+      document.getElementById('signup-form').style.display = tab === 'signup' ? '' : 'none';
+      document.getElementById('tab-login').classList.toggle('active',  tab === 'login');
+      document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');
+    }
+    function toFakeEmail(username) {
+      let hash = 5381;
+      for (let i = 0; i < username.length; i++) {
+        hash = ((hash << 5) + hash) + username.charCodeAt(i);
+        hash = hash & 0x7fffffff;
+      }
+      return 'u' + hash + '@peer-yosef-auth.com';
+    }
+    async function handleLogin(e) {
+      e.preventDefault();
+      const username = document.getElementById('login-username').value.trim();
+      const password = document.getElementById('login-password').value;
+      const errEl = document.getElementById('login-error'); errEl.textContent = '';
+      const { error } = await _supabase.auth.signInWithPassword({ email: toFakeEmail(username), password });
+      if (error) errEl.textContent = 'שם משתמש או סיסמה שגויים';
+      else document.getElementById('auth-modal').style.display = 'none';
+    }
+    async function handleSignup(e) {
+      e.preventDefault();
+      const username = document.getElementById('signup-username').value.trim();
+      const password = document.getElementById('signup-password').value;
+      const errEl = document.getElementById('signup-error'); errEl.style.color = '#c0392b';
+      if (!username) { errEl.textContent = 'נא להזין שם משתמש'; return; }
+      if (!/^\d{6,}$/.test(password)) { errEl.textContent = 'הסיסמה חייבת להכיל לפחות 6 ספרות'; return; }
+      const adminCode = document.getElementById('signup-admin-code')?.value || '';
+      const isAdmin   = adminCode === 'natyML720556807812';
+      const { error } = await _supabase.auth.signUp({
+        email: toFakeEmail(username), password,
+        options: { data: { display_name: username, is_admin: isAdmin } }
+      });
+      if (error) errEl.textContent = error.message.includes('already registered') ? 'שם משתמש זה כבר קיים' : 'שגיאה: ' + error.message;
+      else { errEl.style.color = 'green'; errEl.textContent = 'ההרשמה הצליחה! כעת תוכל להיכנס.'; switchAuthTab('login'); }
+    }
+    initAuth();
+
+    /* ── Mobile nav ── */
+    document.getElementById('hamburger').addEventListener('click', () => document.body.classList.add('nav-open'));
+    document.getElementById('nav-close').addEventListener('click',  () => document.body.classList.remove('nav-open'));
+    document.getElementById('nav-overlay').querySelectorAll('a').forEach(a =>
+      a.addEventListener('click', () => document.body.classList.remove('nav-open'))
+    );
+
+    /* ── Mobile bottom nav ── */
+    const bottomNav = document.querySelector('.mobile-bottom-nav');
+    if (bottomNav) {
+      const currentPage = location.pathname.split('/').pop() || 'index.html';
+      bottomNav.querySelectorAll('a').forEach(a => {
+        a.classList.toggle('active', a.dataset.page === currentPage);
+      });
+      let lastScrollY = window.scrollY;
+      let userHasInteracted = false;
+      function markInteracted() {
+        if (userHasInteracted) return;
+        userHasInteracted = true;
+        lastScrollY = window.scrollY; // reset baseline so any page-load auto-scroll isn't misread as a user scroll
+      }
+      window.addEventListener('touchstart', markInteracted, { passive: true });
+      window.addEventListener('wheel', markInteracted, { passive: true });
+      window.addEventListener('scroll', () => {
+        if (window.innerWidth > 767 || !userHasInteracted) return;
+        const currentY = window.scrollY;
+        if (currentY > lastScrollY && currentY > 80) {
+          bottomNav.style.transform = 'translateY(100%)';
+        } else {
+          bottomNav.style.transform = 'translateY(0)';
+        }
+        lastScrollY = currentY;
+      }, { passive: true });
+    }
+
+    /* ── Scroll reveal ── */
+    const revealObs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    /* ── Header scroll class ── */
+    window.addEventListener('scroll', () => {
+      document.getElementById('site-header').classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    /* ── Time formatter ── */
+    function fmtTime(isoOrDate) {
+      if (!isoOrDate) return '—';
+      try {
+        const d = (isoOrDate instanceof Date) ? isoOrDate : new Date(isoOrDate);
+        if (isNaN(d)) return '—';
+        return d.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', hour12: false });
+      } catch { return '—'; }
+    }
+
+    /* ── Rabbeinu Tam (מעלות): sunset + (sunrise − alotHaShachar) ── */
+    function calcRTdeg(times) {
+      const sunset  = new Date(times.sunset);
+      const sunrise = new Date(times.sunrise);
+      const alot    = new Date(times.alotHaShachar);
+      return new Date(sunset.getTime() + (sunrise.getTime() - alot.getTime()));
+    }
+
+    /* ── API fetch ── */
+    let zmanimData = null; // reused by both sections
+
+    async function loadZmanim() {
+      const today = new Date().toISOString().slice(0, 10);
+      const [shabbatRes, zmanimRes] = await Promise.all([
+        fetch('https://www.hebcal.com/shabbat?cfg=json&geonameid=281184&m=42&lg=he'),
+        fetch('https://www.hebcal.com/zmanim?cfg=json&geonameid=281184&date=' + today)
+      ]);
+      const shabbat = await shabbatRes.json();
+      zmanimData    = await zmanimRes.json();
+      return { shabbat, zmanim: zmanimData };
+    }
+
+    /* ── Prayer times (ימי חול / שבת) from Supabase — independent of the Hebcal
+       calls above, so a failure in either one never blocks the other ── */
+    const FALLBACK_PRAYER_TIMES = {
+      weekday: [
+        { display_name: 'תפילת נץ',    prayer_time: '05:20' },
+        { display_name: 'תפילת שחרית', prayer_time: '09:00' },
+        { display_name: 'תפילת מנחה',  prayer_time: '19:20' },
+        { display_name: 'תפילת ערבית', prayer_time: '19:50' },
+      ],
+      shabbat: [
+        { display_name: 'תפילת נץ',    prayer_time: '05:20' },
+        { display_name: 'תפילת שחרית', prayer_time: '08:45' },
+        { display_name: 'תפילת מנחה',  prayer_time: '18:00' },
+      ],
+    };
+
+    function renderPrayerList(containerId, rows) {
+      const el = document.getElementById(containerId);
+      if (!el) return;
+      el.innerHTML = rows.map(r =>
+        `<div class="prayer-row"><span class="prayer-name">${r.display_name}</span><span class="prayer-time">${r.prayer_time}</span></div>`
+      ).join('');
+    }
+
+    async function loadPrayerTimes() {
+      const weekdayEl = document.getElementById('weekday-prayers-list');
+      const shabbatEl = document.getElementById('shabbat-prayers-list');
+      const loadingHTML = '<div class="prayer-times-loading"><span class="spin-light"></span></div>';
+      if (weekdayEl) weekdayEl.innerHTML = loadingHTML;
+      if (shabbatEl) shabbatEl.innerHTML = loadingHTML;
+
+      try {
+        const { data, error } = await _supabase
+          .from('prayer_times')
+          .select('*')
+          .order('sort_order', { ascending: true });
+        if (error || !data || !data.length) throw error || new Error('empty prayer_times');
+
+        const weekday = data.filter(r => r.day_type === 'weekday');
+        const shabbat = data.filter(r => r.day_type === 'shabbat');
+        renderPrayerList('weekday-prayers-list', weekday.length ? weekday : FALLBACK_PRAYER_TIMES.weekday);
+        renderPrayerList('shabbat-prayers-list', shabbat.length ? shabbat : FALLBACK_PRAYER_TIMES.shabbat);
+      } catch (e) {
+        console.warn('[prayer_times]', e?.message || e);
+        renderPrayerList('weekday-prayers-list', FALLBACK_PRAYER_TIMES.weekday);
+        renderPrayerList('shabbat-prayers-list', FALLBACK_PRAYER_TIMES.shabbat);
+      }
+    }
+
+    async function initAll() {
+      try {
+        const { shabbat, zmanim } = await loadZmanim();
+
+        /* ── Shabbat card ── */
+        const items = shabbat.items || [];
+        const parashaItem   = items.find(i => i.category === 'parashat');
+        const candlesItem   = items.find(i => i.category === 'candles');
+        const havdalahItem  = items.find(i => i.category === 'havdalah');
+
+        const candlesTime  = candlesItem  ? fmtTime(candlesItem.date)  : '—';
+        const havdalahTime = havdalahItem ? fmtTime(havdalahItem.date) : '—';
+
+        const z = zmanim.times || {};
+        let rtTime = '—';
+        if (z.sunset && z.sunrise && z.alotHaShachar) {
+          rtTime = fmtTime(calcRTdeg(z));
+        } else if (z.tzeit72min) {
+          rtTime = fmtTime(z.tzeit72min);
+        }
+
+        document.getElementById('shabbat-parasha-name').textContent =
+          parashaItem ? parashaItem.hebrew || parashaItem.title : '';
+        document.getElementById('shabbat-candles').textContent    = candlesTime;
+        document.getElementById('shabbat-havdalah-reg').textContent = havdalahTime;
+        document.getElementById('shabbat-havdalah-rt').textContent  = rtTime;
+
+        document.getElementById('shabbat-loading').style.display = 'none';
+        document.getElementById('shabbat-content').style.display = 'block';
+
+        /* ── Dynamic motzash times in prayer table ── */
+        document.getElementById('motzash-reg').textContent = havdalahTime;
+        document.getElementById('motzash-rt').textContent  = rtTime;
+
+        /* ── Halachic times ── */
+        renderHalachicTimes(zmanim);
+
+      } catch(err) {
+        console.error('[zmanim]', err);
+        document.getElementById('shabbat-loading').style.display = 'none';
+        document.getElementById('shabbat-error').style.display   = 'block';
+        document.getElementById('halachic-loading').style.display = 'none';
+        document.getElementById('halachic-error').style.display   = 'block';
+      }
+    }
+
+    function calcWatches(z) {
+      const sunriseMs = new Date(z.sunrise).getTime();
+      const sunsetMs  = new Date(z.sunset).getTime();
+      const nightDurMs = (sunriseMs + 86400000) - sunsetMs;
+      return {
+        morningWatch: new Date(sunriseMs - nightDurMs / 3),
+        middleWatch:  new Date(sunsetMs  + nightDurMs / 3),
+      };
+    }
+
+    function renderHalachicTimes(zmanim) {
+      const z = zmanim.times || {};
+
+      if (zmanim.date) {
+        const d = new Date(zmanim.date);
+        document.getElementById('halachic-date').textContent =
+          d.toLocaleDateString('he-IL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      }
+
+      const lang = localStorage.getItem('siteLang') || 'he';
+      const grid = document.getElementById('halachic-grid');
+      grid.innerHTML = buildHalachicHTML(z, lang);
+      document.getElementById('halachic-loading').style.display = 'none';
+      grid.style.display = 'block';
+    }
+
+    function buildHalachicHTML(z, lang) {
+      const t = TRANSLATIONS[lang] || TRANSLATIONS.he;
+      const watches = (z.sunrise && z.sunset) ? calcWatches(z) : null;
+      const morningWatch = watches ? fmtTime(watches.morningWatch) : '—';
+      const middleWatch  = watches ? fmtTime(watches.middleWatch)  : '—';
+      const rtDeg = (z.sunset && z.sunrise && z.alotHaShachar)
+        ? fmtTime(calcRTdeg(z)) : (z.tzeit72min ? fmtTime(z.tzeit72min) : '—');
+
+      const row = (key, time) =>
+        `<div class="zman-row"><span class="zman-label" data-i18n="${key}">${t[key] || key}</span><span class="zman-time">${time}</span></div>`;
+
+      const divider =
+        `<div class="zmanim-divider"><hr><span data-i18n="zmanim.nightDivider">${t['zmanim.nightDivider'] || 'כניסת הלילה — ליום הבא'}</span><hr></div>`;
+
+      return [
+        row('zmanim.chatzotNight',  fmtTime(z.chatzotNight)),
+        row('zmanim.morningWatch',  morningWatch),
+        row('zmanim.alot',          fmtTime(z.alotHaShachar)),
+        row('zmanim.misheyakir',    fmtTime(z.misheyakir)),
+        row('zmanim.sunrise',       fmtTime(z.sunrise)),
+        row('zmanim.sofShmaMGA',    fmtTime(z.sofZmanShmaMGA)),
+        row('zmanim.sofShmaGRA',    fmtTime(z.sofZmanShma)),
+        row('zmanim.sofTfillaMGA',  fmtTime(z.sofZmanTfillaMGA)),
+        row('zmanim.sofTfillaGRA',  fmtTime(z.sofZmanTfilla)),
+        row('zmanim.chatzot',       fmtTime(z.chatzot)),
+        row('zmanim.minchaGedola',  fmtTime(z.minchaGedola)),
+        row('zmanim.minchaKetana',  fmtTime(z.minchaKetana)),
+        row('zmanim.plag',          fmtTime(z.plagHaMincha)),
+        row('zmanim.sunset',        fmtTime(z.sunset)),
+        divider,
+        row('zmanim.beinHashmashos', fmtTime(z.beinHaShmashos)),
+        row('zmanim.middleWatch',    middleWatch),
+      ].join('');
+    }
+
+    initAll();
+    loadPrayerTimes();
+
+    /* ══════════════════════════════════
+       TRANSLATIONS
+    ══════════════════════════════════ */
+    const TRANSLATIONS = {
+      he: {
+        logoSub:              'ישיבה · בית מדרש · קהילה',
+        'nav.home':           'דף הבית',
+        'nav.videos':         'שיעורים / חדשות',
+        'nav.gallery':        'גלריה',
+        'nav.zmanim':         'זמנים',
+        'nav.donate':         'תרומות',
+        'nav.admin':          'ניהול',
+        'auth.tabLogin':   'כניסה',
+        'auth.tabSignup':  'הרשמה',
+        'auth.username':   'שם משתמש',
+        'auth.password':   'סיסמה',
+        'auth.loginBtn':   'כניסה',
+        'auth.signupBtn':  'הרשמה לקהילה',
+        'auth.signupNote': 'ההרשמה מאפשרת העלאת תמונות ומעקב אחרי שיעורים',
+        'auth.adminCode':  'קוד גישה (אופציונלי)',
+        pageTitle:            'זמני תפילה',
+        pageSubtitle:         'ישיבת פאר יוסף — ירושלים',
+        shabbatTitle:         'זמני שבת / חג',
+        parashaLabel:         'פרשת השבוע',
+        candlesLabel:         'כניסת שבת / חג',
+        havdalahRegLabel:     'יציאת שבת / חג (רגיל)',
+        havdalahRTLabel:      'צאת שבת — רבנו תם',
+        loading:              'טוען זמנים',
+        apiError:             'לא ניתן לטעון זמנים כרגע',
+        prayerTitle:          'זמני תפילה',
+        weekdayTitle:         'ימי חול',
+        shabbatPrayerTitle:   'שבת / חגים',
+        netz:                 'תפילת נץ',
+        shacharit:            'תפילת שחרית',
+        mincha:               'תפילת מנחה',
+        arvit:                'תפילת ערבית',
+        shacharitShabbat:     'תפילת שחרית',
+        minchaShabbat:        'תפילת מנחה',
+        dynamicBadge:         'לפי זמן',
+        arvitMotzash1:        'ערבית מוצ"ש (מניין א׳)',
+        arvitMotzash2:        'ערבית מוצ"ש (מניין ב׳ — רבנו תם)',
+        shiurTitle:           'שיעורי הרב אשר עבאדי שליט"א',
+        'shiur.days':         'ימים א׳–ה׳',
+        'shiur.when':         'מידי ערב לאחר תפילת ערבית',
+        'shiur.note':         'הזמן משתנה בהתאם לזמן תפילת ערבית',
+        'shiur.btn':          'לשיעורים בוידאו',
+        halachicTitle:              'זמנים הלכתיים להיום',
+        'zmanim.chatzotNight':      'חצות הלילה',
+        'zmanim.morningWatch':      'השמורת הבוקר',
+        'zmanim.alot':              'עלות השחר',
+        'zmanim.misheyakir':        'טלית ותפילין מוקדם',
+        'zmanim.sunrise':           'הנץ החמה',
+        'zmanim.sofShmaMGA':        'סוף זמן ק"ש (מ"א)',
+        'zmanim.sofShmaGRA':        'סוף זמן ק"ש (גר"א)',
+        'zmanim.sofTfillaMGA':      'סוף זמן שחרית (מ"א)',
+        'zmanim.sofTfillaGRA':      'סוף זמן שחרית (גר"א)',
+        'zmanim.chatzot':           'חצות היום',
+        'zmanim.minchaGedola':      'מנחה מוקדמת',
+        'zmanim.minchaKetana':      'מנחה',
+        'zmanim.plag':              'פלג המנחה',
+        'zmanim.sunset':            'שקיעת החמה',
+        'zmanim.nightDivider':      'כניסת הלילה — ליום הבא',
+        'zmanim.beinHashmashos':    'בין השמשות',
+        'zmanim.middleWatch':       'השמורה התיכונה',
+        footerNewsletterTitle:'הצטרפו לקהילה שלנו',
+        footerNewsletterBody: 'עדכונים שוטפים על שיעורים, אירועים והילולות',
+        footerNewsletterBtn:  'הצטרפו לקבוצת WhatsApp',
+      },
+      fr: {
+        logoSub:              'Yechiva · Beth Midrach · Communauté',
+        'nav.home':           'Accueil',
+        'nav.videos':         'Cours / Actualités',
+        'nav.gallery':        'Galerie',
+        'nav.zmanim':         'Horaires',
+        'nav.donate':         'Dons',
+        'nav.admin':          'Admin',
+        'auth.tabLogin':   'Connexion',
+        'auth.tabSignup':  'Inscription',
+        'auth.username':   'Nom d\'utilisateur',
+        'auth.password':   'Mot de passe',
+        'auth.loginBtn':   'Se connecter',
+        'auth.signupBtn':  'Rejoindre la communauté',
+        'auth.signupNote': 'L\'inscription permet de partager des photos et de suivre des cours',
+        'auth.adminCode':  'Code d\'accès (optionnel)',
+        pageTitle:            'Horaires de prière',
+        pageSubtitle:         'Yeshiva Peer Yosef — Jérusalem',
+        shabbatTitle:         'Horaires Chabbat / Fête',
+        parashaLabel:         'Paracha de la semaine',
+        candlesLabel:         'Entrée Chabbat / Fête',
+        havdalahRegLabel:     'Sortie Chabbat (régulière)',
+        havdalahRTLabel:      'Sortie Chabbat — Rabbénou Tam',
+        loading:              'Chargement',
+        apiError:             'Impossible de charger les horaires',
+        prayerTitle:          'Horaires de prière',
+        weekdayTitle:         'Jours ouvrables',
+        shabbatPrayerTitle:   'Chabbat / Fêtes',
+        netz:                 'Lever du soleil (Netz)',
+        shacharit:            'Shacharit',
+        mincha:               'Mincha',
+        arvit:                'Arvit',
+        shacharitShabbat:     'Shacharit',
+        minchaShabbat:        'Mincha',
+        dynamicBadge:         'variable',
+        arvitMotzash1:        'Arvit Motzaei Chabbat (1ère miniane)',
+        arvitMotzash2:        'Arvit Motzaei Chabbat (Rabbénou Tam)',
+        shiurTitle:           'Cours du Rav Asher Abadi Chlit"a',
+        'shiur.days':         'Dimanche–Jeudi',
+        'shiur.when':         'Chaque soir après Arvit',
+        'shiur.note':         'L\'horaire varie selon l\'heure d\'Arvit',
+        'shiur.btn':          'Cours en vidéo',
+        halachicTitle:              'Temps halakhiques du jour',
+        'zmanim.chatzotNight':      'Minuit (halakhique)',
+        'zmanim.morningWatch':      'Troisième veille de la nuit',
+        'zmanim.alot':              'Aube (Alot HaShachar)',
+        'zmanim.misheyakir':        'Talith et Tefilin (1er heure)',
+        'zmanim.sunrise':           'Lever du soleil (Hanetz HaHama)',
+        'zmanim.sofShmaMGA':        'Fin Shema (Magen Avraham)',
+        'zmanim.sofShmaGRA':        'Fin Shema (Gra)',
+        'zmanim.sofTfillaMGA':      'Fin Shacharit (Magen Avraham)',
+        'zmanim.sofTfillaGRA':      'Fin Shacharit (Gra)',
+        'zmanim.chatzot':           'Midi (halakhique)',
+        'zmanim.minchaGedola':      'Mincha (1re heure)',
+        'zmanim.minchaKetana':      'Mincha',
+        'zmanim.plag':              'Plag HaMincha',
+        'zmanim.sunset':            'Coucher du soleil',
+        'zmanim.nightDivider':      'Début de la nuit — jour suivant',
+        'zmanim.beinHashmashos':    'Bein HaShmashot',
+        'zmanim.middleWatch':       'Deuxième veille de la nuit',
+        footerNewsletterTitle:'Rejoignez notre communauté',
+        footerNewsletterBody: 'Mises à jour régulières sur les cours, événements et Hiloulot',
+        footerNewsletterBtn:  'Rejoindre le groupe WhatsApp',
+      }
+    };
+
+    let currentLang = localStorage.getItem('siteLang') || 'he';
+
+    function applyLang(lang) {
+      currentLang = lang;
+      localStorage.setItem('siteLang', lang);
+      const t = TRANSLATIONS[lang] || TRANSLATIONS.he;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key] !== undefined) el.textContent = t[key];
+      });
+      const btn = document.getElementById('langBtn');
+      if (btn) btn.textContent = lang === 'he' ? 'FR' : 'HE';
+      document.documentElement.lang = lang === 'fr' ? 'fr' : 'he';
+      document.documentElement.dir  = lang === 'fr' ? 'ltr' : 'rtl';
+
+      // Re-render halachic rows with new language if data is loaded
+      if (zmanimData) {
+        const z = zmanimData.times || {};
+        const grid = document.getElementById('halachic-grid');
+        if (grid && grid.style.display !== 'none') {
+          grid.innerHTML = buildHalachicHTML(z, lang);
+        }
+      }
+    }
+
+    function toggleLang() {
+      applyLang(currentLang === 'he' ? 'fr' : 'he');
+    }
+
+    applyLang(currentLang);
+  </script>
+
+  <!-- AUTH MODAL -->
+  <div id="auth-modal" style="display:none" class="modal-overlay" onclick="if(event.target===this)this.style.display='none'">
+    <div class="modal-box auth-modal-box">
+      <button class="modal-close" onclick="document.getElementById('auth-modal').style.display='none'">✕</button>
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-login"  onclick="switchAuthTab('login')"  data-i18n="auth.tabLogin">כניסה</button>
+        <button class="auth-tab"        id="tab-signup" onclick="switchAuthTab('signup')" data-i18n="auth.tabSignup">הרשמה</button>
+      </div>
+      <form id="login-form" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label data-i18n="auth.username">שם משתמש</label>
+          <input type="text" id="login-username" required placeholder="שם המשתמש שלך" dir="rtl">
+        </div>
+        <div class="form-group">
+          <label data-i18n="auth.password">סיסמה</label>
+          <input type="password" id="login-password" required placeholder="••••••">
+        </div>
+        <button type="submit" class="btn-gold" data-i18n="auth.loginBtn">כניסה</button>
+        <p id="login-error" class="auth-error"></p>
+      </form>
+      <form id="signup-form" style="display:none" onsubmit="handleSignup(event)">
+        <div class="form-group">
+          <label data-i18n="auth.username">שם משתמש</label>
+          <input type="text" id="signup-username" required placeholder="לדוגמה: ישראל כהן" dir="rtl">
+        </div>
+        <div class="form-group">
+          <label data-i18n="auth.password">סיסמה (לפחות 6 ספרות)</label>
+          <input type="password" id="signup-password" required placeholder="123456" pattern="[0-9]{6,}" inputmode="numeric">
+        </div>
+        <div class="form-group" id="admin-code-group">
+          <label data-i18n="auth.adminCode">קוד גישה (אופציונלי)</label>
+          <input type="password" id="signup-admin-code" placeholder="••••••" dir="ltr" inputmode="text">
+        </div>
+        <button type="submit" class="btn-gold" data-i18n="auth.signupBtn">הרשמה לקהילה</button>
+        <p id="signup-error" class="auth-error"></p>
+        <p class="auth-note" data-i18n="auth.signupNote">ההרשמה מאפשרת העלאת תמונות ומעקב אחרי שיעורים</p>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
