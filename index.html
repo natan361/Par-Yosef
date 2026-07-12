@@ -8,17 +8,49 @@
   <meta name="keywords" content="פאר יוסף, ישיבת פאר יוסף, הרב אשר עבאדי, עטרת מנשה, היכל מוהרן, ברסלב, ישיבה ברסלב, בית כנסת ירושלים, בית מדרש ירושלים, קהילה ברסלב, שיעורי תורה, Peer Yosef, Yeshivat Peer Yosef, Yeshiva Peer Yosef, Rabbi Asher Abadi, Rav Asher Abadi, Ateret Menashe, Heichal Moharan, Breslov, Breslov yeshiva, Jerusalem synagogue, Breslov Jerusalem, Torah classes Jerusalem, Jérusalem, synagogue Jérusalem, yeshiva Breslov, cours de Torah Jérusalem">
   <meta name="robots" content="index, follow">
   <meta name="google-site-verification" content="nkzdDtreIlvMxbD0zyUaHE3CCBZ4ZbeSe_1sdYvWhVQ" />
+  <link rel="canonical" href="https://par-yosef.pages.dev/">
   <link rel="icon" type="image/png" href="photo/logo-main.png">
   <link rel="apple-touch-icon" href="photo/logo-main.png">
   <meta property="og:site_name" content="פאר יוסף">
   <meta property="og:locale" content="he_IL">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="photo/logo-main.png">
+  <meta property="og:url" content="https://par-yosef.pages.dev/">
+  <meta property="og:image" content="https://par-yosef.pages.dev/photo/logo-main.png">
   <meta property="og:title" content="פאר יוסף — ישיבה ובית כנסת ברסלב ירושלים | Peer Yosef Breslov Jerusalem">
   <meta property="og:description" content="ישיבת פאר יוסף — ישיבה, בית כנסת ובית מדרש ברסלב בירושלים. בהנהגת הרב אשר עבאדי שליט״א. קהילה חמה של כ-40 משפחות. Yeshiva Peer Yosef, Breslov Jerusalem.">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@400;700&family=Noto+Sans+Hebrew:wght@300;400;500&display=swap');
+  <meta name="twitter:card" content="summary_large_image">
 
+  <!-- Fonts: <link> instead of CSS @import so the browser can start fetching immediately -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@400;700&family=Noto+Sans+Hebrew:wght@300;400;500&display=swap">
+
+  <!-- Hero is the LCP element — start it before the CSS is parsed -->
+  <link rel="preload" as="image" href="photo/heroimege.webp" media="(min-width: 768px)">
+  <link rel="preload" as="image" href="photo/heroimege-mobile.webp" media="(max-width: 767px)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "PlaceOfWorship",
+    "name": "ישיבת פאר יוסף",
+    "alternateName": ["עטרת מנשה", "היכל מוהרן", "Yeshiva Peer Yosef"],
+    "url": "https://par-yosef.pages.dev/",
+    "logo": "https://par-yosef.pages.dev/photo/logo-main.png",
+    "image": "https://par-yosef.pages.dev/photo/logo-main.png",
+    "description": "ישיבה, בית כנסת ובית מדרש ברסלב בירושלים, בהנהגת הרב אשר עבאדי שליט״א.",
+    "foundingDate": "1982",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "קדושי סלוניקי",
+      "addressLocality": "ירושלים",
+      "postalCode": "9339012",
+      "addressCountry": "IL"
+    },
+    "sameAs": ["https://www.youtube.com/@הרבאשרעבאדיעטרתמנשההיכלמוהרן"]
+  }
+  </script>
+  <style>
     :root {
       --bg:           #f7f4ef;
       --bg-dark:      #1E5A68;
@@ -38,6 +70,9 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    /* anchor targets must clear the fixed header */
+    [id] { scroll-margin-top: calc(var(--header-h) + 16px); }
     body { font-family: 'Noto Sans Hebrew', 'Heebo', sans-serif; color: var(--text); background: var(--bg); overflow-x: hidden; }
     body.nav-open { overflow: hidden; }
     a { text-decoration: none; color: inherit; }
@@ -92,7 +127,11 @@
     .gold-bar.right { margin-right: 0; }
 
     /* ── Gold link ── */
-    .gold-link { color: var(--gold); font-size: 15px; font-weight: 500; transition: opacity 0.2s ease; }
+    .gold-link {
+      color: var(--gold); font-size: 15px; font-weight: 500; transition: opacity 0.2s ease;
+      /* min-height lifts the tap target over the WCAG 2.2 minimum (24px) */
+      display: inline-flex; align-items: center; min-height: 28px;
+    }
     .gold-link:hover { opacity: 0.7; }
 
     /* ══════════════════════════════════════
@@ -235,7 +274,10 @@
        HERO
     ════════════════════════════ */
     #hero {
+      /* WebP with PNG fallback for browsers without image-set() */
       background-image: url('photo/heroimege.png');
+      background-image: image-set(url('photo/heroimege.webp') type('image/webp'),
+                                  url('photo/heroimege.png')  type('image/png'));
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -313,6 +355,8 @@
         min-height: 340px;
         max-height: unset;
         padding-top: var(--header-h);
+        background-image: image-set(url('photo/heroimege-mobile.webp') type('image/webp'),
+                                    url('photo/heroimege.png')         type('image/png'));
       }
       .hero-content {
         width: 56%;
@@ -733,7 +777,9 @@
     .footer-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 20px; }
     .footer-col h4 { font-family: 'Noto Serif Hebrew', 'David Libre', serif; font-size: 17px; color: var(--text-light); margin-bottom: 16px; font-weight: 700; }
     .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-    .footer-col a { font-size: 15px; color: var(--text-light); opacity: 0.6; transition: color 0.2s ease, opacity 0.2s ease; }
+    .footer-col a { font-size: 15px; color: var(--text-light); opacity: 0.85; transition: color 0.2s ease, opacity 0.2s ease;
+      /* min-height lifts the tap target over the WCAG 2.2 minimum (24px) */
+      display: inline-flex; align-items: center; min-height: 28px; }
     .footer-col a:hover { color: var(--gold); opacity: 1; }
     .footer-bottom-bar { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; text-align: center; font-size: 13px; color: var(--text-light); opacity: 0.45; }
 
@@ -1333,7 +1379,7 @@
   <header id="site-header">
     <div class="header-inner">
       <a href="#" class="logo-wrap">
-        <img src="photo/logo-main.png" alt="פאר יוסף" height="48" style="filter:drop-shadow(0 0 4px rgba(0,0,0,0.4))" onerror="this.style.display='none'">
+        <img src="photo/logo-main.webp" alt="פאר יוסף" width="48" height="48" style="filter:drop-shadow(0 0 4px rgba(0,0,0,0.4))" onerror="this.src='photo/logo-main.png'; this.onerror=function(){this.style.display='none';}">
         <div>
           <span class="logo-name">פאר יוסף</span>
           <span class="logo-sub" data-i18n="logoSub">ישיבה · בית מדרש · קהילה</span>
@@ -1556,7 +1602,7 @@
             <div class="poster-upload-area"
                  onclick="document.getElementById('ev-poster').click()">
               <span id="poster-upload-text">לחץ להעלאת תמונה או פוסטר</span>
-              <img id="poster-preview"
+              <img id="poster-preview" alt="תצוגה מקדימה של הפוסטר"
                    style="display:none;max-height:110px;border-radius:8px;margin-top:8px">
             </div>
             <input type="file" id="ev-poster" accept="image/*"
@@ -1655,8 +1701,9 @@
           <button class="about-read-more" id="about-read-more-btn" onclick="expandAbout()" data-i18n="aboutReadMore">קרא עוד</button>
         </div>
         <div class="about-img-col">
-          <img src="photo/rabbi-photo.png" alt="ראש הישיבה"
-               onerror="this.src='photo/rabbi-portrait.png'; this.onerror=function(){this.outerHTML='<div class=\'about-img-placeholder\'><span>ספר<br>תורה</span></div>';}">
+          <img src="photo/rabbi-photo.webp" alt="הרב אשר עבאדי שליט״א, ראש ישיבת פאר יוסף"
+               loading="lazy" decoding="async"
+               onerror="this.src='photo/rabbi-photo.png'; this.onerror=function(){this.outerHTML='<div class=\'about-img-placeholder\'><span>ספר<br>תורה</span></div>';}">
         </div>
       </div>
     </div>
@@ -1671,29 +1718,29 @@
     <div class="gallery-strip-wrap">
       <div class="gallery-track" id="galleryTrack">
         <!-- Set 1 — originals -->
-        <img src="photo/img_06_480x640.jpeg" alt="">
-        <img src="photo/img_11_480x640.jpeg" alt="">
-        <img src="photo/img_15_480x640.jpeg" alt="">
-        <img src="photo/img_18_480x640.jpeg" alt="">
-        <img src="photo/img_24_480x640.jpeg" alt="">
-        <img src="photo/img_30_480x640.jpeg" alt="">
-        <img src="photo/img_32_600x800.jpeg" alt="">
-        <img src="photo/community-01.jpeg" alt="">
-        <img src="photo/community-02.jpeg" alt="">
-        <img src="photo/community-03.jpeg" alt="">
-        <img src="photo/community-05.jpeg" alt="">
+        <img src="photo/img_06_480x640.webp" alt="" loading="lazy" decoding="async">
+        <img src="photo/img_11_480x640.webp" alt="" loading="lazy" decoding="async">
+        <img src="photo/img_15_480x640.webp" alt="" loading="lazy" decoding="async">
+        <img src="photo/img_18_480x640.webp" alt="" loading="lazy" decoding="async">
+        <img src="photo/img_24_480x640.webp" alt="" loading="lazy" decoding="async">
+        <img src="photo/img_30_480x640.webp" alt="" loading="lazy" decoding="async">
+        <img src="photo/img_32_600x800.webp" alt="" loading="lazy" decoding="async">
+        <img src="photo/community-01.webp" alt="" loading="lazy" decoding="async">
+        <img src="photo/community-02.webp" alt="" loading="lazy" decoding="async">
+        <img src="photo/community-03.webp" alt="" loading="lazy" decoding="async">
+        <img src="photo/community-05.webp" alt="" loading="lazy" decoding="async">
         <!-- Set 2 — exact duplicates for seamless loop -->
-        <img src="photo/img_06_480x640.jpeg" alt="">
-        <img src="photo/img_11_480x640.jpeg" alt="">
-        <img src="photo/img_15_480x640.jpeg" alt="">
-        <img src="photo/img_18_480x640.jpeg" alt="">
-        <img src="photo/img_24_480x640.jpeg" alt="">
-        <img src="photo/img_30_480x640.jpeg" alt="">
-        <img src="photo/img_32_600x800.jpeg" alt="">
-        <img src="photo/community-01.jpeg" alt="">
-        <img src="photo/community-02.jpeg" alt="">
-        <img src="photo/community-03.jpeg" alt="">
-        <img src="photo/community-05.jpeg" alt="">
+        <img src="photo/img_06_480x640.webp" alt="" loading="lazy" decoding="async">
+        <img src="photo/img_11_480x640.webp" alt="" loading="lazy" decoding="async">
+        <img src="photo/img_15_480x640.webp" alt="" loading="lazy" decoding="async">
+        <img src="photo/img_18_480x640.webp" alt="" loading="lazy" decoding="async">
+        <img src="photo/img_24_480x640.webp" alt="" loading="lazy" decoding="async">
+        <img src="photo/img_30_480x640.webp" alt="" loading="lazy" decoding="async">
+        <img src="photo/img_32_600x800.webp" alt="" loading="lazy" decoding="async">
+        <img src="photo/community-01.webp" alt="" loading="lazy" decoding="async">
+        <img src="photo/community-02.webp" alt="" loading="lazy" decoding="async">
+        <img src="photo/community-03.webp" alt="" loading="lazy" decoding="async">
+        <img src="photo/community-05.webp" alt="" loading="lazy" decoding="async">
       </div>
     </div>
   </section>
@@ -1785,7 +1832,7 @@
           </ul>
         </div>
       </div>
-      <div class="footer-bottom-bar">© 2025 ישיבת פאר יוסף. כל הזכויות שמורות.</div>
+      <div class="footer-bottom-bar">© <span id="copy-year">2026</span> ישיבת פאר יוסף. כל הזכויות שמורות.</div>
     </div>
   </div>
 
@@ -2871,12 +2918,13 @@
     async function loadPopupPoster() {
       if (sessionStorage.getItem('popup_dismissed')) return;
       try {
+        // maybeSingle(): an empty popup_poster table is normal — single() would 406 here
         const { data, error } = await _supabase
           .from('popup_poster')
           .select('image_url')
           .order('created_at', { ascending: false })
           .limit(1)
-          .single();
+          .maybeSingle();
         if (error || !data?.image_url) return;
         const img = document.getElementById('popup-img');
         const overlay = document.getElementById('popup-overlay');
@@ -3136,5 +3184,11 @@
       <img id="popup-img" src="" alt="אירוע מיוחד">
     </div>
   </div>
+<script>
+    (function () {
+      var y = document.getElementById('copy-year');
+      if (y) y.textContent = new Date().getFullYear();
+    })();
+  </script>
 </body>
 </html>

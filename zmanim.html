@@ -13,12 +13,17 @@
   <meta property="og:site_name" content="פאר יוסף">
   <meta property="og:locale" content="he_IL">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="photo/logo-main.png">
+  <meta property="og:image" content="https://par-yosef.pages.dev/photo/logo-main.png">
+  <meta property="og:url" content="https://par-yosef.pages.dev/zmanim">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://par-yosef.pages.dev/zmanim">
   <meta property="og:title" content="זמני תפילה — פאר יוסף | Horaires — Peer Yosef">
   <meta property="og:description" content="זמני תפילה ושבת של ישיבת פאר יוסף בירושלים. Horaires de prières et de Shabbat — Yeshiva Peer Yosef, Jérusalem.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@400;700&family=Noto+Sans+Hebrew:wght@300;400;500&display=swap">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@400;700&family=Noto+Sans+Hebrew:wght@300;400;500&display=swap');
-
+    
     :root {
       --bg:           #f7f4ef;
       --bg-dark:      #1E5A68;
@@ -38,6 +43,9 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    /* anchor targets must clear the fixed header */
+    [id] { scroll-margin-top: calc(var(--header-h) + 16px); }
     body { font-family: 'Noto Sans Hebrew', 'Heebo', sans-serif; color: var(--text); background: var(--bg); overflow-x: hidden; }
     body.nav-open { overflow: hidden; }
     a { text-decoration: none; color: inherit; }
@@ -488,7 +496,9 @@
     .footer-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 40px; }
     .footer-col h4 { font-size: 15px; font-weight: 600; margin-bottom: 14px; color: var(--gold-light); }
     .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-    .footer-col a { font-size: 14px; opacity: 0.8; transition: opacity 0.2s ease; }
+    .footer-col a { font-size: 14px; opacity: 0.8; transition: opacity 0.2s ease;
+      /* min-height lifts the tap target over the WCAG 2.2 minimum (24px) */
+    display: inline-flex; align-items: center; min-height: 28px; }
     .footer-col a:hover { opacity: 1; color: var(--gold-light) !important; }
     .footer-bottom-bar { text-align: center; font-size: 12px; opacity: 0.45; padding: 16px 0 0; border-top: 1px solid rgba(255,255,255,0.1); }
 
@@ -611,7 +621,7 @@
   <header id="site-header">
     <div class="header-inner">
       <a href="index.html" class="logo-wrap">
-        <img src="photo/logo-main.png" alt="פאר יוסף" height="48" style="filter:drop-shadow(0 0 4px rgba(0,0,0,0.4))" onerror="this.style.display='none'">
+        <img src="photo/logo-main.webp" alt="פאר יוסף" width="48" height="48" style="filter:drop-shadow(0 0 4px rgba(0,0,0,0.4))" onerror="this.src='photo/logo-main.png'; this.onerror=function(){this.style.display='none';}">
         <div>
           <span class="logo-name">פאר יוסף</span>
           <span class="logo-sub" data-i18n="logoSub">ישיבה · בית מדרש · קהילה</span>
@@ -853,7 +863,7 @@
           </ul>
         </div>
       </div>
-      <div class="footer-bottom-bar">© 2025 ישיבת פאר יוסף. כל הזכויות שמורות.</div>
+      <div class="footer-bottom-bar">© <span id="copy-year">2026</span> ישיבת פאר יוסף. כל הזכויות שמורות.</div>
     </div>
   </div>
 
@@ -1374,5 +1384,11 @@
       </form>
     </div>
   </div>
+<script>
+    (function () {
+      var y = document.getElementById('copy-year');
+      if (y) y.textContent = new Date().getFullYear();
+    })();
+  </script>
 </body>
 </html>
