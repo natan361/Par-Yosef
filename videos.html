@@ -215,6 +215,9 @@
       .vid-card { border-radius: 8px; }
       .vid-info { padding: 6px 8px 10px; }
       .vid-title { font-size: 12px; line-height: 1.4; -webkit-line-clamp: 2; }
+      .vid-badge { font-size: 10px; padding: 2px 8px; margin-bottom: 4px; }
+      /* drop the repeated series name on narrow cards — the חלק is what distinguishes them */
+      .vb-series { display: none; }
       .vid-date { font-size: 11px; margin-top: 3px; }
     }
 
@@ -272,6 +275,24 @@
 
     .vid-body,
     .vid-info { padding: 16px 18px 18px; }
+    /* Series badge — carries the shared prefix so the title can carry the difference */
+    .vid-badge {
+      display: inline-block;
+      max-width: 100%;
+      margin-bottom: 6px;
+      padding: 3px 9px;
+      border: 1px solid rgba(204,136,0,0.35);
+      border-radius: 999px;
+      background: rgba(204,136,0,0.08);
+      color: var(--gold);
+      font-size: 11px; font-weight: 600; line-height: 1.4;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .vid-card.dark .vid-badge {
+      border-color: rgba(232,168,32,0.45);
+      background: rgba(232,168,32,0.14);
+      color: var(--gold-light);
+    }
     .vid-title {
       font-family: 'Noto Serif Hebrew', 'David Libre', serif;
       font-size: 16px;
@@ -1006,11 +1027,28 @@
       window.open('https://en.savefrom.net/#url=' + ytUrl, '_blank', 'noopener');
     }
 
+    /* ── Helper: split "ליקוטי מוהר״ן חלק א תורה נג שיעור 4" into a series badge
+       and the part that actually distinguishes one shiur from the next.
+       Every title shares the same prefix, so without this the cards are unscannable.
+       Anything that doesn't match the pattern is left untouched. ── */
+    function splitVidTitle(title) {
+      // The חלק value is a short letter (א/ב/ג...). Some titles omit it, so the
+      // lookahead stops "חלק תורה נז" from reading "תורה" as the חלק.
+      const m = String(title).match(
+        /^\s*(ליקוטי\s+מוהר["״'’]?ן)\s*(חלק\s+(?!תורה)[֐-׿]{1,3}(?![֐-׿]))?\s*[-—:־]?\s*(.*)$/
+      );
+      if (!m) return { series: '', part: '', main: String(title) };
+      const main = (m[3] || '').trim();
+      if (!main) return { series: '', part: '', main: String(title) };
+      return { series: m[1], part: m[2] ? m[2].trim() : '', main };
+    }
+
     /* ── Helper: build a video card element ── */
     function makeVidCard(vidId, title, dateStr, dark, showDownload) {
       const card = document.createElement('div');
       card.className = 'vid-card' + (dark ? ' dark' : '');
       card.dataset.videoId = vidId;
+      const parts = splitVidTitle(title);
       const thumb = 'https://img.youtube.com/vi/' + vidId + '/hqdefault.jpg';
       card.setAttribute('onclick', "playVid(this,'" + vidId + "')");
       const downloadRow = showDownload
@@ -1026,7 +1064,14 @@
           + '<div class="play-overlay"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="40" fill="rgba(0,0,0,0.55)"/><polygon points="32,22 62,40 32,58" fill="white"/></svg></div>'
         + '</div>'
         + '<div class="vid-info">'
-          + '<p class="vid-title">' + title + '</p>'
+          + (parts.series
+              ? '<span class="vid-badge">'
+                  // .vb-series is hidden on mobile so the informative part (חלק א) survives
+                  + (parts.part ? '<span class="vb-series">' + parts.series + ' · </span>' + parts.part
+                                : parts.series)
+                + '</span>'
+              : '')
+          + '<p class="vid-title">' + parts.main + '</p>'
           + (dateStr ? '<p class="vid-date">' + dateStr + '</p>' : '')
           + downloadRow
         + '</div>';

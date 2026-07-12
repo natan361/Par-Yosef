@@ -483,11 +483,86 @@
     }
     .event-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(0,0,0,0.22); }
     .event-card-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+    /* ════════════════════════════
+       NEXT PRAYER + LOCATION STRIP
+    ════════════════════════════ */
+    .next-prayer {
+      background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+      box-shadow: inset 0 3px 0 var(--gold);
+    }
+    .next-prayer-inner {
+      display: flex; align-items: center; gap: 24px;
+      padding-top: 18px; padding-bottom: 18px;
+      flex-wrap: wrap;
+    }
+    .np-block { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+    .np-label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+      color: var(--muted); text-transform: uppercase;
+    }
+    .np-value {
+      font-family: 'Noto Serif Hebrew', serif;
+      font-size: 20px; font-weight: 700; color: var(--text);
+      line-height: 1.2;
+    }
+    .np-value .np-time { color: var(--gold); }
+    .np-value .np-rel  { font-family: 'Noto Sans Hebrew', sans-serif; font-size: 13px; font-weight: 400; color: var(--muted); }
+    .np-address { font-size: 15px; color: var(--text); }
+    .np-divider { width: 1px; align-self: stretch; background: var(--border); }
+    .np-actions { display: flex; gap: 10px; margin-inline-start: auto; }
+    .np-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 40px; padding: 0 18px;
+      border-radius: 999px;
+      background: var(--gold); color: #fff;
+      font-size: 14px; font-weight: 600;
+      border: 1px solid var(--gold);
+      transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+    }
+    .np-btn:hover { background: var(--gold-light); border-color: var(--gold-light); transform: translateY(-1px); }
+    .np-btn-ghost { background: transparent; color: var(--gold); }
+    .np-btn-ghost:hover { background: rgba(204,136,0,0.08); color: var(--gold); }
+    /* placeholder shimmer while the time is being resolved */
+    .np-skeleton {
+      display: inline-block; width: 150px; height: 20px; border-radius: 4px;
+      background: linear-gradient(90deg, var(--bg-elem) 25%, #f2eee7 50%, var(--bg-elem) 75%);
+      background-size: 200% 100%;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .np-skeleton { animation: np-shimmer 1.3s ease-in-out infinite; }
+    }
+    @keyframes np-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+    @media (max-width: 767px) {
+      .next-prayer-inner { gap: 12px 18px; padding-top: 14px; padding-bottom: 14px; }
+      .np-divider { display: none; }
+      .np-value { font-size: 18px; }
+      .np-address { font-size: 14px; }
+      .np-actions { width: 100%; margin-inline-start: 0; }
+      .np-btn { flex: 1; padding: 0 12px; }
+    }
+
+    /* Poster-less events get a deliberate typographic plate, not an empty fill —
+       marble texture + gold glow so it reads as designed next to a real poster. */
     .event-card-no-img {
+      position: relative; overflow: hidden;
       width: 100%; aspect-ratio: 16/9;
-      background: linear-gradient(135deg, var(--bg-dark), #2a7a8e);
+      background:
+        radial-gradient(130% 110% at 18% 0%, rgba(232,168,32,0.18), transparent 62%),
+        linear-gradient(135deg, #24697a 0%, var(--bg-dark) 55%, #17414c 100%);
       display: flex; align-items: center; justify-content: center;
-      color: rgba(255,255,255,0.2); font-size: 40px;
+      border-bottom: 2px solid var(--gold);
+    }
+    .event-card-no-img::before {
+      content: ''; position: absolute; inset: 0;
+      background: url('photo/parasha-bg.avif') center/cover;
+      opacity: 0.14; mix-blend-mode: overlay;
+    }
+    .event-card-no-img svg {
+      position: relative;
+      width: 64px; height: 64px;
+      color: var(--gold-light); opacity: 0.42;
     }
     .event-card-body { padding: 14px 16px; }
     #events .event-card-date { font-size: 12px; color: var(--gold) !important; font-weight: 600; margin: 0 0 6px; }
@@ -501,6 +576,18 @@
       border-radius: 12px 12px 0 0;
       margin-bottom: -4px; /* visually connects to the card below */
       font-family: 'Noto Serif Hebrew', serif;
+    }
+    /* Diamond ornaments flank the countdown text — CSS shapes, so no glyph sits in the DOM */
+    #events .event-countdown-banner::before,
+    #events .event-countdown-banner::after {
+      content: '';
+      display: inline-block;
+      width: 6px; height: 6px;
+      margin: 0 10px;
+      vertical-align: 2px;
+      background: currentColor;
+      transform: rotate(45deg);
+      opacity: 0.75;
     }
     #events .event-card-title {
       font-size: 16px; font-weight: 700; color: var(--text) !important;
@@ -1445,6 +1532,27 @@
       <span class="subtitle">ישיבה · בית מדרש · קהילה</span>
     </div>
     <a href="donate.html" class="hero-donate-btn">לתרומות</a>
+  </section>
+
+  <!-- התפילה הבאה + מיקום — המידע שרוב המבקרים מחפשים, מיד מתחת להירו -->
+  <section id="next-prayer" class="next-prayer">
+    <div class="container next-prayer-inner">
+      <div class="np-block np-block-time">
+        <span class="np-label" data-i18n="np.label">התפילה הבאה</span>
+        <span class="np-value" id="np-value" aria-live="polite">
+          <span class="np-skeleton"></span>
+        </span>
+      </div>
+      <div class="np-divider" aria-hidden="true"></div>
+      <div class="np-block np-block-place">
+        <span class="np-label" data-i18n="np.where">מיקום</span>
+        <span class="np-address" data-i18n="np.address">קדושי סלוניקי, ירושלים</span>
+      </div>
+      <div class="np-actions">
+        <a class="np-btn" href="zmanim.html" data-i18n="np.allTimes">כל הזמנים</a>
+        <a class="np-btn np-btn-ghost" href="#location" data-i18n="np.directions">הוראות הגעה</a>
+      </div>
+    </div>
   </section>
 
   <!-- פרשת השבוע -->
@@ -2717,7 +2825,13 @@
         const timeStr = ev.event_time ? ' | ' + ev.event_time : '';
         const imgHTML = (ev.poster_url && ev.poster_url.trim())
           ? `<img class="event-card-img" src="${ev.poster_url}" alt="${ev.title}" loading="lazy" onerror="this.style.display='none'">`
-          : `<div class="event-card-no-img">✡</div>`;
+          : `<div class="event-card-no-img" aria-hidden="true">
+               <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3"
+                    stroke-linejoin="round" focusable="false">
+                 <path d="M50 8 L86 71 L14 71 Z"></path>
+                 <path d="M50 92 L14 29 L86 29 Z"></path>
+               </svg>
+             </div>`;
         const descHTML = ev.description
           ? `<div class="event-card-desc-wrap" id="desc-wrap-${ev.id}">
                <p class="event-card-desc">${ev.description}</p>
@@ -2802,9 +2916,10 @@
         if (!el) { clearInterval(_countdownInterval); return; }
         const text = formatCountdown(ev);
         if (text) {
+          // Ornaments live in CSS (.event-countdown-banner::before/::after), not in the text
           el.textContent = text.startsWith('האירוע')
-            ? `✦ ${text} ✦`
-            : `✦ האירוע הקרוב — ${text} ✦`;
+            ? text
+            : `האירוע הקרוב — ${text}`;
         }
       };
       render();
@@ -2939,12 +3054,97 @@
       if (e.key === 'Escape') { closePopup(); closeEventModal(); }
     });
 
+    /* ── Next prayer strip ──
+       Reads the same `prayer_times` table zmanim.html uses, with the same fallback,
+       so the two pages can never disagree about the schedule. */
+    const NP_FALLBACK = {
+      weekday: [
+        { display_name: 'תפילת נץ',    prayer_time: '05:20' },
+        { display_name: 'תפילת שחרית', prayer_time: '09:00' },
+        { display_name: 'תפילת מנחה',  prayer_time: '19:20' },
+        { display_name: 'תפילת ערבית', prayer_time: '19:50' },
+      ],
+      shabbat: [
+        { display_name: 'תפילת נץ',    prayer_time: '05:20' },
+        { display_name: 'תפילת שחרית', prayer_time: '08:45' },
+        { display_name: 'תפילת מנחה',  prayer_time: '18:00' },
+      ],
+    };
+
+    const npMinutes = t => {
+      const [h, m] = String(t).split(':').map(Number);
+      return (h * 60 + (m || 0));
+    };
+
+    function npPickNext(rows, now) {
+      const isShabbat = d => d.getDay() === 6;
+      const listFor   = d => (isShabbat(d) ? rows.shabbat : rows.weekday)
+        .filter(r => r && r.prayer_time)
+        .sort((a, b) => npMinutes(a.prayer_time) - npMinutes(b.prayer_time));
+
+      const nowMin = now.getHours() * 60 + now.getMinutes();
+      const today  = listFor(now);
+      const next   = today.find(r => npMinutes(r.prayer_time) > nowMin);
+      if (next) return { row: next, tomorrow: false };
+
+      const t = new Date(now); t.setDate(t.getDate() + 1);
+      const list = listFor(t);
+      return list.length ? { row: list[0], tomorrow: true } : null;
+    }
+
+    function npRender(rows) {
+      const el = document.getElementById('np-value');
+      if (!el) return;
+      const now  = new Date();
+      const pick = npPickNext(rows, now);
+      if (!pick) { el.textContent = '—'; return; }
+
+      const mins    = npMinutes(pick.row.prayer_time);
+      const nowMin  = now.getHours() * 60 + now.getMinutes();
+      let delta     = mins - nowMin;
+      if (pick.tomorrow) delta += 24 * 60;
+
+      let rel;
+      if (delta <= 60) {
+        rel = `בעוד ${delta} דקות`;
+      } else {
+        const h = Math.floor(delta / 60);
+        rel = pick.tomorrow && delta > 12 * 60 ? 'מחר' : `בעוד ${h} שעות`;
+      }
+
+      el.innerHTML =
+        `${pick.row.display_name} <span class="np-time">${pick.row.prayer_time}</span> ` +
+        `<span class="np-rel">${rel}</span>`;
+    }
+
+    async function loadNextPrayer() {
+      let rows = NP_FALLBACK;
+      try {
+        const { data, error } = await _supabase
+          .from('prayer_times')
+          .select('*')
+          .order('sort_order', { ascending: true });
+        if (!error && data && data.length) {
+          const weekday = data.filter(r => r.day_type === 'weekday');
+          const shabbat = data.filter(r => r.day_type === 'shabbat');
+          rows = {
+            weekday: weekday.length ? weekday : NP_FALLBACK.weekday,
+            shabbat: shabbat.length ? shabbat : NP_FALLBACK.shabbat,
+          };
+        }
+      } catch (e) { /* keep the fallback */ }
+      npRender(rows);
+      // keep the relative label honest without hammering the network
+      setInterval(() => npRender(rows), 60000);
+    }
+
     /* ── Init ── */
     document.addEventListener('DOMContentLoaded', () => {
       loadHebcalData();
       loadYizkor().then(loadDbHilulot);
       loadDbEvents();
       loadPopupPoster();
+      loadNextPrayer();
 
       /* ── Gallery infinite loop ──
          RTL pages position tracks from the right, breaking translateX(-50%).
@@ -2979,6 +3179,11 @@
   ══════════════════════════════════ */
   const TRANSLATIONS = {
     he: {
+      'np.label': 'התפילה הבאה',
+      'np.where': 'מיקום',
+      'np.address': 'קדושי סלוניקי, ירושלים',
+      'np.allTimes': 'כל הזמנים',
+      'np.directions': 'הוראות הגעה',
       logoSub: 'ישיבה · בית מדרש · קהילה',
       navParasha: 'פרשת השבוע',
       navEvents: 'אירועים',
@@ -3029,6 +3234,11 @@
       'auth.adminCode':  'קוד גישה (אופציונלי)',
     },
     fr: {
+      'np.label': 'Prochain office',
+      'np.where': 'Adresse',
+      'np.address': 'Kedoshei Saloniki, Jérusalem',
+      'np.allTimes': 'Tous les horaires',
+      'np.directions': 'Itinéraire',
       logoSub: 'Yechiva · Beth Midrach · Communauté',
       navParasha: 'Paracha',
       navEvents: 'Événements',
