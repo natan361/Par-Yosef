@@ -879,6 +879,20 @@
     </div>
   </section>
 
+  <!-- SECTION 3B: Other Rabbis — הרב יאיר בר-כוכבא -->
+  <section class="vid-section reveal" id="sec-bar-kochba" style="background: var(--bg);">
+    <div class="container">
+      <div class="vid-section-header">
+        <h2 class="sec-title" data-i18n="sec_other_rabbis">רבנים אחרים</h2>
+        <p class="sec-sub">הרב יאיר בר-כוכבא</p>
+        <span class="gold-bar"></span>
+      </div>
+      <div class="vid-grid" id="bar-kochba-grid">
+        <!-- Cards injected by JS -->
+      </div>
+    </div>
+  </section>
+
   <!-- SECTION 4: News -->
   <section class="vid-section reveal" id="news-section" style="background: var(--bg-dark); border-top: 1px solid rgba(255,255,255,0.08);">
     <div class="container">
@@ -1172,6 +1186,33 @@
       ];
       const grid = document.getElementById('besht-grid');
       videos.forEach(v => grid.appendChild(makeVidCard(v.id, v.title, '', true)));
+    })();
+
+    /* ════════════════════════
+       SECTION 3B — Other Rabbis hardcoded (הרב יאיר בר-כוכבא)
+    ════════════════════════ */
+    (function buildBarKochbaCards() {
+      const videos = [
+        { id: 'QA7U3ydeCx4', title: 'פרשת שמות - כיצד לראות את הבורא בתוך הקושי' },
+        { id: 'ixMTZ9qbLO4', title: 'ביאור על ברכת סלח נא על פי החסידות שיעור 6' },
+        { id: '-iMbt-o8dks', title: 'ביאור ברכת חונן הדעת וברכת השיבנו על פי החסידות שיעור מספר 5' },
+        { id: 'rnmurCt4Qcs', title: 'ביאור על ברכת אתה קדוש על פי החסידות שיעור מספר 4' },
+        { id: 'sVavbGwWBao', title: 'ביאור על ברכת מחיה המתים על פי החסידות שיעור מספר 3' },
+        { id: '7zH6-OyFWoI', title: 'ביאור על ברכת אבות על פי החסידות שיעור מספר 2' },
+        { id: 'IZsU-idLETA', title: 'ביאור על ברכת אבות על פי החסידות שיעור מספר 1' },
+        { id: 'yqoQdDHE-_w', title: 'להשיב את אור המקדש' },
+        { id: '5O8IJ6F7UUw', title: '20 באוגוסט 2020' },
+        { id: '_rhWWNIHXtM', title: '19 באוגוסט 2020' },
+        { id: 'PD7LVGAUvvw', title: 'מה היעוד המיוחד שלי בעולם? מתומלל' },
+        { id: '9d9BeVbApwA', title: 'הדרך לתפילה מהלב' },
+        { id: 'm56nhB1fyEM', title: 'כוח הרגשת הלב' },
+        { id: '1s7R8muy0aM', title: 'יסודות ההצלחה לצמיחה ושגשוג' },
+        { id: 'RRQ99bFzgjk', title: 'מה היעוד המיוחד שלי בעולם?' },
+        { id: 'ci_9EuWNfbo', title: 'כוח המחשבה' },
+        { id: 'wrH9CwP7yEo', title: 'הטוב המצוי דווקא בדור הזה' }
+      ];
+      const grid = document.getElementById('bar-kochba-grid');
+      videos.forEach(v => grid.appendChild(makeVidCard(v.id, v.title, '', false)));
     })();
 
     /* ════════════════════════
@@ -1558,6 +1599,7 @@
         sec_rabbis_title:'שיעורי רבנים',
         coming_soon:     'שיעורים יתווספו בקרוב',
         sec_besht_title: 'סיפורי הבעל שם טוב לילדים',
+        sec_other_rabbis:'רבנים אחרים',
         sec_news_title:  'חדשות ופוליטיקה',
         loading_news:    'טוען חדשות...',
         news_more_link:  'לכל חדשות הפוליטיקה בערוץ 14',
@@ -1590,6 +1632,7 @@
         sec_rabbis_title:'Cours des Rabbins',
         coming_soon:     'Des cours seront ajoutés prochainement',
         sec_besht_title: 'Histoires du Baal Shem Tov pour enfants',
+        sec_other_rabbis:'Autres Rabbins',
         sec_news_title:  'Actualités et politique',
         loading_news:    'Chargement des actualités...',
         news_more_link:  'Toutes les actualités politiques sur Canal 14',
