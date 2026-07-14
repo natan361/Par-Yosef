@@ -608,7 +608,7 @@
           <div class="pay-card-title" data-i18n="donate.bitTitle">ביט</div>
           <div class="pay-card-text" data-i18n="donate.bitText">תרמו ישירות דרך אפליקציית ביט</div>
           <div class="pay-card-number">058-322-2465</div>
-          <a class="btn-pay" href="bit://pay?phone=0583222465" data-i18n="donate.bitBtn">שלח ביט</a>
+          <button type="button" class="btn-pay" onclick="handleBitClick()" data-i18n="donate.bitBtn">שלח ביט</button>
         </div>
 
         <div class="pay-card">
@@ -625,6 +625,7 @@
         </div>
 
       </div>
+      <div class="toast" id="bit-toast" style="max-width:420px;margin-left:auto;margin-right:auto;"></div>
     </div>
   </section>
 
@@ -1002,6 +1003,28 @@
       btn.disabled = false;
     }
 
+    /* ── Bit payment ── */
+    const BIT_PHONE = '0583222465';
+
+    function handleBitClick() {
+      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const lang = localStorage.getItem('siteLang') || 'he';
+      const t = TRANSLATIONS[lang] || TRANSLATIONS.he;
+
+      if (isMobile) {
+        window.location.href = `bit://pay?phone=${BIT_PHONE}`;
+      }
+
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(BIT_PHONE).catch(() => {});
+      }
+
+      const toast = document.getElementById('bit-toast');
+      toast.textContent = t['donate.bitCopied'] || 'המספר הועתק: 058-322-2465 — פתחו את אפליקציית ביט ושלחו תרומה למספר זה';
+      toast.className = 'toast success';
+      setTimeout(() => { toast.className = 'toast'; toast.textContent = ''; }, 6000);
+    }
+
     renderNames();
 
     /* ════ TRANSLATIONS ════ */
@@ -1038,6 +1061,7 @@
         'donate.cardText':        'תרומה מאובטחת דרך נדרים פלוס',
         'donate.cardSub':         'התרומה לפי סעיף 46',
         'donate.cardBtn':         'תרום בכרטיס',
+        'donate.bitCopied':       'המספר הועתק: 058-322-2465 — פתחו את אפליקציית ביט ושלחו תרומה למספר זה',
         'donate.namesTitle':      'הוסיפו שמות לתפילה',
         'donate.namesSubtitle':   'ניתן להוסיף שמות לרפואה, לעילוי נשמה, להצלחה ולפרנסה — גם ללא תרומה כספית',
         'donate.nameLabel':       'שם לתפילה',
@@ -1090,6 +1114,7 @@
         'donate.cardText':        'Don sécurisé via Nedarim Plus',
         'donate.cardSub':         'Don selon l\'article 46',
         'donate.cardBtn':         'Faire un don par carte',
+        'donate.bitCopied':       'Numéro copié : 058-322-2465 — ouvrez l\'application Bit et envoyez votre don à ce numéro',
         'donate.namesTitle':      'Ajouter des noms en prière',
         'donate.namesSubtitle':   'Vous pouvez ajouter des noms pour la guérison, pour l\'élévation de l\'âme, pour le succès et pour la parnassa — même sans don financier',
         'donate.nameLabel':       'Nom en prière',
