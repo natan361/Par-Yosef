@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin.html
 Disallow: /admin
 
-Sitemap: https://par-yosef.pages.dev/sitemap.xml
+Sitemap: https://natan361.github.io/Par-Yosef/sitemap.xml
