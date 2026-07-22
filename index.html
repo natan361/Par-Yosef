@@ -476,7 +476,8 @@
       display: block;
       font-size: var(--fs-sm);
       font-weight: 600;
-      letter-spacing: .16em;
+      letter-spacing: .08em;
+      line-height: 1.5;
       color: var(--gold-700);
       margin-bottom: var(--s3);
     }
@@ -749,8 +750,10 @@
     }
     .event-card-no-img::before {
       content: ''; position: absolute; inset: 0;
-      background: url('photo/parasha-bg.avif') center/cover;
-      opacity: 0.14; mix-blend-mode: overlay;
+      background:
+        repeating-linear-gradient(115deg, rgba(255,255,255,.05) 0 2px, transparent 2px 7px),
+        repeating-linear-gradient(65deg,  rgba(0,0,0,.05)      0 2px, transparent 2px 9px);
+      opacity: 0.7;
     }
     .event-card-no-img svg {
       position: relative;
@@ -1813,6 +1816,37 @@
       .mobile-bottom-nav a.active { color: var(--gold); }
       .mobile-bottom-nav svg { width: 22px; height: 22px; }
     }
+
+    /* ══════════════════════════════════════════════════════════════
+       TOUCH TARGETS — last in the sheet on purpose
+       CLAUDE.md sets a 44px floor. These rules have to come after the
+       component definitions they widen, and each target needs a box
+       layout: min-height is inert on an inline element.
+       ══════════════════════════════════════════════════════════════ */
+    @media (max-width: 767px) {
+      .gold-link,
+      .event-card-btn,
+      .footer-col a,
+      .footer-strip-item a,
+      .ann-link {
+        display: inline-flex !important;
+        align-items: center;
+        min-height: 44px !important;
+      }
+      /* footer lists get their height from padding so the rows stay legible
+         rather than collapsing into each other */
+      .footer-col li { margin-bottom: 0; }
+      .footer-col a  { padding-block: 8px; }
+
+      .auth-btn,
+      .np-btn,
+      .events-add-btn,
+      .lang-btn {
+        min-height: 44px !important;
+      }
+      .lang-btn { min-width: 44px; display: inline-flex; align-items: center; justify-content: center; }
+      .logo-wrap { min-height: 44px; }
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -1891,9 +1925,9 @@
   <!-- HERO -->
   <section id="hero">
     <div class="hero-content">
-      <span class="hero-label" data-i18n="heroLabel">ברוכים הבאים לישיבת</span>
+      <span class="hero-label" data-i18n="heroLabel">ירושלים · בהנהגת הרב אשר עבאדי שליט״א</span>
       <h1 class="hero-h1">פאר יוסף</h1>
-      <span class="subtitle">ישיבה · בית מדרש · קהילה</span>
+      <span class="subtitle" data-i18n="heroSubtitle">ישיבה · בית כנסת ובית מדרש ברסלב</span>
       <div class="hero-actions">
         <a href="donate.html" class="btn hero-donate-btn" data-i18n="heroDonate">לתרומות</a>
         <a href="zmanim.html" class="btn btn-outline hero-times-btn" data-i18n="heroTimes">זמני תפילה</a>
@@ -1944,7 +1978,7 @@
       </div>
       <div class="parasha-grid stagger-children">
         <div class="parasha-card lift">
-          <span class="parasha-label" data-i18n="parashaLabel">השבוע קוראים</span>
+          <span class="parasha-label" data-i18n="parashaLabel">קריאת השבוע</span>
           <div class="parasha-name" id="parasha-name">טוען...</div>
           <div class="parasha-date" id="hebrew-date"></div>
           <p class="parasha-body" id="parasha-body">טוען...</p>
@@ -3804,8 +3838,8 @@
       navAbout: 'אודות',
       navLocation: 'מיקום',
       aboutReadMore: 'קרא עוד',
-      heroLabel: 'ברוכים הבאים לישיבת',
-      heroSubtitle: 'ישיבה · בית מדרש · קהילה חסידית',
+      heroLabel: 'ירושלים · בהנהגת הרב אשר עבאדי שליט״א',
+      heroSubtitle: 'ישיבה · בית כנסת ובית מדרש ברסלב',
       parashaTitle: 'פרשת השבוע',
       parashaLabel: 'השבוע קוראים',
       parashaLink: 'לשיעורי הרב על הפרשה',
@@ -3877,8 +3911,8 @@
       navAbout: 'À propos',
       navLocation: 'Localisation',
       aboutReadMore: 'Lire la suite',
-      heroLabel: 'Bienvenue à la Yechiva',
-      heroSubtitle: 'Yechiva · Beth Midrach · Communauté hassidique',
+      heroLabel: 'Jérusalem · sous la direction du Rav Acher Abadi chalita',
+      heroSubtitle: 'Yechiva · synagogue et Beth Midrach Breslev',
       parashaTitle: 'Paracha de la semaine',
       parashaLabel: 'Cette semaine on lit',
       parashaLink: 'Les cours du Rav sur la paracha',
