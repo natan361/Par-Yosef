@@ -40,10 +40,13 @@ await page.evaluateHandle('document.fonts.ready');
 // that was never scrolled comes back blank. Walk it down, then return to top.
 if (FULL) {
   await page.evaluate(async () => {
-    const step = window.innerHeight * 0.8;
+    // half-viewport steps: a 0.8 step can carry a full-height section from
+    // below the fold to above it between two frames, and IntersectionObserver
+    // never samples it — the section then photographs blank
+    const step = window.innerHeight * 0.5;
     for (let y = 0; y < document.body.scrollHeight; y += step) {
       window.scrollTo(0, y);
-      await new Promise((r) => setTimeout(r, 120));
+      await new Promise((r) => setTimeout(r, 140));
     }
     window.scrollTo(0, 0);
   });

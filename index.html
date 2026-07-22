@@ -576,6 +576,8 @@
       pointer-events: none;
     }
     #parasha > * { position: relative; z-index: 1; }
+    #parasha .gold-link { color: var(--gold-200); }
+    #parasha .gold-link:hover { color: #fff; }
     #parasha .sec-title,
     #parasha .gold-bar,
     #parasha .sec-sub,
@@ -585,45 +587,50 @@
     #parasha .parasha-body,
     #parasha .parasha-label { color: #ffffff !important; }
 
-    .parasha-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s6); align-items: stretch; }
+    .parasha-grid { display: grid; grid-template-columns: 1fr 340px; gap: var(--s6); align-items: start; }
+    @media (max-width: 900px) { .parasha-grid { grid-template-columns: 1fr; } }
 
     /* Shabbat card — copied from zmanim.html so both pages render identical times */
     .shabbat-card {
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 20px;
-      padding: 22px 26px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: var(--r-md);
+      padding: var(--s5) var(--s5) var(--s3);
       color: #ffffff;
       position: relative;
       overflow: hidden;
+      backdrop-filter: blur(6px);
     }
-    .shabbat-card::before {
-      content: '';
-      position: absolute;
-      top: 0; right: 0;
-      width: 4px; height: 100%;
-      background: var(--gold);
+    .shabbat-card-head {
+      display: block;
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      letter-spacing: .18em;
+      color: var(--gold-200);
+      padding-bottom: var(--s4);
+      margin-bottom: var(--s2);
+      border-bottom: 1px solid rgba(255,255,255,.14);
     }
-    .shabbat-times-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 10px;
-    }
-    @media (max-width: 480px) { .shabbat-times-grid { grid-template-columns: 1fr; } }
+    /* one row per time — label right, figure left, hairline between */
+    .shabbat-times-grid { display: block; }
     .shabbat-time-item {
-      background: rgba(255,255,255,0.07);
-      border-radius: 12px;
-      padding: 10px 14px;
-      border: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--s4);
+      padding: var(--s4) 0;
+      border-bottom: 1px solid rgba(255,255,255,.10);
     }
+    .shabbat-time-item:last-child { border-bottom: none; }
     .shabbat-time-label {
-      font-size: 12px;
-      color: rgba(255,255,255,0.6);
-      margin-bottom: 4px;
-      font-weight: 500;
+      font-size: var(--fs-sm);
+      color: rgba(255,255,255,0.72);
+      font-weight: 400;
+      margin: 0;
     }
     .shabbat-time-value {
-      font-family: 'Noto Serif Hebrew', 'David Libre', serif;
-      font-size: clamp(20px, 3vw, 26px);
+      font-family: var(--font-display);
+      font-size: 28px;
       font-weight: 700;
       color: #ffffff;
       letter-spacing: 0.02em;
@@ -1243,6 +1250,103 @@
     }
 
     /* ════════════════════════════
+       PRAYER SCHEDULE
+       The single most-asked question a shul site gets. It lived only on
+       zmanim.html; the same Supabase rows now feed the home page too.
+    ════════════════════════════ */
+    #prayers { background: var(--sand); }
+    .prayers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s5); align-items: start; }
+    @media (max-width: 767px) { .prayers-grid { grid-template-columns: 1fr; gap: var(--s4); } }
+    .prayer-panel {
+      background: var(--surface);
+      border: 1px solid var(--line-2);
+      border-radius: var(--r-md);
+      box-shadow: var(--sh-1);
+      overflow: hidden;
+    }
+    .prayer-panel-head {
+      display: flex; align-items: baseline; justify-content: space-between; gap: var(--s3);
+      background: var(--sand-2);
+      border-bottom: 1px solid var(--line);
+      padding: var(--s4) var(--s5);
+    }
+    .prayer-panel-title {
+      font-family: var(--font-display);
+      font-size: var(--fs-md); font-weight: 700; color: var(--teal-900);
+    }
+    .prayer-panel-note { font-size: var(--fs-xs); color: var(--ink-3); }
+    .prayer-list { padding: var(--s2) var(--s5) var(--s4); }
+    .prayer-line {
+      display: flex; align-items: baseline; justify-content: space-between; gap: var(--s4);
+      padding: var(--s3) 0;
+      border-bottom: 1px solid var(--line-2);
+    }
+    .prayer-line:last-child { border-bottom: none; }
+    .prayer-line-name { font-size: var(--fs-base); color: var(--ink-2); }
+    .prayer-line-time {
+      font-family: var(--font-display);
+      font-size: var(--fs-lg); font-weight: 700; color: var(--teal-900);
+    }
+    .prayer-line.is-dynamic .prayer-line-time { color: var(--gold-700); }
+    .prayer-badge {
+      display: inline-block; margin-inline-start: var(--s2);
+      font-size: 11px; font-weight: 600; letter-spacing: .06em;
+      color: var(--gold-800); background: var(--gold-100);
+      border-radius: var(--r-pill); padding: 2px 8px;
+    }
+    .prayer-skeleton {
+      height: 14px; border-radius: 4px; margin: var(--s4) 0;
+      background: linear-gradient(90deg, var(--line-2), var(--sand-2), var(--line-2));
+      background-size: 200% 100%;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .prayer-skeleton { animation: np-shimmer 1.3s ease-in-out infinite; }
+    }
+    /* the standing evening shiur has no fixed clock time, so it gets its own line */
+    .shiur-strip {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--s5); flex-wrap: wrap;
+      margin-top: var(--s5);
+      background: var(--gold-50);
+      border: 1px solid var(--gold-200);
+      border-radius: var(--r-md);
+      padding: var(--s5) var(--s6);
+    }
+    .shiur-strip-text { font-family: var(--font-display); font-size: var(--fs-lg); font-weight: 700; color: var(--teal-900); }
+    .shiur-strip-sub  { font-size: var(--fs-sm); color: var(--ink-3); margin-top: 2px; }
+
+    /* ════════════════════════════
+       THE NUMBERS
+    ════════════════════════════ */
+    #numbers { background: var(--sand); padding-top: 0; }
+    .numbers-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .number-cell {
+      text-align: center;
+      padding: var(--s7) var(--s4);
+      border-inline-start: 1px solid var(--line);
+    }
+    .number-cell:first-child { border-inline-start: none; }
+    .number-value {
+      display: block;
+      font-family: var(--font-display);
+      font-size: clamp(34px, 5vw, 54px); font-weight: 700;
+      color: var(--teal-800); line-height: 1; letter-spacing: -0.03em;
+    }
+    .number-label { display: block; margin-top: var(--s3); font-size: var(--fs-sm); color: var(--ink-3); }
+    @media (max-width: 767px) { .prayer-badge { display: none; } }
+
+    /* CLAUDE.md: the three numbers stay on one row on mobile */
+    @media (max-width: 767px) {
+      .number-cell { padding: var(--s5) var(--s2); }
+      .number-value { font-size: clamp(24px, 8vw, 34px); }
+      .number-label { font-size: var(--fs-xs); margin-top: var(--s2); }
+    }
+
+    /* ════════════════════════════
        LESSONS
     ════════════════════════════ */
     #lessons { background: var(--sand); }
@@ -1800,9 +1904,10 @@
           <div class="parasha-name" id="parasha-name">טוען...</div>
           <div class="parasha-date" id="hebrew-date"></div>
           <p class="parasha-body" id="parasha-body">טוען...</p>
-          <a href="https://www.youtube.com/@הרבאשרעבאדיעטרתמנשההיכלמוהרן" target="_blank" rel="noopener" class="gold-link" id="parasha-wiki-link" data-i18n="parashaLink">לדבר תורה המלא</a>
+          <a href="videos.html" class="gold-link" id="parasha-wiki-link" data-i18n="parashaLink">לשיעורי הרב על הפרשה</a>
         </div>
         <div class="shabbat-card lift">
+          <span class="shabbat-card-head" data-i18n="shabbatTimesHead">זמני שבת</span>
           <div class="shabbat-times-grid">
             <div class="shabbat-time-item">
               <div class="shabbat-time-label" data-i18n="zmanCandles">הדלקת נרות</div>
@@ -1818,6 +1923,44 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- לוח תפילות -->
+  <section id="prayers" class="reveal">
+    <div class="container">
+      <div class="sec-head">
+        <span class="sec-eyebrow" data-i18n="prayersEyebrow">מתעדכן מלוח הישיבה</span>
+        <h2 class="sec-title" data-i18n="prayersTitle">לוח תפילות</h2>
+        <p class="sec-sub" data-i18n="prayersSub">הזמנים הקבועים בבית המדרש. זמני מוצאי שבת משתנים לפי הזמן ההלכתי.</p>
+      </div>
+      <div class="prayers-grid stagger-children">
+        <div class="prayer-panel">
+          <div class="prayer-panel-head">
+            <span class="prayer-panel-title" data-i18n="prayersWeekday">ימי חול</span>
+            <span class="prayer-panel-note" data-i18n="prayersWeekdayNote">א׳ – ו׳</span>
+          </div>
+          <div class="prayer-list" id="home-weekday-prayers">
+            <div class="prayer-skeleton"></div><div class="prayer-skeleton"></div><div class="prayer-skeleton"></div>
+          </div>
+        </div>
+        <div class="prayer-panel">
+          <div class="prayer-panel-head">
+            <span class="prayer-panel-title" data-i18n="prayersShabbat">שבת וחגים</span>
+            <span class="prayer-panel-note" data-i18n="prayersShabbatNote">כולל מוצאי שבת</span>
+          </div>
+          <div class="prayer-list" id="home-shabbat-prayers">
+            <div class="prayer-skeleton"></div><div class="prayer-skeleton"></div><div class="prayer-skeleton"></div>
+          </div>
+        </div>
+      </div>
+      <div class="shiur-strip">
+        <div>
+          <div class="shiur-strip-text" data-i18n="shiurStripText">שיעור יומי מפי הרב אשר עבאדי שליט״א</div>
+          <div class="shiur-strip-sub" data-i18n="shiurStripSub">ימים א׳–ה׳, מדי ערב לאחר תפילת ערבית</div>
+        </div>
+        <a href="zmanim.html" class="btn btn-outline" data-i18n="shiurStripBtn">לכל הזמנים</a>
       </div>
     </div>
   </section>
@@ -2054,6 +2197,26 @@
           <img src="photo/rabbi-photo.webp" alt="הרב אשר עבאדי שליט״א, ראש ישיבת פאר יוסף"
                loading="lazy" decoding="async"
                onerror="this.src='photo/rabbi-photo.png'; this.onerror=function(){this.outerHTML='<div class=\'about-img-placeholder\'><span>ספר<br>תורה</span></div>';}">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- מספרים -->
+  <section id="numbers" class="reveal">
+    <div class="container">
+      <div class="numbers-grid stagger-children">
+        <div class="number-cell">
+          <span class="number-value">1982</span>
+          <span class="number-label" data-i18n="numFounded">שנת הייסוד</span>
+        </div>
+        <div class="number-cell">
+          <span class="number-value">40</span>
+          <span class="number-label" data-i18n="numFamilies">משפחות בקהילה</span>
+        </div>
+        <div class="number-cell">
+          <span class="number-value">א׳–ה׳</span>
+          <span class="number-label" data-i18n="numShiur">שיעור יומי בבית המדרש</span>
         </div>
       </div>
     </div>
@@ -2455,6 +2618,25 @@
     document.querySelectorAll('.reveal, .stagger-children').forEach(el => {
       revealObserver.observe(el);
     });
+    /* Safety net: IntersectionObserver only reports what it sampled, so a fast
+       flick or an anchor jump can carry a section from below the fold to above
+       it between two frames — and it stays at opacity 0 forever. On every
+       scroll, reveal anything the viewport has already passed. */
+    function revealPassed() {
+      document.querySelectorAll('.reveal:not(.visible), .stagger-children:not(.visible)').forEach(el => {
+        if (el.getBoundingClientRect().top < window.innerHeight) {
+          el.classList.add('visible');
+          revealObserver.unobserve(el);
+        }
+      });
+    }
+    let revealTick = false;
+    window.addEventListener('scroll', () => {
+      if (revealTick) return;
+      revealTick = true;
+      requestAnimationFrame(() => { revealPassed(); revealTick = false; });
+    }, { passive: true });
+
     /* Immediately reveal anything already in viewport on load */
     setTimeout(() => {
       document.querySelectorAll('.reveal:not(.visible), .stagger-children:not(.visible)').forEach(el => {
@@ -2563,7 +2745,7 @@
       }
 
       const wikiLink = document.getElementById('parasha-wiki-link');
-      if (wikiLink) wikiLink.style.display = 'none';
+      if (wikiLink) wikiLink.style.display = '';
     }
 
     /* ── 8. הילולות צדיקים ── */
@@ -3384,6 +3566,70 @@
       setInterval(() => npRender(rows), 60000);
     }
 
+    /* ── Prayer schedule ──
+       Reads the same `prayer_times` rows zmanim.html uses, so an edit in the
+       admin panel lands on both pages. Falls back to the printed board if the
+       table is unreachable — the times are never left blank. */
+    const HOME_PRAYER_FALLBACK = {
+      weekday: [
+        { display_name: 'תפילת נץ',    prayer_time: '05:20' },
+        { display_name: 'תפילת שחרית', prayer_time: '09:00' },
+        { display_name: 'תפילת מנחה',  prayer_time: '19:20' },
+        { display_name: 'תפילת ערבית', prayer_time: '19:50' },
+      ],
+      shabbat: [
+        { display_name: 'תפילת נץ',    prayer_time: '05:20' },
+        { display_name: 'תפילת שחרית', prayer_time: '08:45' },
+        { display_name: 'תפילת מנחה',  prayer_time: '18:00' },
+      ],
+    };
+
+    function renderHomePrayers(id, rows) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.innerHTML = rows.map(r =>
+        `<div class="prayer-line"><span class="prayer-line-name">${r.display_name}</span>` +
+        `<span class="prayer-line-time">${r.prayer_time}</span></div>`
+      ).join('');
+    }
+
+    /* Motzash times come from Hebcal, not the table — append them once known. */
+    function appendMotzashRows() {
+      const el = document.getElementById('home-shabbat-prayers');
+      if (!el || el.querySelector('.is-dynamic')) return;
+      const reg = document.getElementById('havdalah-regular')?.textContent || '';
+      const rt  = document.getElementById('havdalah-time')?.textContent || '';
+      const row = (label, time) =>
+        `<div class="prayer-line is-dynamic"><span class="prayer-line-name">${label}` +
+        `<span class="prayer-badge">לפי הזמן</span></span>` +
+        `<span class="prayer-line-time">${time}</span></div>`;
+      let html = '';
+      if (reg && reg !== '--:--') html += row('ערבית מוצ״ש (מניין א׳)', reg);
+      if (rt  && rt  !== '--:--') html += row('ערבית מוצ״ש (רבנו תם)', rt);
+      if (html) el.insertAdjacentHTML('beforeend', html);
+    }
+
+    async function loadHomePrayerTimes() {
+      let weekday = HOME_PRAYER_FALLBACK.weekday;
+      let shabbat = HOME_PRAYER_FALLBACK.shabbat;
+      try {
+        const { data, error } = await _supabase
+          .from('prayer_times').select('*').order('sort_order', { ascending: true });
+        if (error || !data || !data.length) throw error || new Error('empty prayer_times');
+        const w = data.filter(r => r.day_type === 'weekday');
+        const sh = data.filter(r => r.day_type === 'shabbat');
+        if (w.length)  weekday = w;
+        if (sh.length) shabbat = sh;
+      } catch (e) {
+        console.warn('[prayer_times]', e?.message || e);
+      }
+      renderHomePrayers('home-weekday-prayers', weekday);
+      renderHomePrayers('home-shabbat-prayers', shabbat);
+      // Hebcal usually resolves after this; retry briefly rather than racing it
+      let tries = 0;
+      const t = setInterval(() => { appendMotzashRows(); if (++tries > 12) clearInterval(t); }, 700);
+    }
+
     /* ── Init ── */
     document.addEventListener('DOMContentLoaded', () => {
       loadHebcalData();
@@ -3391,6 +3637,7 @@
       loadDbEvents();
       loadPopupPoster();
       loadNextPrayer();
+      loadHomePrayerTimes();
 
       /* ── Gallery infinite loop ──
          RTL pages position tracks from the right, breaking translateX(-50%).
@@ -3431,6 +3678,20 @@
       'np.allTimes': 'כל הזמנים',
       'np.directions': 'הוראות הגעה',
       logoSub: 'ישיבה · בית מדרש · קהילה',
+      prayersEyebrow: 'מתעדכן מלוח הישיבה',
+      prayersTitle: 'לוח תפילות',
+      prayersSub: 'הזמנים הקבועים בבית המדרש. זמני מוצאי שבת משתנים לפי הזמן ההלכתי.',
+      prayersWeekday: 'ימי חול',
+      prayersWeekdayNote: 'א׳ – ו׳',
+      prayersShabbat: 'שבת וחגים',
+      prayersShabbatNote: 'כולל מוצאי שבת',
+      shiurStripText: 'שיעור יומי מפי הרב אשר עבאדי שליט״א',
+      shiurStripSub: 'ימים א׳–ה׳, מדי ערב לאחר תפילת ערבית',
+      shiurStripBtn: 'לכל הזמנים',
+      shabbatTimesHead: 'זמני שבת',
+      numFounded: 'שנת הייסוד',
+      numFamilies: 'משפחות בקהילה',
+      numShiur: 'שיעור יומי בבית המדרש',
       heroDonate: 'לתרומות',
       heroTimes: 'זמני תפילה',
       parashaEyebrow: 'מתעדכן מדי שבוע',
@@ -3449,7 +3710,7 @@
       heroSubtitle: 'ישיבה · בית מדרש · קהילה חסידית',
       parashaTitle: 'פרשת השבוע',
       parashaLabel: 'השבוע קוראים',
-      parashaLink: 'לדבר תורה המלא',
+      parashaLink: 'לשיעורי הרב על הפרשה',
       zmanCandles: 'הדלקת נרות',
       zmanHavdalahReg: 'יציאת שבת (רגיל)',
       zmanHavdalahRT: 'יציאת שבת רבנו תם',
@@ -3494,6 +3755,20 @@
       'np.allTimes': 'Tous les horaires',
       'np.directions': 'Itinéraire',
       logoSub: 'Yechiva · Beth Midrach · Communauté',
+      prayersEyebrow: 'Selon le tableau de la yechiva',
+      prayersTitle: 'Horaires des offices',
+      prayersSub: "Les horaires fixes du Beth Midrach. La sortie de Chabbat varie selon l'heure halakhique.",
+      prayersWeekday: 'Jours de semaine',
+      prayersWeekdayNote: 'Dim. – Ven.',
+      prayersShabbat: 'Chabbat et fêtes',
+      prayersShabbatNote: 'Sortie de Chabbat incluse',
+      shiurStripText: 'Cours quotidien du Rav Acher Abadi chalita',
+      shiurStripSub: 'Du dimanche au jeudi, chaque soir après l’office du soir',
+      shiurStripBtn: 'Tous les horaires',
+      shabbatTimesHead: 'Horaires de Chabbat',
+      numFounded: 'Année de fondation',
+      numFamilies: 'Familles dans la communauté',
+      numShiur: 'Cours quotidien au Beth Midrach',
       heroDonate: 'Faire un don',
       heroTimes: 'Horaires des offices',
       parashaEyebrow: 'Mis à jour chaque semaine',
@@ -3512,7 +3787,7 @@
       heroSubtitle: 'Yechiva · Beth Midrach · Communauté hassidique',
       parashaTitle: 'Paracha de la semaine',
       parashaLabel: 'Cette semaine on lit',
-      parashaLink: 'Voir la déracha complète',
+      parashaLink: 'Les cours du Rav sur la paracha',
       zmanCandles: 'Allumage des bougies',
       zmanHavdalahReg: 'Fin de Chabbat (standard)',
       zmanHavdalahRT: 'Fin de Chabbat (Rabbénou Tam)',
