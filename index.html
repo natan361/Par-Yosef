@@ -1039,17 +1039,6 @@
     /* ════════════════════════════
        WHATSAPP — slim banner
     ════════════════════════════ */
-    #whatsapp { background: var(--sand); padding: 0 0 var(--sec-y); }
-    /* the banner reads as one card rather than a full-bleed strip */
-    .wa-banner {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: var(--s5); flex-wrap: wrap;
-      background: var(--gold-50);
-      border: 1px solid var(--gold-200);
-      border-radius: var(--r-md);
-      padding: var(--s6) var(--s7);
-    }
-    .wa-banner-text { font-family: var(--font-display); font-size: var(--fs-lg); color: var(--teal-900); font-weight: 700; letter-spacing: -0.01em; }
 
     /* ════════════════════════════
        מיקום
@@ -1250,6 +1239,74 @@
     }
 
     /* ════════════════════════════
+       ANNOUNCEMENTS
+       A short-lived notice board straight under the hero. The section stays
+       hidden unless the table returns something live, so the page has no
+       empty shell on a quiet week.
+    ════════════════════════════ */
+    #announcements { background: var(--sand); padding: var(--s6) 0 0; }
+    #announcements[hidden] { display: none; }
+    .ann-card {
+      background: var(--surface);
+      border: 1px solid var(--gold-200);
+      border-radius: var(--r-md);
+      box-shadow: var(--sh-2);
+      overflow: hidden;
+    }
+    .ann-head {
+      display: flex; align-items: center; gap: var(--s3);
+      padding: var(--s4) var(--s5);
+      background: var(--gold-50);
+      border-bottom: 1px solid var(--gold-200);
+    }
+    .ann-head-title {
+      font-size: var(--fs-xs); font-weight: 600; letter-spacing: .16em;
+      color: var(--gold-800);
+    }
+    .ann-count {
+      font-size: 11px; font-weight: 700; line-height: 1;
+      color: #fff; background: var(--gold-600);
+      border-radius: var(--r-pill); padding: 4px 9px;
+    }
+    .ann-list { list-style: none; margin: 0; padding: 0; }
+    .ann-item {
+      display: flex; align-items: baseline; gap: var(--s3);
+      padding: var(--s4) var(--s5);
+      border-bottom: 1px solid var(--line-2);
+    }
+    .ann-item:last-child { border-bottom: none; }
+    /* a dot rather than an icon font — CLAUDE.md bans emoji outright */
+    .ann-dot {
+      flex: none; width: 8px; height: 8px; border-radius: 50%;
+      background: var(--teal-600); transform: translateY(-2px);
+    }
+    .ann-item.is-urgent .ann-dot { background: var(--gold-500); }
+    @media (prefers-reduced-motion: no-preference) {
+      .ann-item.is-urgent .ann-dot { animation: ann-pulse 2.2s ease-in-out infinite; }
+    }
+    @keyframes ann-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(204,136,0,.45); }
+      50%      { box-shadow: 0 0 0 6px rgba(204,136,0,0); }
+    }
+    .ann-text { flex: 1; font-size: var(--fs-base); color: var(--ink-2); line-height: 1.6; }
+    .ann-item.is-urgent .ann-text { color: var(--ink); font-weight: 600; }
+    .ann-link {
+      flex: none; font-size: var(--fs-sm); font-weight: 600;
+      color: var(--gold-700); white-space: nowrap;
+      display: inline-flex; align-items: center; min-height: 28px;
+    }
+    .ann-link:hover { color: var(--gold-800); text-decoration: underline; }
+    @media (max-width: 767px) {
+      #announcements { padding-top: var(--s5); }
+      /* the dot stays on the first line beside the text; only the link wraps,
+         indented so it lines up under the message rather than under the dot */
+      .ann-item { flex-wrap: wrap; align-items: flex-start; padding: var(--s4); }
+      .ann-dot  { transform: none; margin-top: 8px; }
+      .ann-text { font-size: var(--fs-sm); flex: 1; }
+      .ann-link { flex: 1 1 100%; margin-top: var(--s2); margin-inline-start: calc(8px + var(--s3)); }
+    }
+
+    /* ════════════════════════════
        PRAYER SCHEDULE
        The single most-asked question a shul site gets. It lived only on
        zmanim.html; the same Supabase rows now feed the home page too.
@@ -1314,37 +1371,6 @@
     }
     .shiur-strip-text { font-family: var(--font-display); font-size: var(--fs-lg); font-weight: 700; color: var(--teal-900); }
     .shiur-strip-sub  { font-size: var(--fs-sm); color: var(--ink-3); margin-top: 2px; }
-
-    /* ════════════════════════════
-       THE NUMBERS
-    ════════════════════════════ */
-    #numbers { background: var(--sand); padding-top: 0; }
-    .numbers-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-    .number-cell {
-      text-align: center;
-      padding: var(--s7) var(--s4);
-      border-inline-start: 1px solid var(--line);
-    }
-    .number-cell:first-child { border-inline-start: none; }
-    .number-value {
-      display: block;
-      font-family: var(--font-display);
-      font-size: clamp(34px, 5vw, 54px); font-weight: 700;
-      color: var(--teal-800); line-height: 1; letter-spacing: -0.03em;
-    }
-    .number-label { display: block; margin-top: var(--s3); font-size: var(--fs-sm); color: var(--ink-3); }
-    @media (max-width: 767px) { .prayer-badge { display: none; } }
-
-    /* CLAUDE.md: the three numbers stay on one row on mobile */
-    @media (max-width: 767px) {
-      .number-cell { padding: var(--s5) var(--s2); }
-      .number-value { font-size: clamp(24px, 8vw, 34px); }
-      .number-label { font-size: var(--fs-xs); margin-top: var(--s2); }
-    }
 
     /* ════════════════════════════
        LESSONS
@@ -1655,9 +1681,6 @@
 
       /* ── WhatsApp ── */
       #whatsapp         { padding: 14px 0 !important; }
-      .wa-banner        { padding: 18px 20px !important; gap: 12px !important; flex-direction: column !important; align-items: center !important; text-align: center !important; }
-      .wa-banner-text   { font-size: 15px !important; }
-      .wa-banner .btn   { width: 100% !important; max-width: 240px !important; }
 
       /* ── Location ── */
       #location { padding: 20px 0 !important; }
@@ -1866,6 +1889,19 @@
       <div class="hero-actions">
         <a href="donate.html" class="btn hero-donate-btn" data-i18n="heroDonate">לתרומות</a>
         <a href="zmanim.html" class="btn btn-outline hero-times-btn" data-i18n="heroTimes">זמני תפילה</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- התראות — נשאר מוסתר עד שיש מה להציג -->
+  <section id="announcements" hidden aria-live="polite">
+    <div class="container">
+      <div class="ann-card">
+        <div class="ann-head">
+          <span class="ann-head-title" data-i18n="annTitle">עדכונים</span>
+          <span class="ann-count" id="ann-count"></span>
+        </div>
+        <ul class="ann-list" id="ann-list"></ul>
       </div>
     </div>
   </section>
@@ -2202,26 +2238,6 @@
     </div>
   </section>
 
-  <!-- מספרים -->
-  <section id="numbers" class="reveal">
-    <div class="container">
-      <div class="numbers-grid stagger-children">
-        <div class="number-cell">
-          <span class="number-value">1982</span>
-          <span class="number-label" data-i18n="numFounded">שנת הייסוד</span>
-        </div>
-        <div class="number-cell">
-          <span class="number-value">40</span>
-          <span class="number-label" data-i18n="numFamilies">משפחות בקהילה</span>
-        </div>
-        <div class="number-cell">
-          <span class="number-value">א׳–ה׳</span>
-          <span class="number-label" data-i18n="numShiur">שיעור יומי בבית המדרש</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- גלריה -->
   <section id="gallery-strip" class="reveal">
     <div class="container">
@@ -2259,16 +2275,6 @@
       </div>
     </div>
   </section>
-
-  <!-- WhatsApp — slim banner -->
-  <div id="whatsapp">
-    <div class="container">
-      <div class="wa-banner">
-        <span class="wa-banner-text">הצטרפו לקהילה שלנו</span>
-        <a href="#" class="btn btn-green">הצטרפו לקבוצת WhatsApp</a>
-      </div>
-    </div>
-  </div>
 
   <!-- מיקום -->
   <section id="location" class="reveal">
@@ -3630,8 +3636,54 @@
       const t = setInterval(() => { appendMotzashRows(); if (++tries > 12) clearInterval(t); }, 700);
     }
 
+    /* ── Announcements ──
+       Managed from the admin panel. Rows can carry a start/end window so a
+       notice retires itself; the filtering is done here rather than in the
+       query so a row with no window still shows. */
+    function escHtml(str) {
+      return String(str).replace(/[&<>"']/g, c =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    async function loadAnnouncements() {
+      const section = document.getElementById('announcements');
+      const list    = document.getElementById('ann-list');
+      if (!section || !list) return;
+      try {
+        const { data, error } = await _supabase
+          .from('announcements').select('*')
+          .eq('is_active', true)
+          .order('sort_order', { ascending: true })
+          .order('created_at', { ascending: false });
+        if (error) throw error;
+
+        const now = Date.now();
+        const live = (data || []).filter(a => {
+          if (a.starts_at && new Date(a.starts_at).getTime() > now) return false;
+          if (a.ends_at   && new Date(a.ends_at).getTime()   < now) return false;
+          return true;
+        });
+        if (!live.length) { section.hidden = true; return; }
+
+        list.innerHTML = live.map(a => {
+          const link = a.link_url
+            ? `<a class="ann-link" href="${escHtml(a.link_url)}" ${/^https?:/i.test(a.link_url) ? 'target="_blank" rel="noopener"' : ''}>${escHtml(a.link_label || 'פרטים')}</a>`
+            : '';
+          return `<li class="ann-item${a.level === 'urgent' ? ' is-urgent' : ''}">` +
+                 `<span class="ann-dot" aria-hidden="true"></span>` +
+                 `<span class="ann-text">${escHtml(a.message)}</span>${link}</li>`;
+        }).join('');
+        document.getElementById('ann-count').textContent = live.length;
+        section.hidden = false;
+      } catch (e) {
+        console.warn('[announcements]', e?.message || e);
+        section.hidden = true;   // never leave an empty shell on the page
+      }
+    }
+
     /* ── Init ── */
     document.addEventListener('DOMContentLoaded', () => {
+      loadAnnouncements();
       loadHebcalData();
       loadYizkor().then(loadDbHilulot);
       loadDbEvents();
@@ -3678,6 +3730,7 @@
       'np.allTimes': 'כל הזמנים',
       'np.directions': 'הוראות הגעה',
       logoSub: 'ישיבה · בית מדרש · קהילה',
+      annTitle: 'עדכונים',
       prayersEyebrow: 'מתעדכן מלוח הישיבה',
       prayersTitle: 'לוח תפילות',
       prayersSub: 'הזמנים הקבועים בבית המדרש. זמני מוצאי שבת משתנים לפי הזמן ההלכתי.',
@@ -3689,9 +3742,6 @@
       shiurStripSub: 'ימים א׳–ה׳, מדי ערב לאחר תפילת ערבית',
       shiurStripBtn: 'לכל הזמנים',
       shabbatTimesHead: 'זמני שבת',
-      numFounded: 'שנת הייסוד',
-      numFamilies: 'משפחות בקהילה',
-      numShiur: 'שיעור יומי בבית המדרש',
       heroDonate: 'לתרומות',
       heroTimes: 'זמני תפילה',
       parashaEyebrow: 'מתעדכן מדי שבוע',
@@ -3755,6 +3805,7 @@
       'np.allTimes': 'Tous les horaires',
       'np.directions': 'Itinéraire',
       logoSub: 'Yechiva · Beth Midrach · Communauté',
+      annTitle: 'Annonces',
       prayersEyebrow: 'Selon le tableau de la yechiva',
       prayersTitle: 'Horaires des offices',
       prayersSub: "Les horaires fixes du Beth Midrach. La sortie de Chabbat varie selon l'heure halakhique.",
@@ -3766,9 +3817,6 @@
       shiurStripSub: 'Du dimanche au jeudi, chaque soir après l’office du soir',
       shiurStripBtn: 'Tous les horaires',
       shabbatTimesHead: 'Horaires de Chabbat',
-      numFounded: 'Année de fondation',
-      numFamilies: 'Familles dans la communauté',
-      numShiur: 'Cours quotidien au Beth Midrach',
       heroDonate: 'Faire un don',
       heroTimes: 'Horaires des offices',
       parashaEyebrow: 'Mis à jour chaque semaine',

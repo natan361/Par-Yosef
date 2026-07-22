@@ -370,6 +370,7 @@
 
   <!-- Tabs -->
   <div class="admin-tabs">
+    <button class="admin-tab" data-tab="announcements">התראות<span class="tab-badge" id="badge-announcements"></span></button>
     <button class="admin-tab" data-tab="popup">פוסטר קופץ</button>
     <button class="admin-tab active" data-tab="gallery">גלריה<span class="tab-badge" id="badge-gallery"></span></button>
     <button class="admin-tab" data-tab="events">אירועים<span class="tab-badge" id="badge-events"></span></button>
@@ -380,6 +381,49 @@
     <button class="admin-tab" data-tab="subscribers">רשימת תפוצה</button>
     <button class="admin-tab" data-tab="settings">הגדרות</button>
     <button class="admin-tab" data-tab="prayer-times">ניהול זמנים</button>
+  </div>
+
+  <!-- ── ANNOUNCEMENTS SECTION ── -->
+  <div id="section-announcements" class="admin-section">
+    <h2>התראות לקהילה</h2>
+
+    <div class="admin-note">
+      התראות מופיעות בראש דף הבית, מתחת לתמונה הגדולה. אם אין אף התראה פעילה — האזור לא מוצג כלל.
+      אפשר לתת להתראה תאריך סיום והיא תיעלם מעצמה.
+    </div>
+
+    <div class="admin-form">
+      <h3>התראה חדשה</h3>
+      <form id="add-ann-form" onsubmit="addAnnouncement(event)">
+        <div class="form-group">
+          <label for="ann-message">תוכן ההתראה</label>
+          <textarea id="ann-message" placeholder="לדוגמה: מנחה היום ב-19:00 בבית המדרש" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="ann-level">דחיפות</label>
+          <select id="ann-level">
+            <option value="info">רגילה</option>
+            <option value="urgent">דחופה — מודגשת בזהב</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="ann-link-url">קישור (אופציונלי)</label>
+          <input type="text" id="ann-link-url" dir="ltr" placeholder="zmanim.html או https://...">
+        </div>
+        <div class="form-group">
+          <label for="ann-link-label">כיתוב הקישור (אופציונלי)</label>
+          <input type="text" id="ann-link-label" placeholder="ברירת מחדל: פרטים">
+        </div>
+        <div class="form-group">
+          <label for="ann-ends">תאריך סיום (אופציונלי) — אחריו ההתראה נעלמת לבד</label>
+          <input type="datetime-local" id="ann-ends" dir="ltr">
+        </div>
+        <button type="submit" class="btn-submit">פרסם התראה</button>
+      </form>
+    </div>
+
+    <p class="admin-sub-h">התראות קיימות</p>
+    <div id="ann-admin-list"></div>
   </div>
 
   <!-- ── POPUP POSTER SECTION ── -->
@@ -819,6 +863,7 @@
       };
 
       autoCleanEvents();
+      loadAnnouncementsAdmin();
       loadPopupAdmin();
       loadGalleryAll();
       loadExistingGallery();
@@ -871,6 +916,98 @@
         document.getElementById('section-' + btn.dataset.tab).classList.add('active');
       });
     });
+
+    /* ═══════════════════════════════
+       ANNOUNCEMENTS
+    ═══════════════════════════════ */
+    function annEsc(str) {
+      return String(str ?? '').replace(/[&<>"']/g, c =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function annIsLive(a) {
+      if (!a.is_active) return false;
+      const now = Date.now();
+      if (a.starts_at && new Date(a.starts_at).getTime() > now) return false;
+      if (a.ends_at   && new Date(a.ends_at).getTime()   < now) return false;
+      return true;
+    }
+
+    async function loadAnnouncementsAdmin() {
+      const el = document.getElementById('ann-admin-list');
+      if (!el) return;
+      const { data, error } = await _supabase.from('announcements').select('*')
+        .order('sort_order', { ascending: true })
+        .order('created_at', { ascending: false });
+      if (error) { el.innerHTML = '<div class="empty-state"><p>שגיאה: ' + annEsc(error.message) + '</p></div>'; return; }
+      const items = data || [];
+      if (!items.length) {
+        el.innerHTML = '<p style="color:var(--muted);padding:12px 0">אין התראות. האזור בדף הבית מוסתר.</p>';
+        refreshAnnBadge(0);
+        return;
+      }
+      el.innerHTML = items.map(a => {
+        const live = annIsLive(a);
+        const expired = a.ends_at && new Date(a.ends_at).getTime() < Date.now();
+        return `
+        <div class="goal-card">
+          <div class="goal-card-top">
+            <div class="goal-card-info">
+              <strong>${annEsc(a.message)}</strong>
+              <p>
+                ${a.level === 'urgent' ? 'דחופה · ' : ''}${live ? 'מוצגת עכשיו' : (expired ? 'פג תוקף' : 'לא פעילה')}
+                ${a.ends_at ? ' · עד ' + new Date(a.ends_at).toLocaleString('he-IL') : ''}
+                ${a.link_url ? ' · קישור: ' + annEsc(a.link_url) : ''}
+              </p>
+            </div>
+          </div>
+          <div class="goal-card-actions">
+            <button class="${a.is_active ? 'btn-toggle-active' : 'btn-toggle-inactive'}"
+              onclick="toggleAnnouncement(${a.id}, ${a.is_active})">
+              ${a.is_active ? 'פעילה' : 'כבויה'}
+            </button>
+            <button class="btn-delete" onclick="deleteAnnouncement(${a.id})">מחק</button>
+          </div>
+        </div>`;
+      }).join('');
+      refreshAnnBadge(items.filter(annIsLive).length);
+    }
+
+    function refreshAnnBadge(n) {
+      const b = document.getElementById('badge-announcements');
+      if (!b) return;
+      b.textContent = n > 0 ? n : '';
+      b.style.display = n > 0 ? '' : 'none';
+    }
+
+    async function addAnnouncement(e) {
+      e.preventDefault();
+      const endsVal = document.getElementById('ann-ends').value;
+      const { error } = await _supabase.from('announcements').insert({
+        message:    document.getElementById('ann-message').value.trim(),
+        level:      document.getElementById('ann-level').value,
+        link_url:   document.getElementById('ann-link-url').value.trim()   || null,
+        link_label: document.getElementById('ann-link-label').value.trim() || null,
+        ends_at:    endsVal ? new Date(endsVal).toISOString() : null,
+        is_active:  true
+      });
+      if (error) { alert('שגיאה: ' + error.message); return; }
+      e.target.reset();
+      loadAnnouncementsAdmin();
+    }
+
+    async function toggleAnnouncement(id, current) {
+      const { error } = await _supabase.from('announcements').update({ is_active: !current }).eq('id', id);
+      if (error) { alert('שגיאה: ' + error.message); return; }
+      loadAnnouncementsAdmin();
+    }
+
+    async function deleteAnnouncement(id) {
+      if (!confirm('למחוק את ההתראה?')) return;
+      const { error } = await _supabase.from('announcements').delete().eq('id', id);
+      if (error) { alert('שגיאה: ' + error.message); return; }
+      loadAnnouncementsAdmin();
+    }
 
     /* ═══════════════════════════════
        GALLERY
