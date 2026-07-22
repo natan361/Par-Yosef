@@ -31,7 +31,7 @@
   <!-- Fonts: <link> instead of CSS @import so the browser can start fetching immediately -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@400;700&family=Noto+Sans+Hebrew:wght@300;400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Assistant:wght@300;400;500;600;700&display=swap">
 
   <!-- Hero is the LCP element — start it before the CSS is parsed -->
   <link rel="preload" as="image" href="photo/heroimege.webp" media="(min-width: 768px)">
@@ -59,20 +59,91 @@
   }
   </script>
   <style>
+    /* ══════════════════════════════════════════════════════════════
+       DESIGN SYSTEM — "חותם" / the seal
+       The brand's own artifact is a gold seal on cream: a double ring,
+       an engraved crown, gold that reads as incised line rather than
+       flat fill. The page borrows that logic — cream ground, gold used
+       as rule and accent, deep teal reserved for moments of weight.
+       ══════════════════════════════════════════════════════════════ */
     :root {
-      --bg:           #f7f4ef;
-      --bg-dark:      #1E5A68;
-      --bg-card:      #ffffff;
-      --bg-elem:      #ede9e2;
-      --border:       #d4cdc3;
-      --gold:         #CC8800;
-      --gold-light:   #E8A820;
-      --teal-light:   #A5D7DC;
+      /* ── Teal ramp ─────────────────────────────── */
+      --teal-900:     #0E2B33;
+      --teal-800:     #14414C;
+      --teal-700:     #1E5A68;   /* brand teal */
+      --teal-600:     #2B7C8D;
+      --teal-200:     #B7DAE0;
+      --teal-100:     #DCECEF;
+      --teal-50:      #EFF7F8;
+
+      /* ── Gold ramp — 700 is the darkest that stays gold, and the
+            only one that passes 4.5:1 for small text on cream ─────── */
+      --gold-800:     #6E4B00;
+      --gold-700:     #8A5E00;
+      --gold-600:     #A87200;
+      --gold-500:     #CC8800;   /* brand gold — fills and large type only */
+      --gold-400:     #E0A21F;
+      --gold-200:     #F0DCA8;   /* small gold text on teal */
+      --gold-100:     #F8EED6;
+      --gold-50:      #FCF7EC;
+
+      /* ── Neutrals ──────────────────────────────── */
+      --sand:         #f7f4ef;   /* page ground */
+      --sand-2:       #F1ECE2;   /* alternate band */
+      --surface:      #ffffff;
+      --ink:          #16323D;
+      --ink-2:        #3D5B67;   /* 6.6:1 on sand */
+      --ink-3:        #587079;   /* 4.8:1 on sand — the muted floor */
+      --line:         #E4DCCC;
+      --line-2:       #EFE9DE;
+
+      /* ── Type ──────────────────────────────────── */
+      --font-display: 'Frank Ruhl Libre', 'Noto Serif Hebrew', 'David Libre', serif;
+      --font-body:    'Assistant', 'Heebo', 'Noto Sans Hebrew', sans-serif;
+      --fs-xs:        13px;
+      --fs-sm:        15px;
+      --fs-base:      17px;
+      --fs-md:        19px;
+      --fs-lg:        22px;
+      --fs-xl:        clamp(24px, 3vw, 30px);
+      --fs-2xl:       clamp(28px, 4vw, 40px);
+      --fs-3xl:       clamp(32px, 5vw, 52px);
+      --fs-hero:      clamp(56px, 9vw, 118px);
+
+      /* ── Spacing — one 8pt scale, plus a real section rhythm ───── */
+      --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px; --s5: 24px;
+      --s6: 32px; --s7: 48px; --s8: 64px; --s9: 96px;
+      --sec-y:        clamp(56px, 7vw, 96px);
+
+      /* ── Depth — soft, layered, never a single hard drop ───────── */
+      --sh-1:         0 1px 2px rgba(22,50,61,.05), 0 2px 6px rgba(22,50,61,.05);
+      --sh-2:         0 2px 4px rgba(22,50,61,.05), 0 10px 24px rgba(22,50,61,.08);
+      --sh-3:         0 4px 10px rgba(22,50,61,.06), 0 20px 48px rgba(22,50,61,.12);
+      --sh-gold:      0 6px 20px rgba(204,136,0,.30);
+
+      /* ── Radius ────────────────────────────────── */
+      --r-xs: 8px; --r-sm: 12px; --r-md: 18px; --r-lg: 26px; --r-pill: 999px;
+
+      /* ── Motion ────────────────────────────────── */
+      --ease:         cubic-bezier(.22, 1, .36, 1);
+      --dur-1:        180ms;
+      --dur-2:        280ms;
+      --dur-3:        520ms;
+
+      /* ── Aliases kept so existing rules resolve ─── */
+      --bg:           var(--sand);
+      --bg-dark:      var(--teal-700);
+      --bg-card:      var(--surface);
+      --bg-elem:      var(--sand-2);
+      --border:       var(--line);
+      --gold:         var(--gold-500);
+      --gold-light:   var(--gold-400);
+      --teal-light:   var(--teal-200);
       --white:        #ffffff;
-      --text:         #1C3D52;
-      --text-light:   #f7f4ef;
-      --muted:        #6a7585;
-      --header-bg:    rgba(30, 90, 104, 0.93);
+      --text:         var(--ink);
+      --text-light:   var(--sand);
+      --muted:        var(--ink-3);
+      --header-bg:    rgba(14, 43, 51, 0.92);
       --header-h:     72px;
     }
 
@@ -81,62 +152,115 @@
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
     /* anchor targets must clear the fixed header */
     [id] { scroll-margin-top: calc(var(--header-h) + 16px); }
-    body { font-family: 'Noto Sans Hebrew', 'Heebo', sans-serif; color: var(--text); background: var(--bg); overflow-x: hidden; }
+    body {
+      font-family: var(--font-body);
+      font-size: var(--fs-base);
+      line-height: 1.65;
+      color: var(--text);
+      background: var(--bg);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      font-variant-numeric: tabular-nums;
+    }
     body.nav-open { overflow: hidden; }
     a { text-decoration: none; color: inherit; }
     img { display: block; max-width: 100%; }
-    ::selection { background: var(--gold); color: #fff; }
+    ::selection { background: var(--gold-200); color: var(--ink); }
+    :focus-visible { outline: 3px solid var(--gold-600); outline-offset: 3px; border-radius: 4px; }
 
-    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 var(--s5); }
+
+    /* Every section breathes on the same rhythm. Individual sections
+       override only when they carry a full-bleed element. */
+    section { padding: var(--sec-y) 0; }
 
     /* ── Buttons ── */
     .btn {
-      display: inline-block;
-      background: var(--gold);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--s2);
+      background: var(--gold-500);
       color: #ffffff;
-      border-radius: 28px;
-      padding: 12px 32px;
-      font-family: 'Noto Sans Hebrew', 'Heebo', sans-serif;
-      font-size: 16px;
-      font-weight: 500;
+      border-radius: var(--r-pill);
+      padding: 14px 34px;
+      min-height: 48px;
+      font-family: var(--font-body);
+      font-size: var(--fs-base);
+      font-weight: 600;
+      letter-spacing: -0.01em;
       border: none;
       cursor: pointer;
-      transition: opacity 0.2s ease, transform 0.2s ease;
+      box-shadow: var(--sh-gold);
+      transition: background var(--dur-1) ease, transform var(--dur-1) var(--ease), box-shadow var(--dur-1) ease;
       white-space: nowrap;
     }
-    .btn:hover { opacity: 0.88; transform: translateY(-1px); }
-    .btn:active { transform: translateY(0); }
-    .btn-green { background: #25D366; color: #fff; }
+    .btn:hover { background: var(--gold-600); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(204,136,0,.38); }
+    .btn:active { transform: translateY(0); box-shadow: var(--sh-1); }
+    /* WhatsApp keeps its own identity through the icon, not a clashing green fill */
+    .btn-green { background: var(--teal-700); color: #fff; box-shadow: 0 6px 20px rgba(30,90,104,.28); }
+    .btn-green:hover { background: var(--teal-800); box-shadow: 0 10px 28px rgba(30,90,104,.34); }
     .btn-outline {
       background: transparent;
-      border: 2px solid var(--gold);
-      color: var(--gold);
+      border: 1.5px solid var(--gold-600);
+      color: var(--gold-700);
+      box-shadow: none;
     }
-    .btn-outline:hover { background: var(--gold); color: var(--bg-dark); opacity: 1; }
+    .btn-outline:hover { background: var(--gold-500); border-color: var(--gold-500); color: #fff; box-shadow: var(--sh-gold); }
 
-    /* ── Section titles ── */
+    /* ══════════════════════════════════════════════════════════════
+       SECTION HEADERS
+       The signature: the seal's double ring, unrolled into a rule that
+       runs from the title out to the container edge. Right-aligned,
+       because that is where a Hebrew reader starts.
+       ══════════════════════════════════════════════════════════════ */
+    .sec-head { margin-bottom: var(--s7); }
+    .sec-eyebrow {
+      display: block;
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      letter-spacing: .18em;
+      color: var(--gold-700);
+      margin-bottom: var(--s2);
+    }
     .sec-title {
-      font-family: 'Noto Serif Hebrew', 'David Libre', serif;
-      font-size: clamp(26px, 5vw, 40px);
+      font-family: var(--font-display);
+      font-size: var(--fs-2xl);
       font-weight: 700;
       color: var(--text);
-      text-align: center;
-      margin-bottom: 12px;
+      line-height: 1.15;
       letter-spacing: -0.02em;
+      margin-bottom: var(--s3);
+      display: flex;
+      align-items: center;
+      gap: var(--s5);
     }
-    .sec-title.light { color: var(--text-light); }
-    .sec-sub { font-size: 17px; color: var(--muted); text-align: center; margin-bottom: 12px; }
-    .sec-sub.light { color: var(--text-light); opacity: 0.75; }
-    .gold-bar {
-      display: block; width: 56px; height: 3px;
-      background: var(--gold); margin: 0 auto 20px;
+    /* the double rule — drawn with the element's own borders, no extra markup */
+    .sec-title::after {
+      content: "";
+      flex: 1;
+      height: 5px;
+      border-top: 1px solid var(--gold-500);
+      border-bottom: 1px solid var(--gold-500);
+      opacity: .55;
     }
-    .gold-bar.light { background: var(--gold); }
-    .gold-bar.right { margin-right: 0; }
+    .sec-sub {
+      font-size: var(--fs-base);
+      color: var(--muted);
+      max-width: 62ch;
+      margin: 0;
+    }
+    .sec-title.light { color: #ffffff; }
+    .sec-title.light::after { border-color: var(--gold-400); opacity: .5; }
+    .sec-sub.light { color: var(--teal-100); opacity: 1; }
+    .sec-eyebrow.light { color: var(--gold-200); }
+    /* the old centred gold bar is retired — kept as a no-op so any
+       remaining markup does not leave a stray element behind */
+    .gold-bar { display: none; }
 
     /* ── Gold link ── */
     .gold-link {
-      color: var(--gold); font-size: 15px; font-weight: 500; transition: opacity 0.2s ease;
+      color: var(--gold-700); font-size: var(--fs-sm); font-weight: 600; transition: opacity 0.2s ease;
       /* min-height lifts the tap target over the WCAG 2.2 minimum (24px) */
       display: inline-flex; align-items: center; min-height: 28px;
     }
@@ -145,11 +269,6 @@
     /* ══════════════════════════════════════
        WHITE TEXT ON ALL DARK / COLORED BACKGROUNDS
        ══════════════════════════════════════ */
-    #events,
-    #events .sec-title,
-    #events .sec-sub,
-    #events p,
-    #events .events-empty { color: #ffffff !important; }
     #donate-cta,
     #donate-cta h2,
     #donate-cta p,
@@ -169,9 +288,8 @@
     .footer-logo-tag { color: #ffffff !important; }
     .nav-overlay,
     .nav-overlay a { color: #ffffff !important; }
-    thead th { color: #ffffff !important; }
-    .btn { color: #ffffff !important; }
-    .btn:hover, .btn:focus { color: #ffffff !important; }
+    .btn:not(.btn-outline) { color: #ffffff !important; }
+    .btn:not(.btn-outline):hover, .btn:not(.btn-outline):focus { color: #ffffff !important; }
 
     /* ════════════════════════════
        HEADER
@@ -179,35 +297,49 @@
     header {
       position: fixed; top: 0; right: 0; left: 0;
       height: var(--header-h); z-index: 1000;
-      background: transparent;
-      transition: background 0.3s ease, box-shadow 0.3s ease;
+      background: rgba(247,244,239,.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid transparent;
+      transition: background var(--dur-2) ease, box-shadow var(--dur-2) ease, border-color var(--dur-2) ease;
     }
-    header.scrolled { background: var(--header-bg); box-shadow: 0 2px 16px rgba(0,0,0,0.4); }
+    header.scrolled {
+      background: rgba(247,244,239,.94);
+      border-bottom-color: var(--line);
+      box-shadow: var(--sh-1);
+    }
     .header-inner {
       display: flex; align-items: center; justify-content: space-between;
       height: 100%; max-width: 1160px; margin: 0 auto; padding: 0 24px; gap: 12px;
     }
     .logo-wrap { display: flex; align-items: center; gap: 12px; line-height: 1.2; text-decoration: none; background: transparent; border-radius: 0; padding: 0; }
     .logo-wrap img { object-fit: contain; flex-shrink: 0; display: block; height: 48px; width: auto; }
-    .logo-name { font-family: 'Noto Serif Hebrew', 'David Libre', serif; font-size: 26px; font-weight: 700; color: #ffffff !important; display: block; text-shadow: 0 1px 4px rgba(0,0,0,0.5); -webkit-text-stroke: 0.5px rgba(0,0,0,0.4); }
-    .logo-sub  { font-size: 11px; color: rgba(255,255,255,0.75) !important; font-weight: 300; letter-spacing: 0.5px; display: block; }
+    .logo-name { font-family: var(--font-display); font-size: 25px; font-weight: 700; color: var(--teal-900); display: block; letter-spacing: -0.02em; }
+    .logo-sub  { font-size: 11px; color: var(--ink-3); font-weight: 400; letter-spacing: .06em; display: block; }
 
     .desktop-nav { display: none; gap: 32px; align-items: center; flex: 1; justify-content: center; position: static; transform: none; left: auto; }
     .desktop-nav a {
-      font-family: 'Noto Sans Hebrew', 'Heebo', sans-serif; font-size: 15px; font-weight: 400;
-      color: var(--text); letter-spacing: 0.02em;
+      font-family: var(--font-body); font-size: var(--fs-sm); font-weight: 500;
+      color: var(--ink-2); letter-spacing: 0.01em;
       transition: color 0.2s ease; position: relative; padding-bottom: 4px;
     }
-    header.scrolled .desktop-nav a { color: #ffffff !important; }
     .desktop-nav a::after {
       content: ''; position: absolute; bottom: 0; right: 0;
       width: 0; height: 2px; background: var(--gold); transition: width 0.25s ease;
     }
-    .desktop-nav a:hover { color: var(--gold); }
+    .desktop-nav a:hover { color: var(--gold-700); }
     .desktop-nav a:hover::after, .desktop-nav a.active::after { width: 100%; }
-    .desktop-nav a.active { color: var(--gold); }
-    .desktop-nav a.donate-link { color: var(--gold-light); }
+    .desktop-nav a.active { color: var(--gold-700); font-weight: 600; }
+    .desktop-nav a.donate-link { color: var(--gold-700); }
     @media (min-width: 768px) { .hamburger { display: none; } .desktop-nav { display: flex; } }
+    /* at exactly 768px the nav turns on but the 32px gaps make items wrap */
+    @media (min-width: 768px) and (max-width: 1024px) {
+      .desktop-nav { gap: 18px; }
+      .desktop-nav a { font-size: var(--fs-xs); }
+      .logo-name { font-size: 21px; }
+      .auth-btn { padding: 6px 12px; }
+    }
+
 
     .hamburger { background: none; border: none; color: var(--text); font-size: 28px; cursor: pointer; line-height: 1; padding: 4px; transition: opacity 0.2s ease; }
     .hamburger:hover { opacity: 0.7; }
@@ -220,8 +352,7 @@
       transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
     }
     .lang-btn:hover { background: var(--bg-dark); color: #ffffff; }
-    header.scrolled .lang-btn { border-color: #ffffff; color: #ffffff; }
-    header.scrolled .lang-btn:hover { background: rgba(255,255,255,0.15); }
+    .lang-btn:hover { background: rgba(30,90,104,.10); }
 
     /* mobile overlay */
     .nav-overlay {
@@ -287,113 +418,162 @@
       background-image: image-set(url('photo/heroimege.webp') type('image/webp'),
                                   url('photo/heroimege.png')  type('image/png'));
       background-size: cover;
-      background-position: center;
+      background-position: 34% center;
       background-repeat: no-repeat;
       position: relative;
       width: 100%;
-      aspect-ratio: 16 / 9;
-      min-height: 520px;
-      max-height: 620px;
+      min-height: min(88vh, 780px);
       display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
       align-items: center;
-      padding-bottom: 32px;
+    }
+    /* A real scrim replaces the white text-shadow halo that used to smear
+       behind every letter. It fades in from the right — the side a Hebrew
+       reader enters from, and the side the sketch leaves empty. */
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to left,
+          rgba(247,244,239,.92) 0%,
+          rgba(247,244,239,.70) 20%,
+          rgba(247,244,239,.24) 40%,
+          rgba(247,244,239,0)   56%);
+      z-index: 0;
+      pointer-events: none;
+    }
+    /* and a short fade into the section below, so the image does not end on a hard edge */
+    #hero::after {
+      content: '';
+      position: absolute;
+      inset-inline: 0;
+      bottom: 0;
+      height: 22%;
+      background: linear-gradient(to top, var(--sand) 0%, rgba(247,244,239,0) 100%);
+      z-index: 0;
+      pointer-events: none;
     }
 
-    /* Hero entrance keyframes — each preserves its own final transform */
-    @keyframes heroContentIn {
-      from { opacity: 0; transform: translateY(calc(-50% + 30px)); }
-      to   { opacity: 1; transform: translateY(-50%); }
+    /* Hero entrance — one orchestrated sequence, not four scattered fades */
+    @keyframes heroIn {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: none; }
     }
     .hero-content {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      right: 2%;
-      width: 52%;
-      max-width: 640px;
+      position: relative;
+      z-index: 1;
+      width: min(52%, 620px);
+      margin-inline-start: max(4vw, calc((100vw - 1160px) / 2 + 24px));
+      margin-inline-end: auto;
       text-align: right;
-      background: none;
-      padding: 0;
-      animation: heroContentIn 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s both;
-      will-change: transform, opacity;
     }
-
-    /* white glow on all text elements so dark letters pop off the image */
-    .hero-content h1,
-    .hero-content .hero-label,
-    .hero-content .subtitle,
-    .hero-content p {
-      text-shadow:
-        0 0 12px rgba(255,255,255,0.95),
-        0 0 6px rgba(255,255,255,0.95),
-        1px 1px 0 rgba(255,255,255,0.8),
-        -1px -1px 0 rgba(255,255,255,0.8);
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-content > * { animation: heroIn .8s var(--ease) both; }
+      .hero-content > .hero-label   { animation-delay: .05s; }
+      .hero-content > .hero-h1      { animation-delay: .14s; }
+      .hero-content > .subtitle     { animation-delay: .24s; }
+      .hero-content > .hero-actions { animation-delay: .36s; }
     }
 
     .hero-label {
       display: block;
-      font-size: clamp(16px, 2vw, 24px);
-      font-weight: 500;
-      color: var(--bg-dark);
-      margin-bottom: 8px;
+      font-size: var(--fs-sm);
+      font-weight: 600;
+      letter-spacing: .16em;
+      color: var(--gold-700);
+      margin-bottom: var(--s3);
     }
     .hero-h1 {
-      font-family: 'Noto Serif Hebrew', 'David Libre', serif;
-      font-size: clamp(72px, 10vw, 140px);
-      font-weight: 800;
-      color: var(--bg-dark);
-      line-height: 1.0;
-      letter-spacing: -0.02em;
-      margin: 10px 0;
+      font-family: var(--font-display);
+      font-size: var(--fs-hero);
+      font-weight: 900;
+      color: var(--teal-900);
+      line-height: .92;
+      letter-spacing: -0.035em;
+      margin: 0;
     }
     .subtitle {
-      font-family: 'Noto Sans Hebrew', 'Heebo', sans-serif;
-      font-size: clamp(18px, 2.2vw, 28px);
-      font-weight: 400;
-      color: var(--bg-dark);
-      display: block;
-      margin-top: 10px;
+      font-family: var(--font-body);
+      font-size: var(--fs-lg);
+      font-weight: 500;
+      color: var(--ink-2);
+      display: inline-block;
+      margin-top: var(--s4);
+      padding-top: var(--s4);
+      border-top: 1px solid var(--gold-500);
     }
 
+    /* ── Hero, small screens ──────────────────────────────────────
+       The sketch is a single wide image with the rabbi on the left,
+       so on a narrow viewport there is no empty column to write into.
+       The layout stacks instead: name at the top, the sketch breathing
+       in the middle, the actions on a solid footing at the bottom. */
     @media (max-width: 767px) {
       #hero {
-        aspect-ratio: unset;
-        min-height: 340px;
-        max-height: unset;
-        padding-top: var(--header-h);
+        min-height: 0;
+        display: block;
+        padding-top: calc(var(--header-h) + var(--s6));
+        padding-bottom: var(--s6);
         background-image: image-set(url('photo/heroimege-mobile.webp') type('image/webp'),
                                     url('photo/heroimege.png')         type('image/png'));
+        background-position: 28% center;
       }
+      /* vertical scrim on mobile — the image sits behind the middle band */
+      #hero::before {
+        background: linear-gradient(to bottom,
+          rgba(247,244,239,.97) 0%,
+          rgba(247,244,239,.86) 22%,
+          rgba(247,244,239,.30) 46%,
+          rgba(247,244,239,.86) 74%,
+          rgba(247,244,239,.99) 100%);
+      }
+      #hero::after { display: none; }
       .hero-content {
-        width: 56%;
-        max-width: unset;
-        right: 2%;
-        top: 50%;
-        transform: translateY(-50%);
+        width: auto;
+        margin: 0;
+        padding: 0 20px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
       }
-      .hero-content .hero-label { font-size: clamp(10px, 2.5vw, 13px); margin-bottom: 3px; }
-      .hero-content .hero-h1    { font-size: clamp(42px, 11vw, 68px) !important; line-height: 1.0; margin: 4px 0; }
-      .hero-content .subtitle   { font-size: clamp(10px, 2.5vw, 13px); margin-top: 4px; }
+      .hero-label  { font-size: var(--fs-xs); margin-bottom: var(--s2); }
+      .hero-h1     { font-size: clamp(52px, 16vw, 78px); }
+      .subtitle    {
+        font-size: var(--fs-sm);
+        margin: var(--s3) auto 0;
+        padding-top: var(--s3);
+        max-width: none;
+      }
+      /* the sketch gets its own breathing room between text and buttons */
+      #hero .hero-actions {
+        margin-top: min(52vw, 330px);
+        flex-direction: row;
+        justify-content: center;
+        gap: var(--s3);
+      }
+      #hero .hero-donate-btn,
+      #hero .hero-times-btn { flex: 1 1 0; font-size: var(--fs-base); padding: 14px 12px; }
     }
 
     /* ════════════════════════════
        פרשת השבוע
     ════════════════════════════ */
+    /* The brown marble photo fought the brand palette and muddied every
+       colour on top of it. The section now sits on deep teal — the same
+       ground the footer uses — so the page has two grounds, not eight. */
     #parasha {
-      background-image: url('photo/parasha-bg.avif');
-      background-size: cover;
-      background-position: center;
+      background: var(--teal-800);
       position: relative;
-      padding: 24px 0;
+      overflow: hidden;
     }
+    /* a single soft light source, top-right where the reader enters */
     #parasha::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.58);
+      background: radial-gradient(120% 90% at 88% 0%, rgba(43,124,141,.55) 0%, transparent 62%);
       z-index: 0;
+      pointer-events: none;
     }
     #parasha > * { position: relative; z-index: 1; }
     #parasha .sec-title,
@@ -405,7 +585,7 @@
     #parasha .parasha-body,
     #parasha .parasha-label { color: #ffffff !important; }
 
-    .parasha-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+    .parasha-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s6); align-items: stretch; }
 
     /* Shabbat card — copied from zmanim.html so both pages render identical times */
     .shabbat-card {
@@ -449,43 +629,44 @@
       letter-spacing: 0.02em;
     }
 
-    .parasha-card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 40px; backdrop-filter: blur(4px); }
-    .parasha-label { display: block; font-size: 12px; font-weight: 500; color: var(--gold-light); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; }
-    .parasha-name { font-family: 'Noto Serif Hebrew', 'David Libre', serif; font-size: clamp(24px, 4vw, 36px); color: #ffffff; font-weight: 700; line-height: 1.1; }
+    .parasha-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14); border-radius: var(--r-md); padding: var(--s7) var(--s6); backdrop-filter: blur(6px); }
+    .parasha-label { display: block; font-size: var(--fs-xs); font-weight: 600; color: var(--gold-200); letter-spacing: .18em; margin-bottom: var(--s3); }
+    .parasha-name { font-family: var(--font-display); font-size: var(--fs-2xl); color: #ffffff; font-weight: 700; line-height: 1.08; letter-spacing: -0.02em; }
     .parasha-date { font-size: 14px; color: rgba(255,255,255,0.65); margin-top: 6px; margin-bottom: 20px; }
-    .parasha-body { font-size: 16px; line-height: 1.9; color: rgba(255,255,255,0.88); margin-bottom: 20px; }
+    .parasha-body { font-size: var(--fs-base); line-height: 1.85; color: rgba(255,255,255,0.86); margin-bottom: var(--s5); max-width: 62ch; }
 
     /* ════════════════════════════
        אירועים קרובים
     ════════════════════════════ */
-    #events { background: var(--bg-dark); padding: 24px 0; }
-    #events .sec-title { color: var(--white); }
+    #events { background: var(--sand); }
     #events .sec-sub   { color: var(--muted); }
-    #events .gold-bar  { background: var(--gold); }
     .events-head {
-      display: flex; align-items: center; justify-content: center;
-      gap: 16px; flex-wrap: wrap;
+      display: flex; align-items: flex-end; justify-content: space-between;
+      gap: var(--s5); flex-wrap: wrap;
     }
+    .events-head > div:first-child { flex: 1; min-width: 260px; }
     .events-add-btn {
-      display: inline-flex; align-items: center; gap: 4px;
-      border: 1.5px solid var(--gold); border-radius: 24px;
-      padding: 8px 20px; color: var(--gold); background: transparent;
-      font-size: 14px; font-family: 'Noto Sans Hebrew', 'Heebo', sans-serif;
+      display: inline-flex; align-items: center; gap: var(--s1);
+      border: 1.5px solid var(--gold-600); border-radius: var(--r-pill);
+      padding: 10px 22px; min-height: 42px;
+      color: var(--gold-700); background: transparent;
+      font-size: var(--fs-sm); font-weight: 600; font-family: var(--font-body);
       cursor: pointer; white-space: nowrap;
-      transition: background 0.2s ease, color 0.2s ease;
+      transition: background var(--dur-1) ease, color var(--dur-1) ease;
     }
-    .events-add-btn:hover { background: var(--gold); color: #fff; }
+    .events-add-btn:hover { background: var(--gold-500); border-color: var(--gold-500); color: #fff; }
 
     /* ── Event Cards ── */
     .events-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 18px; margin-top: 24px;
-      align-items: start; /* so the countdown banner on one card doesn't stretch its row-mates */
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: var(--s5); margin-top: 0;
+      align-items: flex-start; /* so the countdown banner on one card doesn't stretch its row-mates */
     }
-    .event-card-wrap { display: flex; flex-direction: column; }
+    .event-card-wrap { display: flex; flex-direction: column; flex: 0 1 340px; max-width: 360px; }
     .event-card {
-      background: var(--bg-card); border-radius: 14px; overflow: hidden;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08); cursor: pointer;
+      background: var(--surface); border-radius: var(--r-md); overflow: hidden;
+      border: 1px solid var(--line-2);
+      box-shadow: var(--sh-1); cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       border: 1px solid rgba(255,255,255,0.1); text-align: right;
     }
@@ -495,9 +676,9 @@
        NEXT PRAYER + LOCATION STRIP
     ════════════════════════════ */
     .next-prayer {
-      background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg) 100%);
-      border-bottom: 1px solid var(--border);
-      box-shadow: inset 0 3px 0 var(--gold);
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+      box-shadow: var(--sh-1);
     }
     .next-prayer-inner {
       display: flex; align-items: center; gap: 24px;
@@ -514,7 +695,7 @@
       font-size: 20px; font-weight: 700; color: var(--text);
       line-height: 1.2;
     }
-    .np-value .np-time { color: var(--gold); }
+    .np-value .np-time { color: var(--gold-700); }
     .np-value .np-rel  { font-family: 'Noto Sans Hebrew', sans-serif; font-size: 13px; font-weight: 400; color: var(--muted); }
     .np-address { font-size: 15px; color: var(--text); }
     .np-divider { width: 1px; align-self: stretch; background: var(--border); }
@@ -529,8 +710,8 @@
       transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
     }
     .np-btn:hover { background: var(--gold-light); border-color: var(--gold-light); transform: translateY(-1px); }
-    .np-btn-ghost { background: transparent; color: var(--gold); }
-    .np-btn-ghost:hover { background: rgba(204,136,0,0.08); color: var(--gold); }
+    .np-btn-ghost { background: transparent; color: var(--gold-700); }
+    .np-btn-ghost:hover { background: rgba(204,136,0,0.10); color: var(--gold-800); }
     /* placeholder shimmer while the time is being resolved */
     .np-skeleton {
       display: inline-block; width: 150px; height: 20px; border-radius: 4px;
@@ -573,7 +754,7 @@
       color: var(--gold-light); opacity: 0.42;
     }
     .event-card-body { padding: 14px 16px; }
-    #events .event-card-date { font-size: 12px; color: var(--gold) !important; font-weight: 600; margin: 0 0 6px; }
+    #events .event-card-date { font-size: var(--fs-xs); color: var(--gold-700) !important; font-weight: 600; margin: 0 0 6px; }
     #events .event-countdown-banner {
       background: var(--gold) !important;
       color: #ffffff !important;
@@ -604,7 +785,7 @@
     }
     .event-card-location { font-size: 13px; color: var(--muted); margin: 0 0 12px; }
     .event-card-btn {
-      display: inline-block; font-size: 13px; color: var(--gold); font-weight: 600;
+      display: inline-block; font-size: var(--fs-xs); color: var(--gold-700); font-weight: 600;
       border: 1.5px solid var(--gold); border-radius: 20px;
       padding: 4px 14px; background: transparent; cursor: pointer;
       font-family: 'Noto Sans Hebrew', sans-serif;
@@ -640,8 +821,7 @@
       line-height: 1.55;
       margin: 0;
     }
-    @media (max-width: 1024px) { .events-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 600px)  { .events-grid { grid-template-columns: 1fr; gap: 14px; } }
+    @media (max-width: 600px)  { .events-grid { gap: var(--s4); } .event-card-wrap { flex: 1 1 100%; max-width: none; } }
 
     .events-empty {
       text-align: center; padding: 48px 24px;
@@ -723,7 +903,7 @@
     /* ════════════════════════════
        הילולות צדיקים
     ════════════════════════════ */
-    #yizkor { background: var(--bg-card); padding: 24px 0; border-top: 1px solid var(--border); }
+    #yizkor { background: var(--sand); }
     .yizkor-head { position: relative; margin-bottom: 0; }
     .yizkor-add-btn {
       position: absolute; left: 0; top: 50%;
@@ -735,16 +915,38 @@
       will-change: transform;
     }
     .yizkor-add-btn:hover { opacity: 0.85; transform: translateY(-50%) scale(1.08); }
-    .table-wrap { max-width: 860px; margin: 0 auto 28px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    /* The hilulot are a list of names, not a spreadsheet. The table element
+       stays (the data really is tabular) but the striping and the dark header
+       bar go — a name in the display face, the dates quiet beside it. */
+    .table-wrap {
+      max-width: 860px;
+      margin: 0 auto var(--s6);
+      background: var(--surface);
+      border: 1px solid var(--line-2);
+      border-radius: var(--r-md);
+      overflow: hidden;
+      box-shadow: var(--sh-2);
+    }
     table { width: 100%; border-collapse: collapse; }
-    thead th { background: var(--bg-dark); color: var(--gold-light); font-family: 'Noto Sans Hebrew', 'Heebo', sans-serif; font-size: 14px; font-weight: 500; padding: 14px 20px; text-align: right; }
-    tbody tr:nth-child(odd)  { background: var(--bg-card); }
-    tbody tr:nth-child(even) { background: var(--bg-elem); }
-    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s ease; }
-    tbody tr:hover { background: var(--bg-elem); }
-    tbody td { padding: 16px 20px; font-size: 15px; color: var(--text); }
-    tbody td:first-child { font-family: 'Noto Serif Hebrew', 'David Libre', serif; font-size: 17px; font-weight: 700; color: var(--text); }
-    .yizkor-empty { padding: 32px 20px; text-align: center; font-size: 15px; color: var(--muted); }
+    thead th {
+      background: var(--sand-2);
+      color: var(--ink-3);
+      font-family: var(--font-body);
+      font-size: var(--fs-xs); font-weight: 600; letter-spacing: .1em;
+      padding: var(--s3) var(--s5);
+      text-align: right;
+      border-bottom: 1px solid var(--line);
+    }
+    tbody tr { border-bottom: 1px solid var(--line-2); transition: background var(--dur-1) ease; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--gold-50); }
+    tbody td { padding: var(--s4) var(--s5); font-size: var(--fs-sm); color: var(--ink-3); }
+    tbody td:first-child {
+      font-family: var(--font-display);
+      font-size: var(--fs-md); font-weight: 700; color: var(--teal-900);
+      letter-spacing: -0.01em;
+    }
+    .yizkor-empty { padding: var(--s7) var(--s5); text-align: center; font-size: var(--fs-sm); color: var(--muted); }
 
     /* ── Modal ── */
     .modal-overlay {
@@ -777,8 +979,8 @@
     /* ════════════════════════════
        אודות
     ════════════════════════════ */
-    #about { background: var(--bg-card); padding: 28px 0; border-top: 1px solid var(--border); }
-    .about-grid { display: grid; grid-template-columns: 55% 45%; gap: 64px; align-items: center; }
+    #about { background: var(--sand); }
+    .about-grid { display: grid; grid-template-columns: 1fr 42%; gap: var(--s8); align-items: center; }
     .about-img-col img { width: 100%; max-width: 460px; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
     .about-img-placeholder {
       width: 100%; max-width: 460px; height: 420px; border-radius: 16px;
@@ -786,10 +988,11 @@
       display: flex; align-items: center; justify-content: center;
     }
     .about-img-placeholder span { font-family: 'Noto Serif Hebrew', 'David Libre', serif; font-size: 72px; color: var(--gold); opacity: 0.25; user-select: none; text-align: center; line-height: 1.2; }
-    .about-h2 { font-family: 'Noto Serif Hebrew', 'David Libre', serif; font-size: 40px; font-weight: 700; color: var(--text); margin-bottom: 12px; line-height: 1.2; letter-spacing: -0.02em; }
-    .about-body { font-size: 17px; line-height: 1.95; color: var(--text); margin-bottom: 28px; }
+    .about-h2 {
+      font-family: var(--font-display); font-family: 'Noto Serif Hebrew', 'David Libre', serif; font-size: 40px; font-weight: 700; color: var(--text); margin-bottom: 12px; line-height: 1.2; letter-spacing: -0.02em; }
+    .about-body { font-size: var(--fs-base); line-height: 1.85; color: var(--ink-2); margin-bottom: var(--s6); max-width: 62ch; }
     .about-body p + p { margin-top: 16px; }
-    .about-body .about-highlight { font-weight: 700; color: var(--gold); }
+    .about-body .about-highlight { font-weight: 700; color: var(--gold-700); }
     .about-text-wrap {
       position: relative;
       max-height: 168px;
@@ -807,55 +1010,72 @@
     }
     .about-text-wrap.expanded { max-height: 2400px; }
     .about-text-wrap.expanded::after { opacity: 0; }
+    /* was a black pill — the only pure black on the page */
     .about-read-more {
-      display: block;
-      margin: 16px auto 0;
-      background: #1C1C1C;
-      color: #ffffff;
-      border: none;
-      border-radius: 24px;
-      padding: 10px 34px;
-      font-size: 15px;
-      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      margin-top: var(--s4);
+      background: transparent;
+      color: var(--gold-700);
+      border: 1.5px solid var(--gold-600);
+      border-radius: var(--r-pill);
+      padding: 11px 28px;
+      min-height: 44px;
+      font-size: var(--fs-sm);
+      font-family: var(--font-body);
       font-weight: 600;
       cursor: pointer;
-      letter-spacing: 0.02em;
-      transition: opacity 0.2s ease, transform 0.2s ease;
+      transition: background var(--dur-1) ease, color var(--dur-1) ease;
     }
-    .about-read-more:hover { opacity: 0.85; transform: translateY(-1px); }
+    .about-read-more:hover { background: var(--gold-500); border-color: var(--gold-500); color: #fff; }
 
     /* ════════════════════════════
        WHATSAPP — slim banner
     ════════════════════════════ */
-    #whatsapp {
-      background: var(--bg-elem);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 20px 0;
-    }
+    #whatsapp { background: var(--sand); padding: 0 0 var(--sec-y); }
+    /* the banner reads as one card rather than a full-bleed strip */
     .wa-banner {
-      display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--s5); flex-wrap: wrap;
+      background: var(--gold-50);
+      border: 1px solid var(--gold-200);
+      border-radius: var(--r-md);
+      padding: var(--s6) var(--s7);
     }
-    .wa-banner-text { font-family: 'Noto Serif Hebrew', 'David Libre', serif; font-size: 20px; color: var(--text); font-weight: 700; }
+    .wa-banner-text { font-family: var(--font-display); font-size: var(--fs-lg); color: var(--teal-900); font-weight: 700; letter-spacing: -0.01em; }
 
     /* ════════════════════════════
        מיקום
     ════════════════════════════ */
-    #location { background: var(--bg-card); padding: 24px 0; }
-    .location-address { text-align: center; font-size: 16px; color: var(--muted); margin-bottom: 32px; margin-top: -24px; }
-    .location-map iframe { width: 100%; height: 400px; border: 0; border-radius: 16px; display: block; }
+    #location { background: var(--sand); }
+    .location-address { font-size: var(--fs-base); color: var(--muted); }
+    .location-map {
+      border-radius: var(--r-md);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      box-shadow: var(--sh-2);
+    }
+    .location-map iframe { width: 100%; height: 440px; border: 0; display: block; }
 
     /* ════════════════════════════
        DONATE CTA
     ════════════════════════════ */
-    #donate-cta { background: var(--bg-dark); padding: 24px 0; text-align: center; border-top: 1px solid var(--border); }
-    .donate-h2 { font-family: 'Noto Serif Hebrew', 'David Libre', serif; font-size: 36px; font-weight: 700; color: var(--text-light); margin-bottom: 16px; }
-    .donate-p { font-size: 17px; color: var(--text-light); opacity: 0.72; line-height: 1.7; max-width: 600px; margin: 0 auto 32px; }
+    #donate-cta { background: var(--teal-800); text-align: center; position: relative; overflow: hidden; }
+    /* same radial light as the parasha band, so the two dark moments rhyme */
+    #donate-cta::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(90% 120% at 50% 0%, rgba(43,124,141,.55) 0%, transparent 64%);
+      pointer-events: none;
+    }
+    #donate-cta > * { position: relative; }
+    .donate-h2 { font-family: var(--font-display); font-size: var(--fs-2xl); font-weight: 700; color: #fff; margin-bottom: var(--s4); letter-spacing: -0.02em; }
+    .donate-p { font-size: var(--fs-base); color: var(--teal-100); line-height: 1.75; max-width: 56ch; margin: 0 auto var(--s7); }
 
     /* ════════════════════════════
        FOOTER — 3 parts
     ════════════════════════════ */
-    .footer-strip { background: var(--bg-dark); padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.1); }
+    .footer-strip { background: var(--teal-900); padding: var(--s5) 0; border-top: 1px solid rgba(255,255,255,0.08); }
     .footer-strip-inner { display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap; }
     .footer-strip-item { display: flex; align-items: center; gap: 8px; color: var(--text-light); font-size: 15px; font-weight: 400; opacity: 0.75; }
     .footer-strip-item a { color: var(--text-light); transition: color 0.2s ease; opacity: 0.75; }
@@ -1007,30 +1227,25 @@
     /* ════════════════════════════
        DONATE BUTTON (bottom of hero)
     ════════════════════════════ */
-    .hero-donate-btn {
-      display: inline-block;
-      background: var(--gold, #CC8800);
-      color: #fff;
-      font-size: 22px;
-      font-weight: 700;
-      font-family: 'Noto Serif Hebrew', serif;
-      padding: 18px 58px;
-      border-radius: 50px;
-      text-decoration: none;
-      letter-spacing: 0.02em;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.22);
-      transition: background 0.2s, transform 0.15s;
-      white-space: nowrap;
+    .hero-actions {
+      display: flex;
+      gap: var(--s3);
+      margin-top: var(--s6);
+      flex-wrap: wrap;
     }
-    .hero-donate-btn:hover {
-      background: var(--gold-light, #E6A800);
-      transform: translateY(-2px);
+    .hero-donate-btn { font-size: var(--fs-md); padding: 16px 42px; }
+    /* on the cream scrim the outline button needs a solid backing to stay legible */
+    .hero-times-btn {
+      font-size: var(--fs-md);
+      padding: 16px 32px;
+      background: rgba(255,255,255,.72);
+      backdrop-filter: blur(6px);
     }
 
     /* ════════════════════════════
        LESSONS
     ════════════════════════════ */
-    #lessons { background: var(--bg); padding: 24px 0; }
+    #lessons { background: var(--sand); }
     .lessons-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -1038,18 +1253,19 @@
       margin-bottom: 24px;
     }
     .lesson-card {
-      background: var(--bg-card);
-      border-radius: 16px;
+      background: var(--surface);
+      border-radius: var(--r-md);
       overflow: hidden;
-      border: 1px solid var(--border);
-      transition: transform 0.25s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s cubic-bezier(0.22,1,0.36,1);
+      border: 1px solid var(--line-2);
+      box-shadow: var(--sh-1);
+      transition: transform var(--dur-2) var(--ease), box-shadow var(--dur-2) var(--ease);
     }
     .lesson-card:hover {
       transform: translateY(-6px);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+      box-shadow: var(--sh-3);
     }
     .lesson-thumb {
-      height: 180px; background: var(--bg-dark);
+      aspect-ratio: 16 / 9; background: var(--teal-800);
       position: relative; cursor: pointer; overflow: hidden;
     }
     .lesson-thumb img.thumb-img {
@@ -1080,24 +1296,24 @@
       border: 2px solid rgba(255,255,255,0.8);
       transition: transform 0.2s ease, background 0.2s ease;
     }
-    .lesson-card:hover .play-circle { transform: scale(1.1); background: var(--gold); border-color: var(--gold); }
+    .lesson-card:hover .play-circle { transform: scale(1.08); background: var(--gold-500); border-color: var(--gold-500); }
     .play-circle svg { width: 22px; height: 22px; fill: #fff; margin-right: -2px; }
-    .lesson-body { padding: 24px; }
+    .lesson-body { padding: var(--s5); }
     .lesson-title {
-      font-family: 'Noto Serif Hebrew', 'David Libre', serif;
-      font-size: 18px; color: var(--text); font-weight: 700;
-      margin-bottom: 8px; line-height: 1.4;
+      font-family: var(--font-display);
+      font-size: var(--fs-md); color: var(--text); font-weight: 700;
+      margin-bottom: var(--s2); line-height: 1.35; letter-spacing: -0.01em;
     }
     .lesson-desc {
-      font-size: 14px; color: var(--muted);
-      line-height: 1.6; margin-bottom: 16px;
+      font-size: var(--fs-sm); color: var(--muted);
+      line-height: 1.6; margin-bottom: var(--s4);
     }
     .lessons-cta { text-align: center; }
     /* lessons responsive — handled in main responsive block */
 
-    .lessons-layout { display: grid; grid-template-columns: 3fr 1fr; gap: 20px; align-items: stretch; }
+    .lessons-layout { display: block; }
     .lessons-main { min-width: 0; }
-    .lessons-events-col { min-width: 0; min-height: 320px; position: relative; }
+    .lessons-events-col { display: none; }
     /* When the sidebar has no events, don't stretch it to match the lesson cards' height */
     .lessons-events-col.is-empty { align-self: flex-start; height: fit-content; min-height: 0; }
     .lessons-events-col.is-empty .events-sidebar { position: relative; inset: auto; }
@@ -1145,7 +1361,7 @@
     /* ════════════════════════════
        GALLERY STRIP
     ════════════════════════════ */
-    #gallery-strip { background: var(--bg-card); padding: 20px 0; border-top: 1px solid var(--border); }
+    #gallery-strip { background: var(--sand); padding: var(--sec-y) 0 calc(var(--sec-y) - 8px); }
     .gallery-strip-wrap { width: 100%; overflow: hidden; direction: ltr; }
     .gallery-track {
       display: flex;
@@ -1191,13 +1407,14 @@
     /* ════ MOBILE ════ */
     @media (max-width: 767px) {
 
-      /* ── Base ── */
-      body { font-size: 17px !important; line-height: 1.7 !important; }
+      /* ── Base — the section rhythm shortens through the token, not a
+             blanket !important that also flattened the hero ── */
+      :root { --sec-y: 48px; }
+      body { font-size: 16px; line-height: 1.7; }
       .container { padding-left: 20px !important; padding-right: 20px !important; }
-      section { padding-top: 40px !important; padding-bottom: 40px !important; }
-      .sec-title { font-size: 24px !important; margin-bottom: 6px !important; line-height: 1.25 !important; }
-      .sec-sub { font-size: 15px !important; margin-bottom: 6px !important; }
-      .gold-bar { margin-bottom: 20px !important; margin-left: auto !important; margin-right: auto !important; }
+      .sec-head { margin-bottom: var(--s6); }
+      .sec-title { gap: var(--s4); }
+      .sec-sub { font-size: var(--fs-sm); }
       h1, h2, h3, p { word-break: break-word; overflow-wrap: break-word; }
 
       /* ── Tap targets ── */
@@ -1228,10 +1445,8 @@
       .nav-close { width: 44px !important; height: 44px !important; display: flex !important; align-items: center !important; justify-content: center !important; }
 
       /* ── Hero (mobile overrides handled in hero CSS block above) ── */
-      .hero-donate-btn { font-size: 18px !important; padding: 14px 42px !important; }
 
       /* ── Parasha ── */
-      #parasha       { padding: 20px 0 !important; }
       .parasha-grid  { grid-template-columns: 1fr !important; gap: 12px !important; }
       .parasha-card  { padding: 20px 18px !important; border-radius: 14px !important; }
       .parasha-name  { font-size: 22px !important; line-height: 1.2 !important; }
@@ -1240,28 +1455,27 @@
       .shabbat-card  { padding: 18px 16px !important; }
 
       /* ── Lessons ── */
-      #lessons       { padding: 20px 0 !important; }
       .lessons-layout { display: block !important; }
       .lessons-events-col { display: none !important; }
-      .lessons-grid  { grid-template-columns: 1fr !important; gap: 16px !important; }
-      .lesson-card   { max-width: 420px !important; margin: 0 auto !important; }
-      .lesson-thumb  { height: 180px !important; }
-      .lesson-body   { padding: 14px 16px !important; }
-      .lesson-title  { font-size: 15px !important; line-height: 1.4 !important; margin-bottom: 5px !important; }
-      .lesson-desc   { font-size: 13px !important; line-height: 1.55 !important; }
+      .lessons-grid  { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+      .lesson-card   { max-width: none !important; margin: 0 !important; border-radius: var(--r-sm) !important; }
+      .lesson-thumb  { height: auto !important; aspect-ratio: 16 / 9; }
+      .lesson-body   { padding: 8px 10px 12px !important; }
+      .lesson-title  {
+        font-size: 13px !important; line-height: 1.35 !important; margin-bottom: 4px !important;
+        display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+      }
+      /* the blurb does not survive a 160px-wide card — the title carries it */
+      .lesson-desc   { display: none !important; }
+      .play-circle   { width: 40px !important; height: 40px !important; }
 
       /* ── Events ── */
-      #events { padding: 20px 0 !important; }
       .events-head { flex-direction: column !important; margin-bottom: 24px !important; }
 
       /* ── Hilulot / Yizkor — table → cards ── */
-      #yizkor { padding: 20px 0 !important; }
       .yizkor-head {
         position: static !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        gap: 12px !important;
+        display: block !important;
       }
       .yizkor-add-btn { position: static !important; transform: none !important; }
 
@@ -1283,11 +1497,12 @@
       #yizkor-table tbody tr {
         display: block !important;
         width: 100% !important;
-        background: rgba(255,255,255,0.06) !important;
-        border-radius: 12px !important;
-        padding: 12px 16px !important;
-        margin-bottom: 10px !important;
-        border: 1px solid rgba(0,0,0,0.08) !important;
+        background: var(--surface) !important;
+        border-radius: var(--r-sm) !important;
+        padding: var(--s4) !important;
+        margin-bottom: var(--s3) !important;
+        border: 1px solid var(--line-2) !important;
+        box-shadow: var(--sh-1) !important;
         min-width: unset !important;
       }
       #yizkor-table tbody tr.yizkor-extra { display: none !important; }
@@ -1305,15 +1520,20 @@
       #yizkor-table tbody td::before {
         content: attr(data-label) !important;
         font-weight: 600 !important;
-        color: var(--gold) !important;
-        font-size: 12px !important;
+        color: var(--gold-700) !important;
+        font-size: var(--fs-xs) !important;
         flex-shrink: 0 !important;
       }
 
-      .table-wrap { overflow-x: visible !important; }
+      .table-wrap {
+        overflow-x: visible !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
 
       /* ── Gallery ── */
-      #gallery-strip { padding: 16px 0 !important; }
+
       .gallery-track img {
         height: 200px !important;
         min-width: 160px !important;
@@ -1359,15 +1579,16 @@
   /* ── Auth ── */
   .auth-area { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
   .auth-btn {
-    padding: 6px 14px; border-radius: 20px;
-    border: 1.5px solid #fff; background: transparent;
-    color: #fff; font-size: 13px;
-    font-family: 'Noto Sans Hebrew', sans-serif;
+    padding: 7px 16px; border-radius: var(--r-pill);
+    min-height: 34px;
+    border: 1.5px solid var(--teal-700); background: transparent;
+    color: var(--teal-800); font-size: var(--fs-xs); font-weight: 600;
+    font-family: var(--font-body);
     cursor: pointer; white-space: nowrap;
-    transition: background 0.2s, color 0.2s;
+    transition: background var(--dur-1) ease, color var(--dur-1) ease, border-color var(--dur-1) ease;
   }
-  .auth-btn:hover { background: var(--gold); border-color: var(--gold); color: #fff; }
-  .auth-username { font-size: 13px; color: var(--gold); font-weight: 600; direction: rtl; }
+  .auth-btn:hover { background: var(--teal-700); border-color: var(--teal-700); color: #fff; }
+  .auth-username { font-size: var(--fs-xs); color: var(--gold-700); font-weight: 600; direction: rtl; }
   @media (max-width: 767px) { .auth-username { display: none; } }
   /* Auth modal */
   .modal-overlay {
@@ -1396,7 +1617,7 @@
     font-family: 'Noto Sans Hebrew', sans-serif;
     border-bottom: 2px solid transparent; margin-bottom: -2px;
   }
-  .auth-tab.active { color: var(--gold); border-bottom-color: var(--gold); font-weight: 700; }
+  .auth-tab.active { color: var(--gold-700); border-bottom-color: var(--gold-500); font-weight: 700; }
   .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
   .form-group label { font-size: 14px; color: var(--text); font-weight: 500; }
   .form-group input {
@@ -1538,8 +1759,11 @@
       <span class="hero-label" data-i18n="heroLabel">ברוכים הבאים לישיבת</span>
       <h1 class="hero-h1">פאר יוסף</h1>
       <span class="subtitle">ישיבה · בית מדרש · קהילה</span>
+      <div class="hero-actions">
+        <a href="donate.html" class="btn hero-donate-btn" data-i18n="heroDonate">לתרומות</a>
+        <a href="zmanim.html" class="btn btn-outline hero-times-btn" data-i18n="heroTimes">זמני תפילה</a>
+      </div>
     </div>
-    <a href="donate.html" class="hero-donate-btn">לתרומות</a>
   </section>
 
   <!-- התפילה הבאה + מיקום — המידע שרוב המבקרים מחפשים, מיד מתחת להירו -->
@@ -1566,8 +1790,10 @@
   <!-- פרשת השבוע -->
   <section id="parasha" class="reveal">
     <div class="container">
-      <h2 class="sec-title" data-i18n="parashaTitle">פרשת השבוע</h2>
-      <span class="gold-bar"></span>
+      <div class="sec-head">
+        <span class="sec-eyebrow light" data-i18n="parashaEyebrow">מתעדכן מדי שבוע</span>
+        <h2 class="sec-title light" data-i18n="parashaTitle">פרשת השבוע</h2>
+      </div>
       <div class="parasha-grid stagger-children">
         <div class="parasha-card lift">
           <span class="parasha-label" data-i18n="parashaLabel">השבוע קוראים</span>
@@ -1599,9 +1825,11 @@
   <!-- שיעורים אחרונים -->
   <section id="lessons" class="reveal">
     <div class="container">
-      <h2 class="sec-title" data-i18n="lessonsTitle">שיעורים אחרונים</h2>
-      <p class="sec-sub" data-i18n="lessonsSub">מפי הרב אשר עבאדי שליט״א</p>
-      <span class="gold-bar"></span>
+      <div class="sec-head">
+        <span class="sec-eyebrow" data-i18n="lessonsEyebrow">מערוץ היוטיוב של הישיבה</span>
+        <h2 class="sec-title" data-i18n="lessonsTitle">שיעורים אחרונים</h2>
+        <p class="sec-sub" data-i18n="lessonsSub">מפי הרב אשר עבאדי שליט״א</p>
+      </div>
       <div class="lessons-layout">
       <div class="lessons-main">
       <div class="lessons-grid stagger-children">
@@ -1658,14 +1886,18 @@
   <!-- אירועים קרובים -->
   <section id="events" class="reveal">
     <div class="container">
-      <div class="events-head">
-        <h2 class="sec-title light" data-i18n="eventsTitle">אירועים קרובים</h2>
-        <button class="events-add-btn" id="events-add-btn" aria-label="הוסיפו אירוע">
-          <span aria-hidden="true">+</span> <span data-i18n="eventsAddLabel">הוסיפו אירוע</span>
-        </button>
+      <div class="sec-head">
+        <div class="events-head">
+          <div>
+            <span class="sec-eyebrow" data-i18n="eventsEyebrow">מתעדכן על ידי הקהילה</span>
+            <h2 class="sec-title" data-i18n="eventsTitle">אירועים קרובים</h2>
+          </div>
+          <button class="events-add-btn" id="events-add-btn" aria-label="הוסיפו אירוע">
+            <span aria-hidden="true">+</span> <span data-i18n="eventsAddLabel">הוסיפו אירוע</span>
+          </button>
+        </div>
+        <p class="sec-sub" data-i18n="eventsSub">שיעורים, אירועים ומפגשים בישיבת פאר יוסף</p>
       </div>
-      <p class="sec-sub light" data-i18n="eventsSub">שיעורים, אירועים ומפגשים בישיבת פאר יוסף</p>
-      <span class="gold-bar light"></span>
       <div id="events-db-list"></div>
       <div class="events-empty" id="events-empty-msg" data-i18n="eventsEmpty" style="display:none">אין אירועים קרובים כרגע — עקבו אחרינו לעדכונים</div>
     </div>
@@ -1775,11 +2007,13 @@
   <!-- הילולות צדיקים -->
   <section id="yizkor" class="reveal">
     <div class="container">
-      <div class="yizkor-head">
-        <h2 class="sec-title" data-i18n="yizkorTitle">הילולות צדיקים</h2>
+      <div class="sec-head">
+        <div class="yizkor-head">
+          <span class="sec-eyebrow" data-i18n="yizkorEyebrow">לפי הלוח העברי</span>
+          <h2 class="sec-title" data-i18n="yizkorTitle">הילולות צדיקים</h2>
+        </div>
+        <p class="sec-sub" data-i18n="yizkorSub">ימי פטירת הצדיקים הקדושים — שבועיים הקרובים</p>
       </div>
-      <p class="sec-sub" data-i18n="yizkorSub">ימי פטירת הצדיקים הקדושים — שבועיים הקרובים</p>
-      <span class="gold-bar"></span>
 
       <div class="table-wrap">
         <table id="yizkor-table">
@@ -1828,8 +2062,10 @@
   <!-- גלריה -->
   <section id="gallery-strip" class="reveal">
     <div class="container">
-      <h2 class="sec-title" data-i18n="galleryTitle">מהקהילה שלנו</h2>
-      <span class="gold-bar"></span>
+      <div class="sec-head">
+        <span class="sec-eyebrow" data-i18n="galleryEyebrow">תמונות מבית המדרש</span>
+        <h2 class="sec-title" data-i18n="galleryTitle">מהקהילה שלנו</h2>
+      </div>
     </div>
     <div class="gallery-strip-wrap">
       <div class="gallery-track" id="galleryTrack">
@@ -1874,9 +2110,11 @@
   <!-- מיקום -->
   <section id="location" class="reveal">
     <div class="container">
-      <h2 class="sec-title" data-i18n="locationTitle">מיקום</h2>
-      <span class="gold-bar"></span>
-      <p class="location-address">קדושי סלוניקי, ירושלים 9339012</p>
+      <div class="sec-head">
+        <span class="sec-eyebrow" data-i18n="locationEyebrow">דלת פתוחה לכל דורש</span>
+        <h2 class="sec-title" data-i18n="locationTitle">מיקום</h2>
+        <p class="sec-sub location-address">קדושי סלוניקי, ירושלים 9339012</p>
+      </div>
       <div class="location-map">
         <iframe
           src="https://maps.google.com/maps?q=קדושי+סלוניקי+91,+ירושלים&t=&z=17&ie=UTF8&iwloc=&output=embed"
@@ -2609,7 +2847,7 @@
         if (rows.length > 1) {
           const btn = document.createElement('div');
           btn.style.cssText = 'text-align:center;margin-top:16px;';
-          btn.innerHTML = '<button id="yizkor-show-more" style="background:#000;color:#fff;font-size:14px;padding:10px 28px;border:none;border-radius:24px;cursor:pointer;font-family:inherit;">ראה עוד</button>';
+          btn.innerHTML = '<button id="yizkor-show-more" class="btn btn-outline">ראה עוד</button>';
           const table = document.getElementById('yizkor-table');
           table.parentNode.insertBefore(btn, table.nextSibling);
 
@@ -3193,6 +3431,14 @@
       'np.allTimes': 'כל הזמנים',
       'np.directions': 'הוראות הגעה',
       logoSub: 'ישיבה · בית מדרש · קהילה',
+      heroDonate: 'לתרומות',
+      heroTimes: 'זמני תפילה',
+      parashaEyebrow: 'מתעדכן מדי שבוע',
+      lessonsEyebrow: 'מערוץ היוטיוב של הישיבה',
+      eventsEyebrow: 'מתעדכן על ידי הקהילה',
+      yizkorEyebrow: 'לפי הלוח העברי',
+      galleryEyebrow: 'תמונות מבית המדרש',
+      locationEyebrow: 'דלת פתוחה לכל דורש',
       navParasha: 'פרשת השבוע',
       navEvents: 'אירועים',
       navYizkor: 'הילולות',
@@ -3248,6 +3494,14 @@
       'np.allTimes': 'Tous les horaires',
       'np.directions': 'Itinéraire',
       logoSub: 'Yechiva · Beth Midrach · Communauté',
+      heroDonate: 'Faire un don',
+      heroTimes: 'Horaires des offices',
+      parashaEyebrow: 'Mis à jour chaque semaine',
+      lessonsEyebrow: 'Depuis la chaîne YouTube de la yechiva',
+      eventsEyebrow: 'Mis à jour par la communauté',
+      yizkorEyebrow: "Selon le calendrier hébraïque",
+      galleryEyebrow: 'Photos du Beth Midrach',
+      locationEyebrow: 'Une porte ouverte à tous',
       navParasha: 'Paracha',
       navEvents: 'Événements',
       navYizkor: 'Hiloulot',

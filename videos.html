@@ -29,32 +29,125 @@
   <meta property="og:description" content="שיעורי תורה של הרב אשר עבאדי שליט״א — ישיבת פאר יוסף, עטרת מנשה, היכל מוהרן. Cours de Torah du Rav Asher Abadi.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@400;700&family=Noto+Sans+Hebrew:wght@300;400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Assistant:wght@300;400;500;600;700&display=swap">
   <style>
     
+    /* ══════════════════════════════════════════════════════════════
+       DESIGN SYSTEM — "חותם" / the seal
+       The brand's own artifact is a gold seal on cream: a double ring,
+       an engraved crown, gold that reads as incised line rather than
+       flat fill. The page borrows that logic — cream ground, gold used
+       as rule and accent, deep teal reserved for moments of weight.
+       ══════════════════════════════════════════════════════════════ */
     :root {
-      --bg:           #f7f4ef;
-      --bg-dark:      #1E5A68;
-      --bg-card:      #ffffff;
-      --bg-elem:      #ede9e2;
-      --border:       #d4cdc3;
-      --gold:         #CC8800;
-      --gold-light:   #E8A820;
-      --teal-light:   #A5D7DC;
+      /* ── Teal ramp ─────────────────────────────── */
+      --teal-900:     #0E2B33;
+      --teal-800:     #14414C;
+      --teal-700:     #1E5A68;   /* brand teal */
+      --teal-600:     #2B7C8D;
+      --teal-200:     #B7DAE0;
+      --teal-100:     #DCECEF;
+      --teal-50:      #EFF7F8;
+
+      /* ── Gold ramp — 700 is the darkest that stays gold, and the
+            only one that passes 4.5:1 for small text on cream ─────── */
+      --gold-800:     #6E4B00;
+      --gold-700:     #8A5E00;
+      --gold-600:     #A87200;
+      --gold-500:     #CC8800;   /* brand gold — fills and large type only */
+      --gold-400:     #E0A21F;
+      --gold-200:     #F0DCA8;   /* small gold text on teal */
+      --gold-100:     #F8EED6;
+      --gold-50:      #FCF7EC;
+
+      /* ── Neutrals ──────────────────────────────── */
+      --sand:         #f7f4ef;   /* page ground */
+      --sand-2:       #F1ECE2;   /* alternate band */
+      --surface:      #ffffff;
+      --ink:          #16323D;
+      --ink-2:        #3D5B67;   /* 6.6:1 on sand */
+      --ink-3:        #587079;   /* 4.8:1 on sand — the muted floor */
+      --line:         #E4DCCC;
+      --line-2:       #EFE9DE;
+
+      /* ── Type ──────────────────────────────────── */
+      --font-display: 'Frank Ruhl Libre', var(--font-display);
+      --font-body:    'Assistant', 'Heebo', var(--font-body);
+      --fs-xs:        13px;
+      --fs-sm:        15px;
+      --fs-base:      17px;
+      --fs-md:        19px;
+      --fs-lg:        22px;
+      --fs-xl:        clamp(24px, 3vw, 30px);
+      --fs-2xl:       clamp(28px, 4vw, 40px);
+      --fs-3xl:       clamp(32px, 5vw, 52px);
+      --fs-hero:      clamp(56px, 9vw, 118px);
+
+      /* ── Spacing — one 8pt scale, plus a real section rhythm ───── */
+      --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px; --s5: 24px;
+      --s6: 32px; --s7: 48px; --s8: 64px; --s9: 96px;
+      --sec-y:        clamp(56px, 7vw, 96px);
+
+      /* ── Depth — soft, layered, never a single hard drop ───────── */
+      --sh-1:         0 1px 2px rgba(22,50,61,.05), 0 2px 6px rgba(22,50,61,.05);
+      --sh-2:         0 2px 4px rgba(22,50,61,.05), 0 10px 24px rgba(22,50,61,.08);
+      --sh-3:         0 4px 10px rgba(22,50,61,.06), 0 20px 48px rgba(22,50,61,.12);
+      --sh-gold:      0 6px 20px rgba(204,136,0,.30);
+
+      /* ── Radius ────────────────────────────────── */
+      --r-xs: 8px; --r-sm: 12px; --r-md: 18px; --r-lg: 26px; --r-pill: 999px;
+
+      /* ── Motion ────────────────────────────────── */
+      --ease:         cubic-bezier(.22, 1, .36, 1);
+      --dur-1:        180ms;
+      --dur-2:        280ms;
+      --dur-3:        520ms;
+
+      /* ── Aliases kept so existing rules resolve ─── */
+      --bg:           var(--sand);
+      --bg-dark:      var(--teal-700);
+      --bg-card:      var(--surface);
+      --bg-elem:      var(--sand-2);
+      --border:       var(--line);
+      --gold:         var(--gold-500);
+      --gold-light:   var(--gold-400);
+      --teal-light:   var(--teal-200);
       --white:        #ffffff;
-      --text:         #1C3D52;
-      --text-light:   #f7f4ef;
-      --muted:        #6a7585;
-      --header-bg:    rgba(30, 90, 104, 0.93);
+      --text:         var(--ink);
+      --text-light:   var(--sand);
+      --muted:        var(--ink-3);
+      --header-bg:    rgba(14, 43, 51, 0.92);
       --header-h:     72px;
     }
+
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
     /* anchor targets must clear the fixed header */
     [id] { scroll-margin-top: calc(var(--header-h) + 16px); }
-    body { font-family: 'Noto Sans Hebrew', 'Heebo', sans-serif; color: var(--text); background: var(--bg); overflow-x: hidden; }
+    body {
+      font-family: var(--font-body);
+      font-size: var(--fs-base);
+      line-height: 1.65;
+      color: var(--text);
+      background: var(--bg);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      font-variant-numeric: tabular-nums;
+    }
+    body.nav-open { overflow: hidden; }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    ::selection { background: var(--gold-200); color: var(--ink); }
+    :focus-visible { outline: 3px solid var(--gold-600); outline-offset: 3px; border-radius: 4px; }
+
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 var(--s5); }
+
+    /* Every section breathes on the same rhythm. Individual sections
+       override only when they carry a full-bleed element. */
+    section { padding: var(--sec-y) 0; }
+
     body.nav-open { overflow: hidden; }
     a { text-decoration: none; color: inherit; }
     img { display: block; max-width: 100%; }
@@ -64,36 +157,88 @@
 
     /* ── Buttons ── */
     .btn {
-      display: inline-block;
-      background: var(--gold);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--s2);
+      background: var(--gold-500);
       color: #ffffff;
-      border-radius: 28px;
-      padding: 12px 32px;
-      font-family: 'Noto Sans Hebrew', 'Heebo', sans-serif;
-      font-size: 16px;
-      font-weight: 500;
+      border-radius: var(--r-pill);
+      padding: 14px 34px;
+      min-height: 48px;
+      font-family: var(--font-body);
+      font-size: var(--fs-base);
+      font-weight: 600;
+      letter-spacing: -0.01em;
       border: none;
       cursor: pointer;
-      transition: opacity 0.2s ease, transform 0.2s ease;
+      box-shadow: var(--sh-gold);
+      transition: background var(--dur-1) ease, transform var(--dur-1) var(--ease), box-shadow var(--dur-1) ease;
       white-space: nowrap;
     }
-    .btn:hover { opacity: 0.88; transform: translateY(-1px); }
-    .btn:active { transform: translateY(0); }
-    .btn-green { background: #25D366; color: #fff; }
+    .btn:hover { background: var(--gold-600); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(204,136,0,.38); }
+    .btn:active { transform: translateY(0); box-shadow: var(--sh-1); }
+    /* WhatsApp keeps its own identity through the icon, not a clashing green fill */
+    .btn-green { background: var(--teal-700); color: #fff; box-shadow: 0 6px 20px rgba(30,90,104,.28); }
+    .btn-green:hover { background: var(--teal-800); box-shadow: 0 10px 28px rgba(30,90,104,.34); }
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--gold-600);
+      color: var(--gold-700);
+      box-shadow: none;
+    }
+    .btn-outline:hover { background: var(--gold-500); border-color: var(--gold-500); color: #fff; box-shadow: var(--sh-gold); }
 
-    /* ── Section titles ── */
+    /* ══════════════════════════════════════════════════════════════
+       SECTION HEADERS
+       The signature: the seal's double ring, unrolled into a rule that
+       runs from the title out to the container edge. Right-aligned,
+       because that is where a Hebrew reader starts.
+       ══════════════════════════════════════════════════════════════ */
+    .sec-head { margin-bottom: var(--s7); }
+    .sec-eyebrow {
+      display: block;
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      letter-spacing: .18em;
+      color: var(--gold-700);
+      margin-bottom: var(--s2);
+    }
     .sec-title {
-      font-family: 'Noto Serif Hebrew', 'David Libre', serif;
-      font-size: clamp(26px, 5vw, 40px);
+      font-family: var(--font-display);
+      font-size: var(--fs-2xl);
       font-weight: 700;
       color: var(--text);
-      text-align: center;
-      margin-bottom: 12px;
+      line-height: 1.15;
       letter-spacing: -0.02em;
+      margin-bottom: var(--s3);
+      display: flex;
+      align-items: center;
+      gap: var(--s5);
     }
-    .sec-title.light { color: var(--text-light); }
-    .sec-sub { font-size: 17px; color: var(--muted); text-align: center; margin-bottom: 12px; }
-    .gold-bar {
+    /* the double rule — drawn with the element's own borders, no extra markup */
+    .sec-title::after {
+      content: "";
+      flex: 1;
+      height: 5px;
+      border-top: 1px solid var(--gold-500);
+      border-bottom: 1px solid var(--gold-500);
+      opacity: .55;
+    }
+    .sec-sub {
+      font-size: var(--fs-base);
+      color: var(--muted);
+      max-width: 62ch;
+      margin: 0;
+    }
+    .sec-title.light { color: #ffffff; }
+    .sec-title.light::after { border-color: var(--gold-400); opacity: .5; }
+    .sec-sub.light { color: var(--teal-100); opacity: 1; }
+    .sec-eyebrow.light { color: var(--gold-200); }
+    /* the old centred gold bar is retired — kept as a no-op so any
+       remaining markup does not leave a stray element behind */
+    .gold-bar { display: none; }
+
       display: block; width: 56px; height: 3px;
       background: var(--gold); margin: 0 auto 20px;
     }
@@ -122,8 +267,11 @@
     header {
       position: fixed; top: 0; right: 0; left: 0;
       height: var(--header-h); z-index: 1000;
-      background: var(--header-bg);
-      box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+      background: rgba(247,244,239,.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+      box-shadow: var(--sh-1);
     }
     .header-inner {
       display: flex; align-items: center; justify-content: space-between;
@@ -131,30 +279,38 @@
     }
     .logo-wrap { display: flex; align-items: center; gap: 12px; line-height: 1.2; text-decoration: none; }
     .logo-wrap img { object-fit: contain; flex-shrink: 0; display: block; height: 48px; width: auto; }
-    .logo-name { font-family: 'Noto Serif Hebrew', 'David Libre', serif; font-size: 26px; font-weight: 700; color: #ffffff !important; display: block; }
-    .logo-sub  { font-size: 11px; color: rgba(255,255,255,0.75) !important; font-weight: 300; letter-spacing: 0.5px; display: block; }
+    .logo-name { font-family: var(--font-display); font-size: 25px; font-weight: 700; color: var(--teal-900); display: block; letter-spacing: -0.02em; }
+    .logo-sub  { font-size: 11px; color: var(--ink-3); font-weight: 400; letter-spacing: .06em; display: block; }
 
     .desktop-nav { display: none; gap: 32px; align-items: center; }
     .desktop-nav a {
-      font-family: 'Noto Sans Hebrew', 'Heebo', sans-serif; font-size: 15px; font-weight: 400;
-      color: #ffffff; letter-spacing: 0.02em;
+      font-family: var(--font-body); font-size: var(--fs-sm); font-weight: 500;
+      color: var(--ink-2); letter-spacing: 0.01em;
       transition: color 0.2s ease; position: relative; padding-bottom: 4px;
     }
     .desktop-nav a::after {
       content: ''; position: absolute; bottom: 0; right: 0;
       width: 0; height: 2px; background: var(--gold); transition: width 0.25s ease;
     }
-    .desktop-nav a:hover { color: var(--gold); }
+    .desktop-nav a:hover { color: var(--gold-700); }
     .desktop-nav a:hover::after, .desktop-nav a.active::after { width: 100%; }
-    .desktop-nav a.active { color: var(--gold); }
+    .desktop-nav a.active { color: var(--gold-700); font-weight: 600; }
     @media (min-width: 768px) { .hamburger { display: none; } .desktop-nav { display: flex; } }
+    /* at exactly 768px the nav turns on but the 32px gaps make items wrap */
+    @media (min-width: 768px) and (max-width: 1024px) {
+      .desktop-nav { gap: 18px; }
+      .desktop-nav a { font-size: var(--fs-xs); }
+      .logo-name { font-size: 21px; }
+      .auth-btn { padding: 6px 12px; }
+    }
 
-    .hamburger { background: none; border: none; color: #ffffff; font-size: 28px; cursor: pointer; line-height: 1; padding: 4px; transition: opacity 0.2s ease; }
+
+    .hamburger { background: none; border: none; color: var(--teal-800); font-size: 28px; cursor: pointer; line-height: 1; padding: 4px; transition: opacity 0.2s ease; }
     .hamburger:hover { opacity: 0.7; }
 
     .lang-btn {
       background: none; border: 1.5px solid #ffffff; border-radius: 6px;
-      color: #ffffff; font-family: 'Noto Sans Hebrew', 'Heebo', sans-serif;
+      color: #ffffff; font-family: var(--font-body);
       font-size: 13px; font-weight: 600; letter-spacing: 1px;
       padding: 4px 10px; cursor: pointer; line-height: 1.4;
       transition: background 0.2s ease, color 0.2s ease;
@@ -168,7 +324,7 @@
       flex-direction: column; align-items: center; justify-content: center; gap: 40px;
     }
     .nav-open .nav-overlay { display: flex; }
-    .nav-overlay a { font-family: 'Noto Serif Hebrew', 'David Libre', serif; font-size: 30px; color: #fff; transition: color 0.2s ease; }
+    .nav-overlay a { font-family: var(--font-display); font-size: 30px; color: #fff; transition: color 0.2s ease; }
     .nav-overlay a:hover { color: var(--gold); }
     .nav-overlay a.active { color: var(--gold); }
     .nav-close { position: absolute; top: 20px; left: 24px; background: none; border: none; color: #fff; font-size: 32px; cursor: pointer; line-height: 1; }
@@ -192,7 +348,7 @@
       text-align: center;
     }
     .page-hero h1 {
-      font-family: 'Noto Serif Hebrew', 'David Libre', serif;
+      font-family: var(--font-display);
       font-size: clamp(36px, 6vw, 56px);
       font-weight: 700;
       color: #ffffff;
@@ -302,7 +458,7 @@
       color: var(--gold-light);
     }
     .vid-title {
-      font-family: 'Noto Serif Hebrew', 'David Libre', serif;
+      font-family: var(--font-display);
       font-size: 16px;
       font-weight: 700;
       color: var(--text);
@@ -318,7 +474,7 @@
     /* ── Download buttons (Rabbi shiurim cards only) ── */
     .vid-download-row { display: flex; gap: 8px; margin-top: 8px; }
     .vid-dl-btn {
-      font-family: 'Noto Sans Hebrew', sans-serif;
+      font-family: var(--font-body);
       font-size: 11px; font-weight: 600; letter-spacing: 0.3px;
       padding: 4px 12px;
       /* min-height keeps the tap target above the WCAG 2.2 minimum (24px) */
@@ -432,7 +588,7 @@
       overflow: hidden;
     }
     .news-ticker-title {
-      font-family: 'Noto Serif Hebrew', 'David Libre', serif;
+      font-family: var(--font-display);
       color: #1C1C1C;
       font-size: 17px;
       font-weight: 700;
@@ -498,7 +654,7 @@
       margin-bottom: 10px;
     }
     .news-title {
-      font-family: 'Noto Serif Hebrew', 'David Libre', serif;
+      font-family: var(--font-display);
       font-size: 17px;
       font-weight: 700;
       color: #ffffff;
@@ -550,12 +706,12 @@
     .footer-strip-item a:hover { color: var(--gold); opacity: 1; }
 
     .footer-newsletter { background: var(--bg-dark); padding: 28px 0; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; }
-    .footer-newsletter h3 { font-family: 'Noto Serif Hebrew', 'David Libre', serif; font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+    .footer-newsletter h3 { font-family: var(--font-display); font-size: 24px; font-weight: 700; margin-bottom: 8px; }
     .footer-newsletter p { font-size: 15px; opacity: 0.75; margin-bottom: 20px; }
 
     .footer-sitemap { background: var(--bg-dark); padding: 28px 24px 20px; border-top: 1px solid rgba(255,255,255,0.1); }
     .footer-logo-row { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; margin-bottom: 32px; }
-    .footer-logo-name { font-family: 'Noto Serif Hebrew', 'David Libre', serif; font-size: 20px; font-weight: 700; }
+    .footer-logo-name { font-family: var(--font-display); font-size: 20px; font-weight: 700; }
     .footer-logo-tag { font-size: 13px; opacity: 0.6; }
     .footer-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 40px; }
     .footer-col h4 { font-size: 15px; font-weight: 600; margin-bottom: 14px; color: var(--gold-light); }
@@ -608,7 +764,7 @@
   .vid-card.watch-partial::after {
     position: absolute; top: 8px; right: 8px;
     font-size: 11px; padding: 2px 8px; border-radius: 10px;
-    font-family: 'Noto Sans Hebrew', sans-serif;
+    font-family: var(--font-body);
     pointer-events: none; color: #fff;
   }
   .vid-card.watch-done::after    { content: 'נצפה';   background: rgba(30, 90, 104, 0.88); }
@@ -620,7 +776,7 @@
     display: flex; align-items: center; gap: 10px;
     background: var(--bg-card); border: 1px solid var(--border);
     border-radius: 10px; padding: 12px 20px; width: 100%;
-    cursor: pointer; font-size: 15px; font-family: 'Noto Sans Hebrew', sans-serif;
+    cursor: pointer; font-size: 15px; font-family: var(--font-body);
     color: var(--text); direction: rtl;
   }
   .watched-count { color: var(--gold); font-weight: 600; }
@@ -643,14 +799,15 @@
   /* ── Auth ── */
   .auth-area { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
   .auth-btn {
-    padding: 6px 14px; border-radius: 20px;
-    border: 1.5px solid #fff; background: transparent;
-    color: #fff; font-size: 13px;
-    font-family: 'Noto Sans Hebrew', sans-serif;
+    padding: 7px 16px; border-radius: var(--r-pill);
+    min-height: 34px;
+    border: 1.5px solid var(--teal-700); background: transparent;
+    color: var(--teal-800); font-size: var(--fs-xs); font-weight: 600;
+    font-family: var(--font-body);
     cursor: pointer; white-space: nowrap;
-    transition: background 0.2s, color 0.2s;
+    transition: background var(--dur-1) ease, color var(--dur-1) ease, border-color var(--dur-1) ease;
   }
-  .auth-btn:hover { background: var(--gold); border-color: var(--gold); color: #fff; }
+  .auth-btn:hover { background: var(--teal-700); border-color: var(--teal-700); color: #fff; }
   .auth-username { font-size: 13px; color: var(--gold); font-weight: 600; direction: rtl; }
   @media (max-width: 767px) { .auth-username { display: none; } }
   .modal-overlay {
@@ -671,7 +828,7 @@
   .auth-tab {
     padding: 10px 24px; border: none; background: none;
     font-size: 16px; cursor: pointer; color: var(--muted);
-    font-family: 'Noto Sans Hebrew', sans-serif;
+    font-family: var(--font-body);
     border-bottom: 2px solid transparent; margin-bottom: -2px;
   }
   .auth-tab.active { color: var(--gold); border-bottom-color: var(--gold); font-weight: 700; }
@@ -680,7 +837,7 @@
   .form-group input {
     padding: 11px 14px; border: 1.5px solid var(--border);
     border-radius: 8px; font-size: 15px;
-    font-family: 'Noto Sans Hebrew', sans-serif; transition: border-color 0.2s;
+    font-family: var(--font-body); transition: border-color 0.2s;
   }
   .form-group input:focus { outline: none; border-color: var(--gold); }
   .btn-gold {
@@ -718,7 +875,7 @@
         gap: 3px;
         color: rgba(255,255,255,0.65);
         font-size: 10px;
-        font-family: 'Noto Sans Hebrew', sans-serif;
+        font-family: var(--font-body);
         text-decoration: none;
         flex: 1;
         padding: 8px 0;
