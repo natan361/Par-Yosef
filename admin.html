@@ -284,7 +284,8 @@
     .goal-card-actions { display: flex; gap: 8px; flex-shrink: 0; margin-top: 12px; }
 
     /* ── Prayer Times management ── */
-    .ptimes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .ptimes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    @media (max-width: 1100px) { .ptimes-grid { grid-template-columns: 1fr 1fr; } }
     @media (max-width: 767px) { .ptimes-grid { grid-template-columns: 1fr; } }
     .ptime-row-fields { display: flex; gap: 8px; flex: 1; flex-wrap: wrap; }
     .ptime-name-input {
@@ -823,7 +824,8 @@
           <label for="ptime-new-daytype">סוג יום</label>
           <select id="ptime-new-daytype">
             <option value="weekday">ימי חול</option>
-            <option value="shabbat">שבת / חגים</option>
+            <option value="shabbat">שבת</option>
+            <option value="holiday">חגים</option>
           </select>
         </div>
         <div class="form-group">
@@ -844,10 +846,51 @@
         <div class="admin-list" id="ptimes-weekday-list"></div>
       </div>
       <div class="ptimes-col">
-        <p class="admin-sub-h" style="margin-top:0">שבת / חגים</p>
+        <p class="admin-sub-h" style="margin-top:0">שבת</p>
         <div class="admin-list" id="ptimes-shabbat-list"></div>
       </div>
+      <div class="ptimes-col">
+        <p class="admin-sub-h" style="margin-top:0">חגים</p>
+        <div class="admin-list" id="ptimes-holiday-list"></div>
+      </div>
     </div>
+
+    <!-- Holiday entry / exit times -->
+    <h2 style="margin-top:44px">כניסת ויציאת חג</h2>
+    <div class="admin-note">
+      זמני שבת מגיעים אוטומטית מלוח השנה, אבל זמני חג משתנים משנה לשנה ולכן נכתבים כאן ידנית.
+      חג שתאריכו עבר יורד מהאתר מעצמו.
+    </div>
+
+    <div class="admin-form">
+      <h3>הוספת חג</h3>
+      <form id="add-holiday-form" onsubmit="addHolidayTime(event)">
+        <div class="form-group">
+          <label for="hol-name">שם החג</label>
+          <input type="text" id="hol-name" placeholder="לדוגמה: ראש השנה - יום א" required>
+        </div>
+        <div class="form-group">
+          <label for="hol-date">תאריך כניסת החג</label>
+          <input type="date" id="hol-date" dir="ltr" required>
+        </div>
+        <div class="form-group">
+          <label for="hol-candle">הדלקת נרות</label>
+          <input type="time" id="hol-candle" dir="ltr">
+        </div>
+        <div class="form-group">
+          <label for="hol-havdalah">צאת החג</label>
+          <input type="time" id="hol-havdalah" dir="ltr">
+        </div>
+        <div class="form-group">
+          <label for="hol-note">הערה (אופציונלי)</label>
+          <input type="text" id="hol-note" placeholder="לדוגמה: ערבית בשעה 20:15">
+        </div>
+        <button type="submit" class="btn-submit">הוסף חג</button>
+      </form>
+    </div>
+
+    <p class="admin-sub-h">חגים שהוזנו</p>
+    <div id="holiday-times-list"></div>
   </div>
 
   <!-- Footer -->
@@ -974,6 +1017,7 @@
       loadSubscribers();
       loadNotifNumbers();
       loadPrayerTimes();
+      loadHolidayTimes();
 
       refreshTabBadges();
       setInterval(refreshTabBadges, 60000);
@@ -1016,6 +1060,73 @@
       });
     });
 
+    /* Holiday entry / exit times. Shabbat comes from the calendar API, but
+       holiday times shift year to year, so the gabbai enters them by date. */
+    function holEsc(str) {
+      return String(str ?? '').replace(/[&<>"']/g, c =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    async function loadHolidayTimes() {
+      const el = document.getElementById('holiday-times-list');
+      if (!el) return;
+      const { data, error } = await _supabase.from('holiday_times').select('*')
+        .order('starts_on', { ascending: true });
+      if (error) { el.innerHTML = '<div class="empty-state"><p>שגיאה: ' + holEsc(error.message) + '</p></div>'; return; }
+      const items = data || [];
+      if (!items.length) {
+        el.innerHTML = '<p style="color:var(--muted);padding:12px 0">לא הוזנו חגים עדיין.</p>';
+        return;
+      }
+      const today = new Date().toISOString().slice(0, 10);
+      el.innerHTML = items.map(h => {
+        const past = h.starts_on < today;
+        const bits = [new Date(h.starts_on).toLocaleDateString('he-IL')];
+        if (h.candle_time)   bits.push('הדלקת נרות ' + holEsc(h.candle_time));
+        if (h.havdalah_time) bits.push('צאת החג ' + holEsc(h.havdalah_time));
+        if (past)            bits.push('עבר, לא מוצג באתר');
+        return '<div class="goal-card">' +
+          '<div class="goal-card-top"><div class="goal-card-info">' +
+          '<strong>' + holEsc(h.holiday_name) + '</strong>' +
+          '<p>' + bits.join(' · ') + '</p>' +
+          (h.note ? '<p>' + holEsc(h.note) + '</p>' : '') +
+          '</div></div>' +
+          '<div class="goal-card-actions">' +
+          '<button class="' + (h.is_active ? 'btn-toggle-active' : 'btn-toggle-inactive') + '" ' +
+          'onclick="toggleHolidayTime(' + h.id + ', ' + h.is_active + ')">' +
+          (h.is_active ? 'פעיל' : 'כבוי') + '</button>' +
+          '<button class="btn-delete" onclick="deleteHolidayTime(' + h.id + ')">מחק</button>' +
+          '</div></div>';
+      }).join('');
+    }
+
+    async function addHolidayTime(e) {
+      e.preventDefault();
+      const { error } = await _supabase.from('holiday_times').insert({
+        holiday_name:  document.getElementById('hol-name').value.trim(),
+        starts_on:     document.getElementById('hol-date').value,
+        candle_time:   document.getElementById('hol-candle').value   || null,
+        havdalah_time: document.getElementById('hol-havdalah').value || null,
+        note:          document.getElementById('hol-note').value.trim() || null,
+        is_active:     true
+      });
+      if (error) { alert('שגיאה: ' + error.message); return; }
+      e.target.reset();
+      loadHolidayTimes();
+    }
+
+    async function toggleHolidayTime(id, current) {
+      const { error } = await _supabase.from('holiday_times').update({ is_active: !current }).eq('id', id);
+      if (error) { alert('שגיאה: ' + error.message); return; }
+      loadHolidayTimes();
+    }
+
+    async function deleteHolidayTime(id) {
+      if (!confirm('למחוק את החג?')) return;
+      const { error } = await _supabase.from('holiday_times').delete().eq('id', id);
+      if (error) { alert('שגיאה: ' + error.message); return; }
+      loadHolidayTimes();
+    }
     /* ═══════════════════════════════
        ANNOUNCEMENTS
     ═══════════════════════════════ */
@@ -1710,12 +1821,12 @@
     function renderPrayerTimes() {
       const weekdayEl = document.getElementById('ptimes-weekday-list');
       const shabbatEl = document.getElementById('ptimes-shabbat-list');
-      const weekday = _prayerTimesData.filter(p => p.day_type === 'weekday');
-      const shabbat = _prayerTimesData.filter(p => p.day_type === 'shabbat');
-      weekdayEl.innerHTML = weekday.length ? weekday.map(ptimeRowHTML).join('')
-        : '<p style="color:var(--muted);padding:12px 16px">אין זמנים מוגדרים.</p>';
-      shabbatEl.innerHTML = shabbat.length ? shabbat.map(ptimeRowHTML).join('')
-        : '<p style="color:var(--muted);padding:12px 16px">אין זמנים מוגדרים.</p>';
+      const holidayEl = document.getElementById('ptimes-holiday-list');
+      const empty = '<p style="color:var(--muted);padding:12px 16px">אין זמנים מוגדרים.</p>';
+      const fill = (el, rows) => { if (el) el.innerHTML = rows.length ? rows.map(ptimeRowHTML).join('') : empty; };
+      fill(weekdayEl, _prayerTimesData.filter(p => p.day_type === 'weekday'));
+      fill(shabbatEl, _prayerTimesData.filter(p => p.day_type === 'shabbat'));
+      fill(holidayEl, _prayerTimesData.filter(p => p.day_type === 'holiday'));
     }
 
     async function savePrayerTime(id) {

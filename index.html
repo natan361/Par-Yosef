@@ -278,9 +278,6 @@
     .footer-sitemap p,
     .footer-sitemap a,
     .footer-sitemap li,
-    .footer-newsletter,
-    .footer-newsletter h3,
-    .footer-newsletter p,
     .footer-strip,
     .footer-strip a,
     .footer-strip p,
@@ -1077,10 +1074,6 @@
     .footer-strip-item a { color: var(--text-light); transition: color 0.2s ease; opacity: 0.75; }
     .footer-strip-item a:hover { color: var(--gold); opacity: 1; }
 
-    .footer-newsletter { background: var(--bg-dark); padding: 28px 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.08); }
-    .footer-newsletter h3 { font-family: 'Noto Serif Hebrew', 'David Libre', serif; font-size: 28px; color: var(--text-light); margin-bottom: 10px; font-weight: 700; }
-    .footer-newsletter p  { font-size: 16px; color: var(--text-light); opacity: 0.65; margin-bottom: 16px; }
-
     .footer-sitemap { background: var(--bg-dark); padding: 28px 0 20px; border-top: 1px solid rgba(255,255,255,0.08); }
     .footer-logo-row { display: flex; flex-direction: column; align-items: flex-end; margin-bottom: 24px; }
     .footer-logo-name { font-family: 'Noto Serif Hebrew', 'David Libre', serif; font-size: 28px; color: var(--gold); font-weight: 700; }
@@ -1313,6 +1306,22 @@
     ════════════════════════════ */
     #prayers { background: var(--sand); }
     .prayers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s5); align-items: start; }
+    /* :has lets the grid react to the holiday panel appearing without JS
+       touching layout; browsers without it just keep the two-column board */
+    .prayers-grid:has(#holiday-panel:not([hidden])) { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 1023px) {
+      .prayers-grid:has(#holiday-panel:not([hidden])) { grid-template-columns: 1fr 1fr; }
+    }
+    .prayer-panel[hidden] { display: none; }
+    .holiday-dates {
+      display: flex; align-items: baseline; justify-content: space-between; gap: var(--s4);
+      padding: var(--s3) var(--s5);
+      background: var(--gold-50);
+      border-top: 1px solid var(--gold-200);
+      font-size: var(--fs-sm);
+    }
+    .holiday-dates-label { color: var(--gold-800); font-weight: 600; }
+    .holiday-dates-time  { font-family: var(--font-display); font-weight: 700; color: var(--teal-900); }
     @media (max-width: 767px) { .prayers-grid { grid-template-columns: 1fr; gap: var(--s4); } }
     .prayer-panel {
       background: var(--surface);
@@ -1700,7 +1709,6 @@
       .footer-col ul    { gap: 6px !important; padding: 0 !important; }
       .footer-logo-row  { align-items: center !important; text-align: center !important; }
       .footer-strip-inner { flex-direction: column !important; gap: 14px !important; text-align: center !important; }
-      .footer-newsletter { padding: 32px 20px !important; }
       .footer-bottom-bar { font-size: 11px !important; padding: 12px 16px !important; }
     }
   /* ── Auth ── */
@@ -1821,7 +1829,7 @@
   <!-- HEADER -->
   <header id="site-header">
     <div class="header-inner">
-      <a href="#" class="logo-wrap">
+      <a href="index.html" class="logo-wrap">
         <img src="photo/logo-main.webp" alt="פאר יוסף" width="48" height="48" style="filter:drop-shadow(0 0 4px rgba(0,0,0,0.4))" onerror="this.src='photo/logo-main.png'; this.onerror=function(){this.style.display='none';}">
         <div>
           <span class="logo-name">פאר יוסף</span>
@@ -1983,12 +1991,19 @@
         </div>
         <div class="prayer-panel">
           <div class="prayer-panel-head">
-            <span class="prayer-panel-title" data-i18n="prayersShabbat">שבת וחגים</span>
+            <span class="prayer-panel-title" data-i18n="prayersShabbat">שבת</span>
             <span class="prayer-panel-note" data-i18n="prayersShabbatNote">כולל מוצאי שבת</span>
           </div>
           <div class="prayer-list" id="home-shabbat-prayers">
             <div class="prayer-skeleton"></div><div class="prayer-skeleton"></div><div class="prayer-skeleton"></div>
           </div>
+        </div>
+        <div class="prayer-panel" id="holiday-panel" hidden>
+          <div class="prayer-panel-head">
+            <span class="prayer-panel-title" data-i18n="prayersHoliday">חגים</span>
+            <span class="prayer-panel-note" id="holiday-panel-note"></span>
+          </div>
+          <div class="prayer-list" id="home-holiday-prayers"></div>
         </div>
       </div>
       <div class="shiur-strip">
@@ -2311,16 +2326,7 @@
     <div class="container">
       <div class="footer-strip-inner">
         <div class="footer-strip-item">קדושי סלוניקי, ירושלים</div>
-        <div class="footer-strip-item"><a href="#">הצטרפו לקבוצת WhatsApp</a></div>
       </div>
-    </div>
-  </div>
-
-  <div class="footer-newsletter">
-    <div class="container">
-      <h3 data-i18n="footerNewsletterTitle">הצטרפו לקהילה שלנו</h3>
-      <p data-i18n="footerNewsletterBody">עדכונים שוטפים על שיעורים, אירועים והילולות</p>
-      <a href="#" class="btn btn-green" data-i18n="footerNewsletterBtn">הצטרפו לקבוצת WhatsApp</a>
     </div>
   </div>
 
@@ -2334,7 +2340,7 @@
         <div class="footer-col">
           <h4>ניווט</h4>
           <ul>
-            <li><a href="#">דף הבית</a></li>
+            <li><a href="index.html">דף הבית</a></li>
             <li><a href="#parasha">פרשת השבוע</a></li>
             <li><a href="#yizkor">הילולות צדיקים</a></li>
           </ul>
@@ -3618,12 +3624,14 @@
     async function loadHomePrayerTimes() {
       let weekday = HOME_PRAYER_FALLBACK.weekday;
       let shabbat = HOME_PRAYER_FALLBACK.shabbat;
+      let holiday = [];
       try {
         const { data, error } = await _supabase
           .from('prayer_times').select('*').order('sort_order', { ascending: true });
         if (error || !data || !data.length) throw error || new Error('empty prayer_times');
         const w = data.filter(r => r.day_type === 'weekday');
         const sh = data.filter(r => r.day_type === 'shabbat');
+        holiday = data.filter(r => r.day_type === 'holiday');
         if (w.length)  weekday = w;
         if (sh.length) shabbat = sh;
       } catch (e) {
@@ -3631,9 +3639,48 @@
       }
       renderHomePrayers('home-weekday-prayers', weekday);
       renderHomePrayers('home-shabbat-prayers', shabbat);
+      if (holiday.length) {
+        renderHomePrayers('home-holiday-prayers', holiday);
+        document.getElementById('holiday-panel').hidden = false;
+      }
+      loadHolidayDates();
       // Hebcal usually resolves after this; retry briefly rather than racing it
       let tries = 0;
       const t = setInterval(() => { appendMotzashRows(); if (++tries > 12) clearInterval(t); }, 700);
+    }
+
+    /* Candle lighting and end times for a specific holiday. Shabbat comes from
+       Hebcal, but holiday dates are entered by hand in the admin panel. Only
+       the next upcoming one is shown; past dates drop off on their own. */
+    async function loadHolidayDates() {
+      const panel = document.getElementById('holiday-panel');
+      const list  = document.getElementById('home-holiday-prayers');
+      if (!panel || !list) return;
+      try {
+        const today = new Date().toISOString().slice(0, 10);
+        const { data, error } = await _supabase
+          .from('holiday_times').select('*')
+          .eq('is_active', true)
+          .gte('starts_on', today)
+          .order('starts_on', { ascending: true })
+          .limit(1);
+        if (error) throw error;
+        const h = (data || [])[0];
+        if (!h) return;
+
+        document.getElementById('holiday-panel-note').textContent = h.holiday_name;
+        const row = (label, time) =>
+          '<div class="holiday-dates"><span class="holiday-dates-label">' + escHtml(label) +
+          '</span><span class="holiday-dates-time">' + escHtml(time) + '</span></div>';
+        let extra = '';
+        if (h.candle_time)   extra += row('הדלקת נרות', h.candle_time);
+        if (h.havdalah_time) extra += row('צאת החג', h.havdalah_time);
+        if (h.note) extra += '<div class="holiday-dates"><span class="holiday-dates-label">' +
+                             escHtml(h.note) + '</span></div>';
+        if (extra) { list.insertAdjacentHTML('beforeend', extra); panel.hidden = false; }
+      } catch (e) {
+        console.warn('[holiday_times]', e?.message || e);
+      }
     }
 
     /* ── Announcements ──
@@ -3736,7 +3783,8 @@
       prayersSub: 'הזמנים הקבועים בבית המדרש. זמני מוצאי שבת משתנים לפי הזמן ההלכתי.',
       prayersWeekday: 'ימי חול',
       prayersWeekdayNote: 'א׳ – ו׳',
-      prayersShabbat: 'שבת וחגים',
+      prayersShabbat: 'שבת',
+      prayersHoliday: 'חגים',
       prayersShabbatNote: 'כולל מוצאי שבת',
       shiurStripText: 'שיעור יומי מפי הרב אשר עבאדי שליט״א',
       shiurStripSub: 'ימים א׳–ה׳, מדי ערב לאחר תפילת ערבית',
@@ -3780,9 +3828,6 @@
       donateTitle: 'תמכו בישיבת פאר יוסף',
       donateBody: 'תרומתכם מאפשרת לנו להמשיך ולהאיר. לימוד תורה, שיעורים, וקהילה חיה — כל תרומה, קטנה כגדולה, מחזקת את הבית שלנו.',
       donateBtn: 'צרו קשר',
-      footerNewsletterTitle: 'הצטרפו לקהילה שלנו',
-      footerNewsletterBody: 'עדכונים שוטפים על שיעורים, אירועים והילולות',
-      footerNewsletterBtn: 'הצטרפו לקבוצת WhatsApp',
       'nav.home': 'דף הבית',
       'nav.videos': 'שיעורים / חדשות',
       'nav.gallery': 'גלריה',
@@ -3811,7 +3856,8 @@
       prayersSub: "Les horaires fixes du Beth Midrach. La sortie de Chabbat varie selon l'heure halakhique.",
       prayersWeekday: 'Jours de semaine',
       prayersWeekdayNote: 'Dim. – Ven.',
-      prayersShabbat: 'Chabbat et fêtes',
+      prayersShabbat: 'Chabbat',
+      prayersHoliday: 'Fêtes',
       prayersShabbatNote: 'Sortie de Chabbat incluse',
       shiurStripText: 'Cours quotidien du Rav Acher Abadi chalita',
       shiurStripSub: 'Du dimanche au jeudi, chaque soir après l’office du soir',
@@ -3855,9 +3901,6 @@
       donateTitle: 'Soutenez la Yechiva Peer Yossef',
       donateBody: 'Votre don nous permet de continuer à rayonner. Torah, cours et communauté vivante — chaque don, petit ou grand, renforce notre maison.',
       donateBtn: 'Nous contacter',
-      footerNewsletterTitle: 'Rejoignez notre communauté',
-      footerNewsletterBody: 'Mises à jour régulières sur les cours, événements et Hiloulot',
-      footerNewsletterBtn: 'Rejoindre le groupe WhatsApp',
       'nav.home': 'Accueil',
       'nav.videos': 'Cours / Actualités',
       'nav.gallery': 'Galerie',

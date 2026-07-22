@@ -243,7 +243,6 @@
     /* ── White text overrides ── */
     .footer-sitemap, .footer-sitemap h3, .footer-sitemap p,
     .footer-sitemap a, .footer-sitemap li,
-    .footer-newsletter, .footer-newsletter h3, .footer-newsletter p,
     .footer-strip, .footer-strip a, .footer-strip p,
     .footer-logo-name, .footer-logo-tag { color: #ffffff !important; }
     .nav-overlay, .nav-overlay a { color: #ffffff !important; }
@@ -452,10 +451,6 @@
     .footer-strip-item { display: flex; align-items: center; gap: 8px; font-size: 15px; opacity: 0.75; }
     .footer-strip-item a { transition: color 0.2s; }
     .footer-strip-item a:hover { color: var(--gold) !important; opacity: 1; }
-
-    .footer-newsletter { background: var(--bg-dark); padding: 28px 0; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; }
-    .footer-newsletter h3 { font-family: var(--font-display); font-size: 24px; font-weight: 700; margin-bottom: 8px; }
-    .footer-newsletter p { font-size: 15px; opacity: 0.75; margin-bottom: 20px; }
 
     .footer-sitemap { background: var(--bg-dark); padding: 28px 24px 20px; border-top: 1px solid rgba(255,255,255,0.1); }
     .footer-logo-row { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; margin-bottom: 32px; }
@@ -727,16 +722,7 @@
     <div class="container">
       <div class="footer-strip-inner">
         <div class="footer-strip-item">קדושי סלוניקי, ירושלים</div>
-        <div class="footer-strip-item"><a href="#">הצטרפו לקבוצת WhatsApp</a></div>
       </div>
-    </div>
-  </div>
-
-  <div class="footer-newsletter">
-    <div class="container">
-      <h3 data-i18n="footerNewsletterTitle">הצטרפו לקהילה שלנו</h3>
-      <p data-i18n="footerNewsletterBody">עדכונים שוטפים על שיעורים, אירועים והילולות</p>
-      <a href="#" class="btn btn-green" data-i18n="footerNewsletterBtn">הצטרפו לקבוצת WhatsApp</a>
     </div>
   </div>
 
@@ -1134,9 +1120,6 @@
         'gallery.uploadCaptionPlaceholder': 'תאר את הרגע...',
         'gallery.uploadFile':        'בחר קובץ (תמונה או סרטון, עד 20MB)',
         'gallery.uploadSubmit':      'שלח להגשה',
-        footerNewsletterTitle:  'הצטרפו לקהילה שלנו',
-        footerNewsletterBody:   'עדכונים שוטפים על שיעורים, אירועים והילולות',
-        footerNewsletterBtn:    'הצטרפו לקבוצת WhatsApp',
       },
       fr: {
         logoSub:                'Yechiva · Beth Midrach · Communauté',
@@ -1171,9 +1154,6 @@
         'gallery.uploadCaptionPlaceholder': 'Décrivez ce moment...',
         'gallery.uploadFile':        'Choisir un fichier (image ou vidéo, max 20 Mo)',
         'gallery.uploadSubmit':      'Envoyer pour examen',
-        footerNewsletterTitle:  'Rejoignez notre communauté',
-        footerNewsletterBody:   'Mises à jour régulières sur les cours, événements et Hiloulot',
-        footerNewsletterBtn:    'Rejoindre le groupe WhatsApp',
       }
     };
 
