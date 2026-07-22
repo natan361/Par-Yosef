@@ -324,6 +324,45 @@
   </style>
 </head>
 <body>
+  <!-- shown instead of a silent redirect when access is refused -->
+  <div id="admin-gate" style="display:none;position:fixed;inset:0;z-index:9998;
+       background:#f7f4ef;align-items:center;justify-content:center;padding:24px">
+    <div style="max-width:460px;width:100%;background:#fff;border:1px solid #E4DCCC;
+         border-radius:18px;padding:36px 32px;text-align:center;
+         box-shadow:0 4px 10px rgba(22,50,61,.06),0 20px 48px rgba(22,50,61,.12)">
+      <h2 id="admin-gate-title" style="font-family:'Frank Ruhl Libre',serif;font-size:26px;
+          color:#16323D;margin:0 0 12px">אין גישה</h2>
+      <p id="admin-gate-body" style="font-size:16px;line-height:1.7;color:#3D5B67;margin:0 0 24px"></p>
+
+      <form id="admin-gate-form" onsubmit="gateLogin(event)" style="display:none;text-align:right;margin-bottom:22px">
+        <label for="gate-username" style="display:block;font-size:14px;font-weight:600;color:#16323D;margin-bottom:6px">שם משתמש</label>
+        <input type="text" id="gate-username" autocomplete="username" required
+               style="width:100%;padding:12px 14px;border:1px solid #E4DCCC;border-radius:12px;
+                      font-family:inherit;font-size:16px;margin-bottom:14px;background:#fff;color:#16323D">
+        <label for="gate-password" style="display:block;font-size:14px;font-weight:600;color:#16323D;margin-bottom:6px">סיסמה</label>
+        <input type="password" id="gate-password" autocomplete="current-password" required
+               style="width:100%;padding:12px 14px;border:1px solid #E4DCCC;border-radius:12px;
+                      font-family:inherit;font-size:16px;margin-bottom:8px;background:#fff;color:#16323D">
+        <p id="gate-error" role="alert" style="min-height:20px;margin:0 0 12px;font-size:14px;color:#B3261E"></p>
+        <button type="submit" id="gate-submit"
+                style="width:100%;min-height:48px;border:none;border-radius:999px;background:#CC8800;
+                       color:#fff;font-family:inherit;font-size:16px;font-weight:600;cursor:pointer">
+          כניסה לאזור הניהול</button>
+      </form>
+
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <a href="index.html" style="display:inline-flex;align-items:center;min-height:46px;
+           padding:12px 24px;color:#587079;font-weight:500;font-size:15px;
+           text-decoration:none">חזרה לדף הבית</a>
+        <button id="admin-gate-signout" onclick="gateSignOut()"
+           style="display:none;align-items:center;min-height:46px;padding:12px 26px;
+           border-radius:999px;background:transparent;border:1.5px solid #A87200;
+           color:#8A5E00;font-weight:600;cursor:pointer;font-family:inherit;font-size:15px">
+          התנתקות והחלפת חשבון</button>
+      </div>
+    </div>
+  </div>
+
 
   <header id="site-header">
     <div class="header-inner">
@@ -837,11 +876,71 @@
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     const SITE_URL = 'https://natan361.github.io/Par-Yosef';
 
-    /* ── Admin Guard ── */
+    /* ── Admin Guard ──
+       Says why access was refused instead of silently redirecting. The two
+       cases look identical to a user but need different actions: sign in, or
+       ask for the admin account. */
+    function showGate(title, body, showSignOut, showForm) {
+      document.getElementById('admin-gate-title').textContent = title;
+      document.getElementById('admin-gate-body').textContent  = body;
+      document.getElementById('admin-gate-signout').style.display = showSignOut ? '' : 'none';
+      document.getElementById('admin-gate-form').style.display    = showForm ? 'block' : 'none';
+      document.getElementById('admin-gate').style.display = 'flex';
+      if (showForm) document.getElementById('gate-username').focus();
+    }
+
+    /* same username-to-email scheme the public auth modal uses */
+    function toFakeEmail(username) {
+      let hash = 5381;
+      for (let i = 0; i < username.length; i++) {
+        hash = ((hash << 5) + hash) + username.charCodeAt(i);
+        hash = hash & 0x7fffffff;
+      }
+      return 'u' + hash + '@peer-yosef-auth.com';
+    }
+
+    async function gateLogin(e) {
+      e.preventDefault();
+      const btn = document.getElementById('gate-submit');
+      const err = document.getElementById('gate-error');
+      err.textContent = '';
+      btn.disabled = true; btn.textContent = 'מתחבר...';
+
+      const username = document.getElementById('gate-username').value.trim();
+      const password = document.getElementById('gate-password').value;
+      const { data, error } = await _supabase.auth.signInWithPassword({
+        email: toFakeEmail(username), password
+      });
+
+      btn.disabled = false; btn.textContent = 'כניסה לאזור הניהול';
+      if (error) { err.textContent = 'שם משתמש או סיסמה שגויים'; return; }
+      if (data.user?.user_metadata?.is_admin !== true) {
+        err.textContent = 'החשבון הזה קיים אך אין לו הרשאת ניהול';
+        await _supabase.auth.signOut();
+        return;
+      }
+      document.getElementById('admin-gate').style.display = 'none';
+      init();
+    }
+
+    async function gateSignOut() {
+      await _supabase.auth.signOut();
+      window.location.reload();
+    }
+
     async function guardAdmin() {
       const { data: { session } } = await _supabase.auth.getSession();
-      if (!session || session.user?.user_metadata?.is_admin !== true) {
-        window.location.href = 'index.html';
+      if (!session) {
+        showGate('כניסה לאזור הניהול',
+                 'אזור הניהול פתוח למנהלי האתר בלבד.',
+                 false, true);
+        return null;
+      }
+      if (session.user?.user_metadata?.is_admin !== true) {
+        const who = session.user?.user_metadata?.display_name || 'המשתמש הנוכחי';
+        showGate('אין הרשאת ניהול',
+                 'אתם מחוברים כ־' + who + ', ולחשבון הזה אין הרשאת ניהול. התנתקו והתחברו עם חשבון הניהול.',
+                 true, false);
         return null;
       }
       return session.user;
