@@ -147,10 +147,21 @@
       line-height: 1.65;
       color: var(--text);
       background: var(--bg);
+      background-image: radial-gradient(120% 60% at 50% -10%, rgba(204,136,0,.05), transparent 60%);
+      background-attachment: fixed;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
       font-variant-numeric: tabular-nums;
     }
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 1;
+      pointer-events: none;
+      opacity: .5;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+    }
+    header, main, section, footer, .footer-strip,
+    .footer-sitemap, .nav-overlay, .mobile-bottom-nav { position: relative; z-index: 2; }
     body.nav-open { overflow: hidden; }
     a { text-decoration: none; color: inherit; }
     img { display: block; max-width: 100%; }
@@ -172,11 +183,12 @@
 
     /* ── Buttons ── */
     .btn {
+      position: relative;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: var(--s2);
-      background: var(--gold-500);
+      background: linear-gradient(180deg, var(--gold-400) 0%, var(--gold-500) 52%, var(--gold-600) 100%);
       color: #ffffff;
       border-radius: var(--r-pill);
       padding: 14px 34px;
@@ -187,12 +199,12 @@
       letter-spacing: -0.01em;
       border: none;
       cursor: pointer;
-      box-shadow: var(--sh-gold);
-      transition: background var(--dur-1) ease, transform var(--dur-1) var(--ease), box-shadow var(--dur-1) ease;
+      box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 8px 22px rgba(160,114,0,.32), 0 2px 6px rgba(110,75,0,.22);
+      transition: transform var(--dur-1) var(--ease), box-shadow var(--dur-2) ease, filter var(--dur-1) ease;
       white-space: nowrap;
     }
-    .btn:hover { background: var(--gold-600); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(204,136,0,.38); }
-    .btn:active { transform: translateY(0); box-shadow: var(--sh-1); }
+    .btn:hover { transform: translateY(-2px); filter: brightness(1.04); box-shadow: 0 1px 0 rgba(255,255,255,.4) inset, 0 14px 30px rgba(160,114,0,.4), 0 3px 8px rgba(110,75,0,.24); }
+    .btn:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(110,75,0,.3); }
     /* WhatsApp keeps its own identity through the icon, not a clashing green fill */
     .btn-green { background: var(--teal-700); color: #fff; box-shadow: 0 6px 20px rgba(30,90,104,.28); }
     .btn-green:hover { background: var(--teal-800); box-shadow: 0 10px 28px rgba(30,90,104,.34); }

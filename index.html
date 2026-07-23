@@ -157,11 +157,27 @@
       font-size: var(--fs-base);
       line-height: 1.65;
       color: var(--text);
+      /* a barely-there warm wash from the top gives the cream ground depth
+         instead of one flat fill edge to edge */
       background: var(--bg);
+      background-image: radial-gradient(120% 60% at 50% -10%, rgba(204,136,0,.05), transparent 60%);
+      background-attachment: fixed;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
       font-variant-numeric: tabular-nums;
     }
+    /* faint paper grain — the kind of texture premium heritage sites carry;
+       fixed, non-interactive, and almost subliminal so it never competes */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 1;
+      pointer-events: none;
+      opacity: .5;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+    }
+    /* content and header sit above the grain */
+    header, main, section, footer, .footer-strip, .footer-newsletter,
+    .footer-sitemap, #whatsapp, .nav-overlay, .mobile-bottom-nav { position: relative; z-index: 2; }
     body.nav-open { overflow: hidden; }
     a { text-decoration: none; color: inherit; }
     img { display: block; max-width: 100%; }
@@ -174,13 +190,16 @@
        override only when they carry a full-bleed element. */
     section { padding: var(--sec-y) 0; }
 
-    /* ── Buttons ── */
+    /* ── Buttons ──
+       The primary action is the one place gold is allowed to be rich: a real
+       top-lit gradient with a hairline highlight, not a flat fill. */
     .btn {
+      position: relative;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: var(--s2);
-      background: var(--gold-500);
+      background: linear-gradient(180deg, var(--gold-400) 0%, var(--gold-500) 52%, var(--gold-600) 100%);
       color: #ffffff;
       border-radius: var(--r-pill);
       padding: 14px 34px;
@@ -191,12 +210,12 @@
       letter-spacing: -0.01em;
       border: none;
       cursor: pointer;
-      box-shadow: var(--sh-gold);
-      transition: background var(--dur-1) ease, transform var(--dur-1) var(--ease), box-shadow var(--dur-1) ease;
+      box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 8px 22px rgba(160,114,0,.32), 0 2px 6px rgba(110,75,0,.22);
+      transition: transform var(--dur-1) var(--ease), box-shadow var(--dur-2) ease, filter var(--dur-1) ease;
       white-space: nowrap;
     }
-    .btn:hover { background: var(--gold-600); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(204,136,0,.38); }
-    .btn:active { transform: translateY(0); box-shadow: var(--sh-1); }
+    .btn:hover { transform: translateY(-2px); filter: brightness(1.04); box-shadow: 0 1px 0 rgba(255,255,255,.4) inset, 0 14px 30px rgba(160,114,0,.4), 0 3px 8px rgba(110,75,0,.24); }
+    .btn:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(110,75,0,.3); }
     /* WhatsApp keeps its own identity through the icon, not a clashing green fill */
     .btn-green { background: var(--teal-700); color: #fff; box-shadow: 0 6px 20px rgba(30,90,104,.28); }
     .btn-green:hover { background: var(--teal-800); box-shadow: 0 10px 28px rgba(30,90,104,.34); }
@@ -560,16 +579,21 @@
        colour on top of it. The section now sits on deep teal — the same
        ground the footer uses — so the page has two grounds, not eight. */
     #parasha {
-      background: var(--teal-800);
+      /* three-stop dive from teal-700 down to teal-900 gives the band real
+         depth instead of one flat value */
+      background: linear-gradient(160deg, var(--teal-700) 0%, var(--teal-800) 46%, var(--teal-900) 100%);
       position: relative;
       overflow: hidden;
+      box-shadow: inset 0 3px 0 rgba(204,136,0,.55);  /* gold hairline lifts it off the cream */
     }
     /* a single soft light source, top-right where the reader enters */
     #parasha::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(120% 90% at 88% 0%, rgba(43,124,141,.55) 0%, transparent 62%);
+      background:
+        radial-gradient(120% 90% at 88% 0%, rgba(43,124,141,.5) 0%, transparent 60%),
+        radial-gradient(90% 70% at 6% 108%, rgba(14,43,51,.6) 0%, transparent 60%);
       z-index: 0;
       pointer-events: none;
     }
@@ -988,7 +1012,26 @@
     ════════════════════════════ */
     #about { background: var(--sand); }
     .about-grid { display: grid; grid-template-columns: 1fr 42%; gap: var(--s8); align-items: center; }
-    .about-img-col img { width: 100%; max-width: 460px; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+    /* the rabbi's portrait is the section's anchor — it gets a crafted frame:
+       a soft gold mat, layered depth, and a whisper of the seal's ring */
+    .about-img-col { position: relative; }
+    .about-img-col img {
+      width: 100%; max-width: 460px;
+      border-radius: var(--r-md);
+      box-shadow: var(--sh-3);
+      border: 1px solid var(--gold-200);
+      padding: 6px; background: var(--surface);
+    }
+    /* a thin gold rule offset behind the photo, echoing the double-ring motif */
+    .about-img-col::before {
+      content: '';
+      position: absolute; inset: -12px -12px auto auto;
+      width: 64%; height: 64%;
+      border-top: 2px solid var(--gold-500);
+      border-inline-end: 2px solid var(--gold-500);
+      border-start-end-radius: var(--r-md);
+      opacity: .5; z-index: -1;
+    }
     .about-img-placeholder {
       width: 100%; max-width: 460px; height: 420px; border-radius: 16px;
       background: var(--bg-elem); border: 2px solid var(--gold);
@@ -1056,12 +1099,18 @@
     /* ════════════════════════════
        DONATE CTA
     ════════════════════════════ */
-    #donate-cta { background: var(--teal-800); text-align: center; position: relative; overflow: hidden; }
-    /* same radial light as the parasha band, so the two dark moments rhyme */
+    #donate-cta {
+      background: linear-gradient(160deg, var(--teal-700) 0%, var(--teal-800) 50%, var(--teal-900) 100%);
+      text-align: center; position: relative; overflow: hidden;
+      box-shadow: inset 0 3px 0 rgba(204,136,0,.55);
+    }
+    /* same layered light as the parasha band, so the two dark moments rhyme */
     #donate-cta::before {
       content: '';
       position: absolute; inset: 0;
-      background: radial-gradient(90% 120% at 50% 0%, rgba(43,124,141,.55) 0%, transparent 64%);
+      background:
+        radial-gradient(90% 120% at 50% 0%, rgba(43,124,141,.5) 0%, transparent 62%),
+        radial-gradient(70% 90% at 100% 120%, rgba(14,43,51,.55) 0%, transparent 60%);
       pointer-events: none;
     }
     #donate-cta > * { position: relative; }
@@ -1504,11 +1553,17 @@
        GALLERY STRIP
     ════════════════════════════ */
     #gallery-strip { background: var(--sand); padding: var(--sec-y) 0 calc(var(--sec-y) - 8px); }
-    .gallery-strip-wrap { width: 100%; overflow: hidden; direction: ltr; }
+    /* the strip dissolves into the cream at both edges instead of hard-cutting,
+       the way a well-made marquee reads on premium sites */
+    .gallery-strip-wrap {
+      width: 100%; overflow: hidden; direction: ltr;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+              mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    }
     .gallery-track {
       display: flex;
       direction: ltr;
-      gap: 14px;
+      gap: 16px;
       width: max-content;
       will-change: transform;
     }
@@ -1518,10 +1573,13 @@
       width: auto;
       min-width: 160px;
       object-fit: cover;
-      border-radius: 10px;
+      border-radius: var(--r-sm);
       flex-shrink: 0;
       display: block;
       pointer-events: none;
+      box-shadow: var(--sh-1);
+      /* one warm tone unifies photos shot on different phones in different light */
+      filter: saturate(1.05) contrast(1.02);
     }
     @keyframes galleryScroll {
       0%   { transform: translateX(0); }
