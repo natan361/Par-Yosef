@@ -505,6 +505,13 @@
       color: var(--text);
       font-weight: 500;
     }
+    /* marks a time that tracks the sun rather than a fixed clock entry */
+    .auto-badge {
+      display: inline-block; margin-inline-start: 8px;
+      font-size: 10px; font-weight: 600; letter-spacing: .04em;
+      color: var(--gold-800, #6E4B00); background: var(--gold-100, #F8EED6);
+      border-radius: 999px; padding: 2px 8px; vertical-align: middle;
+    }
     .prayer-time {
       font-family: var(--font-display);
       font-size: 15px;
@@ -1149,16 +1156,31 @@
       } catch { return '—'; }
     }
 
-    /* ── Rabbeinu Tam (מעלות): sunset + (sunrise − alotHaShachar) ── */
+    /* ── Rabbeinu Tam havdalah (מעלות): sunset + (sunrise − alotHaShachar) ── */
     function calcRTdeg(times) {
       const sunset  = new Date(times.sunset);
       const sunrise = new Date(times.sunrise);
       const alot    = new Date(times.alotHaShachar);
       return new Date(sunset.getTime() + (sunrise.getTime() - alot.getTime()));
     }
+    /* the RT motzash MINYAN gathers 20 min after RT havdalah */
+    function calcRTminyan(times) {
+      return new Date(calcRTdeg(times).getTime() + 20 * 60000);
+    }
 
-    /* ── API fetch ── */
-    let zmanimData = null; // reused by both sections
+    /* A prayer row is either a fixed clock time or a rule tied to today's
+       sunset, so mincha/arvit track the sun without anyone editing them. */
+    function resolvePrayerTime(row, sunset) {
+      if (sunset && row.time_rule === 'sunset_minus_15')
+        return fmtTime(new Date(sunset.getTime() - 15 * 60000));
+      if (sunset && row.time_rule === 'sunset')
+        return fmtTime(sunset);
+      return row.prayer_time;
+    }
+
+    /* ── API fetch — called once, shared by every section ── */
+    let zmanimData = null;
+    let _zmanimPromise = null;
 
     async function loadZmanim() {
       const today = new Date().toISOString().slice(0, 10);
@@ -1170,6 +1192,7 @@
       zmanimData    = await zmanimRes.json();
       return { shabbat, zmanim: zmanimData };
     }
+    function getZmanim() { return _zmanimPromise || (_zmanimPromise = loadZmanim()); }
 
     /* ── Prayer times (ימי חול / שבת) from Supabase — independent of the Hebcal
        calls above, so a failure in either one never blocks the other ── */
@@ -1187,12 +1210,15 @@
       ],
     };
 
-    function renderPrayerList(containerId, rows) {
+    function renderPrayerList(containerId, rows, sunset) {
       const el = document.getElementById(containerId);
       if (!el) return;
-      el.innerHTML = rows.map(r =>
-        `<div class="prayer-row"><span class="prayer-name">${r.display_name}</span><span class="prayer-time">${r.prayer_time}</span></div>`
-      ).join('');
+      el.innerHTML = rows.map(r => {
+        const auto = r.time_rule && r.time_rule !== 'fixed';
+        const badge = auto ? '<span class="auto-badge">אוטומטי</span>' : '';
+        return `<div class="prayer-row"><span class="prayer-name">${r.display_name}${badge}</span>` +
+               `<span class="prayer-time">${resolvePrayerTime(r, sunset)}</span></div>`;
+      }).join('');
     }
 
     async function loadPrayerTimes() {
@@ -1201,6 +1227,11 @@
       const loadingHTML = '<div class="prayer-times-loading"><span class="spin-light"></span></div>';
       if (weekdayEl) weekdayEl.innerHTML = loadingHTML;
       if (shabbatEl) shabbatEl.innerHTML = loadingHTML;
+
+      // the sun-based rules need today's sunset, so wait on the shared fetch;
+      // if Hebcal is down we still render, auto rows just fall back to fixed
+      let sunset = null;
+      try { const { zmanim } = await getZmanim(); if (zmanim?.times?.sunset) sunset = new Date(zmanim.times.sunset); } catch {}
 
       try {
         const { data, error } = await _supabase
@@ -1211,18 +1242,18 @@
 
         const weekday = data.filter(r => r.day_type === 'weekday');
         const shabbat = data.filter(r => r.day_type === 'shabbat');
-        renderPrayerList('weekday-prayers-list', weekday.length ? weekday : FALLBACK_PRAYER_TIMES.weekday);
-        renderPrayerList('shabbat-prayers-list', shabbat.length ? shabbat : FALLBACK_PRAYER_TIMES.shabbat);
+        renderPrayerList('weekday-prayers-list', weekday.length ? weekday : FALLBACK_PRAYER_TIMES.weekday, sunset);
+        renderPrayerList('shabbat-prayers-list', shabbat.length ? shabbat : FALLBACK_PRAYER_TIMES.shabbat, sunset);
       } catch (e) {
         console.warn('[prayer_times]', e?.message || e);
-        renderPrayerList('weekday-prayers-list', FALLBACK_PRAYER_TIMES.weekday);
-        renderPrayerList('shabbat-prayers-list', FALLBACK_PRAYER_TIMES.shabbat);
+        renderPrayerList('weekday-prayers-list', FALLBACK_PRAYER_TIMES.weekday, sunset);
+        renderPrayerList('shabbat-prayers-list', FALLBACK_PRAYER_TIMES.shabbat, sunset);
       }
     }
 
     async function initAll() {
       try {
-        const { shabbat, zmanim } = await loadZmanim();
+        const { shabbat, zmanim } = await getZmanim();
 
         /* ── Shabbat card ── */
         const items = shabbat.items || [];
@@ -1234,25 +1265,30 @@
         const havdalahTime = havdalahItem ? fmtTime(havdalahItem.date) : '—';
 
         const z = zmanim.times || {};
-        let rtTime = '—';
+        // havdalah at the RT degree — shown as the "end of Shabbat" time
+        let rtHavdalah = '—';
         if (z.sunset && z.sunrise && z.alotHaShachar) {
-          rtTime = fmtTime(calcRTdeg(z));
+          rtHavdalah = fmtTime(calcRTdeg(z));
         } else if (z.tzeit72min) {
-          rtTime = fmtTime(z.tzeit72min);
+          rtHavdalah = fmtTime(z.tzeit72min);
         }
+        // the RT minyan davens 20 min after that havdalah
+        const rtMinyan = (z.sunset && z.sunrise && z.alotHaShachar)
+          ? fmtTime(calcRTminyan(z)) : rtHavdalah;
 
         document.getElementById('shabbat-parasha-name').textContent =
           parashaItem ? parashaItem.hebrew || parashaItem.title : '';
         document.getElementById('shabbat-candles').textContent    = candlesTime;
         document.getElementById('shabbat-havdalah-reg').textContent = havdalahTime;
-        document.getElementById('shabbat-havdalah-rt').textContent  = rtTime;
+        document.getElementById('shabbat-havdalah-rt').textContent  = rtHavdalah;
 
         document.getElementById('shabbat-loading').style.display = 'none';
         document.getElementById('shabbat-content').style.display = 'block';
 
-        /* ── Dynamic motzash times in prayer table ── */
+        /* ── Dynamic motzash MINYAN times in the prayer table ──
+           regular minyan at havdalah; RT minyan 20 min after RT havdalah */
         document.getElementById('motzash-reg').textContent = havdalahTime;
-        document.getElementById('motzash-rt').textContent  = rtTime;
+        document.getElementById('motzash-rt').textContent  = rtMinyan;
 
         /* ── Halachic times ── */
         renderHalachicTimes(zmanim);
@@ -1327,6 +1363,7 @@
       ].join('');
     }
 
+    getZmanim();      // kick off the single shared fetch
     initAll();
     loadPrayerTimes();
 

@@ -299,6 +299,11 @@
       font-family: inherit; font-size: 14px; background: var(--bg);
     }
     .ptime-name-input:focus, .ptime-time-input:focus { outline: none; border-color: var(--gold); background: #fff; }
+    .ptime-rule-input {
+      border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px;
+      font-family: inherit; font-size: 13px; background: #fafafa; color: var(--text);
+    }
+    .ptime-time-input:disabled { background: #eee; color: #999; }
     .ptime-save-msg { font-size: 12px; color: #27ae60; font-weight: 600; white-space: nowrap; }
 
     /* ── Info note ── */
@@ -833,8 +838,16 @@
           <input type="text" id="ptime-new-name" placeholder="לדוגמה: תפילת מנחה" required>
         </div>
         <div class="form-group">
+          <label for="ptime-new-rule">אופן חישוב</label>
+          <select id="ptime-new-rule" onchange="ptimeRuleToggle(this)">
+            <option value="fixed">שעה קבועה</option>
+            <option value="sunset_minus_15">אוטומטי — רבע שעה לפני השקיעה (מנחה)</option>
+            <option value="sunset">אוטומטי — בזמן השקיעה (ערבית)</option>
+          </select>
+        </div>
+        <div class="form-group" id="ptime-new-time-wrap">
           <label for="ptime-new-time">שעה</label>
-          <input type="time" id="ptime-new-time" required>
+          <input type="time" id="ptime-new-time">
         </div>
         <button type="submit" class="btn-submit">הוסף זמן</button>
       </form>
@@ -1802,13 +1815,24 @@
       renderPrayerTimes();
     }
 
+    const RULE_LABEL = {
+      fixed: 'שעה קבועה',
+      sunset_minus_15: 'רבע שעה לפני השקיעה',
+      sunset: 'בזמן השקיעה',
+    };
     function ptimeRowHTML(p) {
       const nameEsc = String(p.display_name).replace(/"/g, '&quot;');
+      const rule = p.time_rule || 'fixed';
+      const opt = (v) => '<option value="' + v + '"' + (rule === v ? ' selected' : '') + '>' + RULE_LABEL[v] + '</option>';
+      const timeDisabled = rule !== 'fixed' ? 'disabled' : '';
       return `
         <div class="admin-row" id="ptime-row-${p.id}">
           <div class="ptime-row-fields">
             <input type="text" class="ptime-name-input" id="ptime-name-${p.id}" value="${nameEsc}">
-            <input type="time" class="ptime-time-input" id="ptime-time-${p.id}" value="${p.prayer_time}">
+            <select class="ptime-rule-input" id="ptime-rule-${p.id}" onchange="ptimeRowRuleToggle(${p.id})">
+              ${opt('fixed')}${opt('sunset_minus_15')}${opt('sunset')}
+            </select>
+            <input type="time" class="ptime-time-input" id="ptime-time-${p.id}" value="${p.prayer_time || ''}" ${timeDisabled}>
           </div>
           <div class="admin-row-actions">
             <span class="ptime-save-msg" id="ptime-msg-${p.id}"></span>
@@ -1816,6 +1840,15 @@
             <button class="btn-delete" onclick="deletePrayerTime(${p.id})">מחק</button>
           </div>
         </div>`;
+    }
+    function ptimeRowRuleToggle(id) {
+      const rule = document.getElementById('ptime-rule-' + id).value;
+      const t = document.getElementById('ptime-time-' + id);
+      t.disabled = rule !== 'fixed';
+    }
+    function ptimeRuleToggle(sel) {
+      document.getElementById('ptime-new-time-wrap').style.display =
+        sel.value === 'fixed' ? 'block' : 'none';
     }
 
     function renderPrayerTimes() {
@@ -1833,15 +1866,17 @@
       const nameInput = document.getElementById('ptime-name-' + id);
       const timeInput = document.getElementById('ptime-time-' + id);
       const msgEl     = document.getElementById('ptime-msg-' + id);
+      const time_rule    = document.getElementById('ptime-rule-' + id)?.value || 'fixed';
       const display_name = nameInput.value.trim();
-      const prayer_time  = timeInput.value;
-      if (!display_name || !prayer_time) { alert('נא למלא שם ושעה'); return; }
+      const prayer_time  = time_rule === 'fixed' ? timeInput.value : (timeInput.value || '00:00');
+      if (!display_name) { alert('נא למלא שם'); return; }
+      if (time_rule === 'fixed' && !prayer_time) { alert('נא למלא שעה'); return; }
       const { error } = await _supabase.from('prayer_times')
-        .update({ display_name, prayer_time, updated_at: new Date().toISOString() })
+        .update({ display_name, prayer_time, time_rule, updated_at: new Date().toISOString() })
         .eq('id', id);
       if (error) { alert('שגיאה: ' + error.message); return; }
       const item = _prayerTimesData.find(p => p.id === id);
-      if (item) { item.display_name = display_name; item.prayer_time = prayer_time; }
+      if (item) { item.display_name = display_name; item.prayer_time = prayer_time; item.time_rule = time_rule; }
       if (msgEl) {
         msgEl.textContent = 'נשמר ✓';
         setTimeout(() => { if (msgEl) msgEl.textContent = ''; }, 2500);
@@ -1863,12 +1898,16 @@
       e.preventDefault();
       const day_type     = document.getElementById('ptime-new-daytype').value;
       const display_name = document.getElementById('ptime-new-name').value.trim();
-      const prayer_time  = document.getElementById('ptime-new-time').value;
-      if (!display_name || !prayer_time) return;
+      const time_rule    = document.getElementById('ptime-new-rule').value;
+      const prayer_time  = time_rule === 'fixed'
+        ? document.getElementById('ptime-new-time').value
+        : (document.getElementById('ptime-new-time').value || '00:00');
+      if (!display_name) return;
+      if (time_rule === 'fixed' && !prayer_time) return;
       const existingCount = _prayerTimesData.filter(p => p.day_type === day_type).length;
       const prayer_key = day_type + '_custom_' + Date.now();
       const { error } = await _supabase.from('prayer_times').insert({
-        day_type, prayer_key, display_name, prayer_time, sort_order: existingCount + 1
+        day_type, prayer_key, display_name, prayer_time, time_rule, sort_order: existingCount + 1
       });
       if (error) { alert('שגיאה: ' + error.message); return; }
       e.target.reset();

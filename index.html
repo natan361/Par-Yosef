@@ -2714,6 +2714,23 @@
       const alot    = new Date(times.alotHaShachar);
       return new Date(sunset.getTime() + (sunrise.getTime() - alot.getTime()));
     }
+    /* RT motzash minyan davens 20 min after RT havdalah */
+    function calcRTminyan(times) { return new Date(calcRTdeg(times).getTime() + 20 * 60000); }
+
+    /* today's sunset + RT minyan time, filled once Hebcal resolves and read by
+       the prayer board so mincha/arvit and the RT motzash row stay in sync */
+    let _todaySunset = null;
+    let _rtMinyanText = '';
+    function resolvePrayerTime(row, sunset) {
+      if (sunset && row.time_rule === 'sunset_minus_15')
+        return fmtTime(new Date(sunset.getTime() - 15 * 60000));
+      if (sunset && row.time_rule === 'sunset')
+        return fmtTime(sunset);
+      return row.prayer_time;
+    }
+
+    let _hebcalPromise = null;
+    function getHebcal() { return _hebcalPromise || (_hebcalPromise = loadHebcalData()); }
 
     async function loadHebcalData() {
       try {
@@ -2742,11 +2759,14 @@
         });
 
         const z = zmanim.times || {};
+        _todaySunset = z.sunset ? new Date(z.sunset) : null;
         let rtTime = '—';
         if (z.sunset && z.sunrise && z.alotHaShachar) {
           rtTime = fmtTime(calcRTdeg(z));
+          _rtMinyanText = fmtTime(calcRTminyan(z));
         } else if (z.tzeit72min) {
           rtTime = fmtTime(z.tzeit72min);
+          _rtMinyanText = rtTime;
         }
         document.getElementById('havdalah-time').textContent = rtTime;
 
@@ -3633,25 +3653,28 @@
     function renderHomePrayers(id, rows) {
       const el = document.getElementById(id);
       if (!el) return;
-      el.innerHTML = rows.map(r =>
-        `<div class="prayer-line"><span class="prayer-line-name">${r.display_name}</span>` +
-        `<span class="prayer-line-time">${r.prayer_time}</span></div>`
-      ).join('');
+      el.innerHTML = rows.map(r => {
+        const auto = r.time_rule && r.time_rule !== 'fixed';
+        const badge = auto ? '<span class="prayer-badge">אוטומטי</span>' : '';
+        return `<div class="prayer-line"><span class="prayer-line-name">${r.display_name}${badge}</span>` +
+               `<span class="prayer-line-time">${resolvePrayerTime(r, _todaySunset)}</span></div>`;
+      }).join('');
     }
 
-    /* Motzash times come from Hebcal, not the table — append them once known. */
+    /* Motzash minyan times come from Hebcal, not the table — appended once the
+       fetch resolves. RT minyan is 20 min after RT havdalah (see _rtMinyanText). */
     function appendMotzashRows() {
       const el = document.getElementById('home-shabbat-prayers');
       if (!el || el.querySelector('.is-dynamic')) return;
       const reg = document.getElementById('havdalah-regular')?.textContent || '';
-      const rt  = document.getElementById('havdalah-time')?.textContent || '';
+      const rt  = _rtMinyanText || '';
       const row = (label, time) =>
         `<div class="prayer-line is-dynamic"><span class="prayer-line-name">${label}` +
         `<span class="prayer-badge">לפי הזמן</span></span>` +
         `<span class="prayer-line-time">${time}</span></div>`;
       let html = '';
       if (reg && reg !== '--:--') html += row('ערבית מוצ״ש (מניין א׳)', reg);
-      if (rt  && rt  !== '--:--') html += row('ערבית מוצ״ש (רבנו תם)', rt);
+      if (rt  && rt  !== '--:--' && rt !== '—') html += row('ערבית מוצ״ש (רבנו תם)', rt);
       if (html) el.insertAdjacentHTML('beforeend', html);
     }
 
@@ -3659,6 +3682,8 @@
       let weekday = HOME_PRAYER_FALLBACK.weekday;
       let shabbat = HOME_PRAYER_FALLBACK.shabbat;
       let holiday = [];
+      // wait on the shared Hebcal fetch so sun-based rows resolve on first paint
+      try { await getHebcal(); } catch {}
       try {
         const { data, error } = await _supabase
           .from('prayer_times').select('*').order('sort_order', { ascending: true });
@@ -3765,7 +3790,7 @@
     /* ── Init ── */
     document.addEventListener('DOMContentLoaded', () => {
       loadAnnouncements();
-      loadHebcalData();
+      getHebcal();
       loadYizkor().then(loadDbHilulot);
       loadDbEvents();
       loadPopupPoster();
