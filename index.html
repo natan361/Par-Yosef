@@ -272,6 +272,18 @@
       border-bottom: 1px solid var(--gold-500);
       opacity: .55;
     }
+    /* the gold rule unrolls from the title when its section reveals — the
+       seal's ring coming to life. respects reduced-motion below. */
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal .sec-title::after,
+      .stagger-children .sec-title::after {
+        transform: scaleX(0);
+        transform-origin: right center;
+        transition: transform .8s var(--ease) .12s;
+      }
+      .reveal.visible .sec-title::after,
+      .visible .sec-title::after { transform: scaleX(1); }
+    }
     .sec-sub {
       font-size: var(--fs-base);
       color: var(--muted);
@@ -289,11 +301,18 @@
 
     /* ── Gold link ── */
     .gold-link {
-      color: var(--gold-700); font-size: var(--fs-sm); font-weight: 600; transition: opacity 0.2s ease;
+      color: var(--gold-700); font-size: var(--fs-sm); font-weight: 600;
       /* min-height lifts the tap target over the WCAG 2.2 minimum (24px) */
-      display: inline-flex; align-items: center; min-height: 28px;
+      display: inline-flex; align-items: center; gap: 6px; min-height: 28px;
+      transition: gap .2s var(--ease), color .2s ease;
     }
-    .gold-link:hover { opacity: 0.7; }
+    /* a chevron that nudges forward on hover — a small forward-motion cue */
+    .gold-link::after {
+      content: "‹"; font-size: 1.15em; line-height: 1; transform: translateY(-1px);
+      transition: transform .2s var(--ease);
+    }
+    .gold-link:hover { color: var(--gold-800); }
+    .gold-link:hover::after { transform: translate(-3px, -1px); }
 
     /* ══════════════════════════════════════
        WHITE TEXT ON ALL DARK / COLORED BACKGROUNDS
@@ -433,7 +452,7 @@
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       will-change: transform;
     }
-    .lift:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(0,0,0,0.4); }
+    .lift:hover { transform: translateY(-4px); box-shadow: var(--sh-3); }
 
     /* ════════════════════════════
        HERO

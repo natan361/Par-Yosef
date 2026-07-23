@@ -49,6 +49,9 @@ if (FULL) {
       await new Promise((r) => setTimeout(r, 140));
     }
     window.scrollTo(0, 0);
+    // the reveal observer can lag a programmatic scroll and leave sections at
+    // opacity 0 — force them visible so a full-page capture is truthful
+    document.querySelectorAll('.reveal, .stagger-children').forEach(el => el.classList.add('visible'));
   });
 }
 await new Promise((r) => setTimeout(r, 1200)); // let entrance animations settle

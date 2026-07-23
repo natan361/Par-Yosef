@@ -260,6 +260,16 @@
       border-bottom: 1px solid var(--gold-500);
       opacity: .55;
     }
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal .sec-title::after,
+      .stagger-children .sec-title::after {
+        transform: scaleX(0);
+        transform-origin: right center;
+        transition: transform .8s var(--ease) .12s;
+      }
+      .reveal.visible .sec-title::after,
+      .visible .sec-title::after { transform: scaleX(1); }
+    }
     .sec-sub {
       font-size: var(--fs-base);
       color: var(--muted);
