@@ -234,21 +234,30 @@
        because that is where a Hebrew reader starts.
        ══════════════════════════════════════════════════════════════ */
     .sec-head { margin-bottom: var(--s7); }
+    /* the eyebrow leads with a short gold rule so it reads as a deliberate
+       label, and rhymes with the double rule under the title */
     .sec-eyebrow {
-      display: block;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--s3);
       font-size: var(--fs-xs);
       font-weight: 600;
-      letter-spacing: .18em;
+      letter-spacing: .2em;
       color: var(--gold-700);
-      margin-bottom: var(--s2);
+      margin-bottom: var(--s3);
+    }
+    .sec-eyebrow::before {
+      content: "";
+      width: 26px; height: 1px;
+      background: var(--gold-500);
     }
     .sec-title {
       font-family: var(--font-display);
       font-size: var(--fs-2xl);
       font-weight: 700;
       color: var(--text);
-      line-height: 1.15;
-      letter-spacing: -0.02em;
+      line-height: 1.12;
+      letter-spacing: -0.025em;
       margin-bottom: var(--s3);
       display: flex;
       align-items: center;
@@ -273,6 +282,7 @@
     .sec-title.light::after { border-color: var(--gold-400); opacity: .5; }
     .sec-sub.light { color: var(--teal-100); opacity: 1; }
     .sec-eyebrow.light { color: var(--gold-200); }
+    .sec-eyebrow.light::before { background: var(--gold-200); opacity: .7; }
     /* the old centred gold bar is retired — kept as a no-op so any
        remaining markup does not leave a stray element behind */
     .gold-bar { display: none; }
@@ -704,27 +714,44 @@
     /* ════════════════════════════
        NEXT PRAYER + LOCATION STRIP
     ════════════════════════════ */
+    /* This strip carries the single most-wanted fact — the next tefila — so it
+       reads as a priority band, not a quiet divider: a warm tint, a gold top
+       accent, and a live pulse beside the time. */
     .next-prayer {
-      background: var(--surface);
+      background: linear-gradient(180deg, var(--gold-50) 0%, var(--surface) 100%);
       border-bottom: 1px solid var(--line);
-      box-shadow: var(--sh-1);
+      box-shadow: inset 0 2px 0 var(--gold-500), var(--sh-1);
     }
     .next-prayer-inner {
       display: flex; align-items: center; gap: 24px;
-      padding-top: 18px; padding-bottom: 18px;
+      padding-top: 20px; padding-bottom: 20px;
       flex-wrap: wrap;
     }
-    .np-block { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+    .np-block { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+    .np-block-time { position: relative; padding-inline-start: 20px; }
+    /* the live dot */
+    .np-block-time::before {
+      content: ''; position: absolute; inset-inline-start: 0; top: 9px;
+      width: 9px; height: 9px; border-radius: 50%; background: var(--gold-500);
+      box-shadow: 0 0 0 0 rgba(204,136,0,.5);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .np-block-time::before { animation: np-pulse 2.4s ease-in-out infinite; }
+    }
+    @keyframes np-pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(204,136,0,.5); }
+      50%     { box-shadow: 0 0 0 7px rgba(204,136,0,0); }
+    }
     .np-label {
-      font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
-      color: var(--muted); text-transform: uppercase;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+      color: var(--gold-800); text-transform: uppercase;
     }
     .np-value {
-      font-family: 'Noto Serif Hebrew', serif;
-      font-size: 20px; font-weight: 700; color: var(--text);
-      line-height: 1.2;
+      font-family: var(--font-display);
+      font-size: 22px; font-weight: 700; color: var(--text);
+      line-height: 1.15;
     }
-    .np-value .np-time { color: var(--gold-700); }
+    .np-value .np-time { color: var(--gold-700); font-size: 26px; }
     .np-value .np-rel  { font-family: 'Noto Sans Hebrew', sans-serif; font-size: 13px; font-weight: 400; color: var(--muted); }
     .np-address { font-size: 15px; color: var(--text); }
     .np-divider { width: 1px; align-self: stretch; background: var(--border); }
@@ -1851,28 +1878,42 @@
         display: flex;
         position: fixed;
         bottom: 0; left: 0; right: 0;
-        height: 60px;
-        background: var(--bg-dark);
-        align-items: center;
+        background: linear-gradient(180deg, var(--teal-800), var(--teal-900));
+        align-items: stretch;
         justify-content: space-around;
         z-index: 1000;
-        border-top: 1px solid rgba(255,255,255,0.1);
+        border-top: 1px solid rgba(204,136,0,.35);
+        box-shadow: 0 -6px 20px rgba(14,43,51,.25);
+        /* clear the iOS home indicator */
+        padding-bottom: env(safe-area-inset-bottom, 0);
         transition: transform 0.3s ease;
       }
       .mobile-bottom-nav a {
+        position: relative;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 3px;
-        color: rgba(255,255,255,0.65);
+        justify-content: center;
+        gap: 4px;
+        color: rgba(255,255,255,0.62);
         font-size: 10px;
-        font-family: 'Noto Sans Hebrew', sans-serif;
+        font-weight: 500;
+        font-family: var(--font-body);
         text-decoration: none;
         flex: 1;
-        padding: 8px 0;
+        padding: 10px 0;
+        transition: color .2s ease;
       }
-      .mobile-bottom-nav a.active { color: var(--gold); }
-      .mobile-bottom-nav svg { width: 22px; height: 22px; }
+      /* active tab: gold, lifted icon, and a gold indicator on the top edge */
+      .mobile-bottom-nav a.active { color: var(--gold-light); }
+      .mobile-bottom-nav a.active svg { transform: translateY(-1px); }
+      .mobile-bottom-nav a.active::before {
+        content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+        width: 26px; height: 3px; border-radius: 0 0 3px 3px; background: var(--gold-light);
+      }
+      .mobile-bottom-nav svg { width: 22px; height: 22px; transition: transform .2s ease; }
+      /* the fixed bar must not cover the last content */
+      body { padding-bottom: calc(60px + env(safe-area-inset-bottom, 0)); }
     }
 
     /* ══════════════════════════════════════════════════════════════

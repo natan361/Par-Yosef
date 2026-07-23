@@ -225,20 +225,27 @@
        ══════════════════════════════════════════════════════════════ */
     .sec-head { margin-bottom: var(--s7); }
     .sec-eyebrow {
-      display: block;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--s3);
       font-size: var(--fs-xs);
       font-weight: 600;
-      letter-spacing: .18em;
+      letter-spacing: .2em;
       color: var(--gold-700);
-      margin-bottom: var(--s2);
+      margin-bottom: var(--s3);
+    }
+    .sec-eyebrow::before {
+      content: "";
+      width: 26px; height: 1px;
+      background: var(--gold-500);
     }
     .sec-title {
       font-family: var(--font-display);
       font-size: var(--fs-2xl);
       font-weight: 700;
       color: var(--text);
-      line-height: 1.15;
-      letter-spacing: -0.02em;
+      line-height: 1.12;
+      letter-spacing: -0.025em;
       margin-bottom: var(--s3);
       display: flex;
       align-items: center;
@@ -263,6 +270,7 @@
     .sec-title.light::after { border-color: var(--gold-400); opacity: .5; }
     .sec-sub.light { color: var(--teal-100); opacity: 1; }
     .sec-eyebrow.light { color: var(--gold-200); }
+    .sec-eyebrow.light::before { background: var(--gold-200); opacity: .7; }
     /* the old centred gold bar is retired — kept as a no-op so any
        remaining markup does not leave a stray element behind */
     .gold-bar { display: none; }
@@ -646,28 +654,39 @@
         display: flex;
         position: fixed;
         bottom: 0; left: 0; right: 0;
-        height: 60px;
-        background: var(--bg-dark);
-        align-items: center;
+        background: linear-gradient(180deg, var(--teal-800), var(--teal-900));
+        align-items: stretch;
         justify-content: space-around;
         z-index: 1000;
-        border-top: 1px solid rgba(255,255,255,0.1);
+        border-top: 1px solid rgba(204,136,0,.35);
+        box-shadow: 0 -6px 20px rgba(14,43,51,.25);
+        padding-bottom: env(safe-area-inset-bottom, 0);
         transition: transform 0.3s ease;
       }
       .mobile-bottom-nav a {
+        position: relative;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 3px;
-        color: rgba(255,255,255,0.65);
+        justify-content: center;
+        gap: 4px;
+        color: rgba(255,255,255,0.62);
         font-size: 10px;
+        font-weight: 500;
         font-family: var(--font-body);
         text-decoration: none;
         flex: 1;
-        padding: 8px 0;
+        padding: 10px 0;
+        transition: color .2s ease;
       }
-      .mobile-bottom-nav a.active { color: var(--gold); }
-      .mobile-bottom-nav svg { width: 22px; height: 22px; }
+      .mobile-bottom-nav a.active { color: var(--gold-light); }
+      .mobile-bottom-nav a.active svg { transform: translateY(-1px); }
+      .mobile-bottom-nav a.active::before {
+        content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+        width: 26px; height: 3px; border-radius: 0 0 3px 3px; background: var(--gold-light);
+      }
+      .mobile-bottom-nav svg { width: 22px; height: 22px; transition: transform .2s ease; }
+      body { padding-bottom: calc(60px + env(safe-area-inset-bottom, 0)); }
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
