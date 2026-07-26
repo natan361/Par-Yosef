@@ -375,8 +375,13 @@ Screenshots נשמרים ל: `./temporary screenshots/screenshot-N.png`
 | `photo/og-image.png` (1200×630) | `og:image` לשיתופים |
 | `site.webmanifest` | PWA |
 
-**האתר יושב תחת נתיב משנה** (`/Par-Yosef/`), ולכן חובה להצהיר על כל האייקונים
-ב-`<link>` — חיפוש ברירת המחדל של הדפדפן ל-`/favicon.ico` נופל מחוץ לאתר.
+**כתובת האתר החי: `https://per-yosf.netlify.app/`** (Netlify). האתר עבר אירוח פעמיים —
+`par-yosef.pages.dev` → `natan361.github.io/Par-Yosef/` → Netlify. ה-git remote עדיין
+`github.com/natan361/Par-Yosef`. כל ה-canonical / `og:url` / `sitemap.xml` / `robots.txt`
+חייבים להצביע על כתובת ה-Netlify — canonical שמצביע החוצה אומר לגוגל לא לאנדקס את הדף.
+
+כל האייקונים מוצהרים ב-`<link>` מפורש (שריד מתקופת נתיב המשנה `/Par-Yosef/`, ובכל מקרה
+עדיף — לא נסמכים על חיפוש ברירת המחדל של הדפדפן ל-`/favicon.ico`).
 
 ---
 
