@@ -1,0 +1,8 @@
+# Keep line endings LF in the repository. Without this, a tool that rewrites a
+# file on Windows can flip it to CRLF and turn a 40-line change into a 4000-line
+# diff — which happened once and made a review impossible.
+* text=auto eol=lf
+*.png binary
+*.webp binary
+*.ico binary
+*.enc binary
