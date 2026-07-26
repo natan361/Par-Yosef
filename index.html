@@ -184,7 +184,7 @@
     ::selection { background: var(--gold-200); color: var(--ink); }
     :focus-visible { outline: 3px solid var(--gold-600); outline-offset: 3px; border-radius: 4px; }
 
-    .container { max-width: 1160px; margin: 0 auto; padding: 0 var(--s5); }
+    .container { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--s5); }
 
     /* Every section breathes on the same rhythm. Individual sections
        override only when they carry a full-bleed element. */
@@ -299,6 +299,114 @@
        remaining markup does not leave a stray element behind */
     .gold-bar { display: none; }
 
+    /* ══════════════════════════════════════════════════════════════
+       LAYOUT — the panel layer
+       Reference: mercazharav.org.il. That site does not lay a page out
+       as full-bleed bands; it lays it out as discrete white panels on a
+       light ground, each capped by a gold rule, packed tight. Importance
+       is read from a panel's footprint — minor sections share a row
+       rather than each claiming full width and 96px of air.
+       Palette is untouched: the ground is our own --sand, the rule our
+       own --gold-500. Only the arrangement is borrowed.
+       ══════════════════════════════════════════════════════════════ */
+    :root {
+      --wrap:       1110px;  /* the reference's boxed column */
+      --panel-gap:  var(--s5);
+      --r-panel:    4px;     /* sharp corners — institutional, not soft */
+    }
+
+    /* The section becomes the gutter; the container becomes the panel.
+       No extra markup needed, and the panel still insets on small screens. */
+    section.panel {
+      padding: 0 var(--s5) var(--panel-gap);
+      background: none;   /* the panel carries the surface, not the section */
+    }
+    .panel > .container {
+      max-width: var(--wrap);
+      padding: var(--s5) var(--s5) var(--s6);
+      background: var(--surface);
+      border: 1px solid var(--line-2);
+      border-top: 3px solid var(--gold-500);   /* the rule now caps the panel */
+      border-radius: var(--r-panel);
+      box-shadow: var(--sh-1);
+    }
+    /* Cards nested inside a panel take the panel's sharper corner, so the
+       whole composition reads as one geometry. Buttons keep their pill. */
+    .panel { --r-xs: 4px; --r-sm: 4px; --r-md: 4px; --r-lg: 4px; }
+
+    /* Section header collapses from a stack into a single row:
+       title on the right where a Hebrew reader starts, meta on the left. */
+    /* A two-column grid, not flex: the source order differs per section
+       (some wrap the title in .yizkor-head / .events-head) and only explicit
+       placement gets the title right and the meta left in every one of them.
+       In RTL, column 1 is the right-hand column. */
+    .panel .sec-head,
+    .panel .yizkor-head {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: baseline;
+      column-gap: var(--s5);
+      row-gap: var(--s3);
+    }
+    .panel .sec-head {
+      margin-bottom: var(--s5);
+      padding-bottom: var(--s4);
+      border-bottom: 1px solid var(--line-2);
+    }
+    .panel .sec-title {
+      grid-column: 1; grid-row: 1;
+      margin-bottom: 0;
+      gap: 0;
+      font-size: var(--fs-xl);
+      color: var(--gold-700);        /* 5.2:1 on white — the accessible gold */
+    }
+    /* the rule moved to the panel's top edge, so the title no longer carries one */
+    .panel .sec-title::after { display: none; }
+    .panel .sec-eyebrow {
+      grid-column: 2; grid-row: 1;
+      justify-self: end;             /* RTL: the left end of the row */
+      margin-bottom: 0;
+    }
+    /* these bring their own internal layout — let them span the whole row */
+    .panel .sec-head > .events-head,
+    .panel .sec-head > .yizkor-head { grid-column: 1 / -1; }
+    /* sub-copy drops to its own line beneath the rule of the header row */
+    .panel .sec-sub { grid-column: 1 / -1; grid-row: 2; }
+
+    /* The gallery strip is full-bleed by design; inside a panel it bleeds to
+       the panel's inner edges instead of the viewport's. */
+    .panel .gallery-strip-wrap { margin-inline: calc(var(--s5) * -1); }
+
+    /* Pattern the reference leans on hardest: two secondary sections
+       sharing one row, so hierarchy is legible from footprint alone. */
+    .panel-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--panel-gap);
+      max-width: var(--wrap);
+      margin: 0 auto;
+      align-items: start;
+    }
+    .panel-row > section.panel { padding: 0; }
+    .panel-row > .panel > .container { max-width: none; height: 100%; }
+    /* two panels side by side need real width — unstack well before the
+       mobile breakpoint, or a map and a table both end up unreadable */
+    @media (max-width: 900px) { .panel-row { grid-template-columns: 1fr; } }
+
+    /* Mobile: a paired row unstacks, and the header row becomes a stack —
+       there is no width to put title and meta on one line. */
+    @media (max-width: 767px) {
+      .panel-row { grid-template-columns: 1fr; padding: 0 var(--s4); }
+      section.panel { padding: 0 var(--s4) var(--s4); }
+      .panel > .container { padding: var(--s4) 20px var(--s5) !important; }
+      .panel .sec-head,
+      .panel .yizkor-head { grid-template-columns: 1fr; row-gap: var(--s2); }
+      .panel .sec-title  { grid-column: 1; grid-row: 1; font-size: var(--fs-lg); }
+      .panel .sec-eyebrow { grid-column: 1; grid-row: 2; justify-self: start; }
+      .panel .sec-sub    { grid-column: 1; grid-row: 3; }
+      .panel .gallery-strip-wrap { margin-inline: -20px; }
+    }
+
     /* ── Gold link ── */
     .gold-link {
       color: var(--gold-700); font-size: var(--fs-sm); font-weight: 600;
@@ -355,7 +463,7 @@
     }
     .header-inner {
       display: flex; align-items: center; justify-content: space-between;
-      height: 100%; max-width: 1160px; margin: 0 auto; padding: 0 24px; gap: 12px;
+      height: 100%; max-width: var(--wrap); margin: 0 auto; padding: 0 24px; gap: 12px;
     }
     .logo-wrap { display: flex; align-items: center; gap: 12px; line-height: 1.2; text-decoration: none; background: transparent; border-radius: 0; padding: 0; }
     .logo-wrap img { object-fit: contain; flex-shrink: 0; display: block; height: 48px; width: auto; }
@@ -2124,7 +2232,7 @@
   </section>
 
   <!-- לוח תפילות -->
-  <section id="prayers" class="reveal">
+  <section id="prayers" class="reveal panel">
     <div class="container">
       <div class="sec-head">
         <span class="sec-eyebrow" data-i18n="prayersEyebrow">מתעדכן מלוח הישיבה</span>
@@ -2169,7 +2277,7 @@
   </section>
 
   <!-- שיעורים אחרונים -->
-  <section id="lessons" class="reveal">
+  <section id="lessons" class="reveal panel">
     <div class="container">
       <div class="sec-head">
         <span class="sec-eyebrow" data-i18n="lessonsEyebrow">מערוץ היוטיוב של הישיבה</span>
@@ -2230,7 +2338,7 @@
   </section>
 
   <!-- אירועים קרובים -->
-  <section id="events" class="reveal">
+  <section id="events" class="reveal panel">
     <div class="container">
       <div class="sec-head">
         <div class="events-head">
@@ -2350,36 +2458,9 @@
     </div>
   </div>
 
-  <!-- הילולות צדיקים -->
-  <section id="yizkor" class="reveal">
-    <div class="container">
-      <div class="sec-head">
-        <div class="yizkor-head">
-          <span class="sec-eyebrow" data-i18n="yizkorEyebrow">לפי הלוח העברי</span>
-          <h2 class="sec-title" data-i18n="yizkorTitle">הילולות צדיקים</h2>
-        </div>
-        <p class="sec-sub" data-i18n="yizkorSub">ימי פטירת הצדיקים הקדושים — שבועיים הקרובים</p>
-      </div>
-
-      <div class="table-wrap">
-        <table id="yizkor-table">
-          <thead>
-            <tr>
-              <th data-i18n="yizkorColName">שם</th>
-              <th data-i18n="yizkorColHebDate">תאריך עברי</th>
-              <th data-i18n="yizkorColGreg">תאריך לועזי</th>
-            </tr>
-          </thead>
-          <tbody id="yizkor-tbody">
-            <tr><td colspan="3" class="yizkor-empty">טוען...</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
 
   <!-- אודות -->
-  <section id="about" class="reveal">
+  <section id="about" class="reveal panel">
     <div class="container">
       <div class="about-grid stagger-children">
         <div class="about-text-col">
@@ -2406,13 +2487,12 @@
   </section>
 
   <!-- גלריה -->
-  <section id="gallery-strip" class="reveal">
+  <section id="gallery-strip" class="reveal panel">
     <div class="container">
       <div class="sec-head">
         <span class="sec-eyebrow" data-i18n="galleryEyebrow">תמונות מבית המדרש</span>
         <h2 class="sec-title" data-i18n="galleryTitle">מהקהילה שלנו</h2>
       </div>
-    </div>
     <div class="gallery-strip-wrap">
       <div class="gallery-track" id="galleryTrack">
         <!-- Set 1 — originals -->
@@ -2441,10 +2521,41 @@
         <img src="photo/community-05.webp" alt="" loading="lazy" decoding="async">
       </div>
     </div>
+    </div>
   </section>
 
+
+  <!-- שתי יחידות משניות חולקות שורה — ההיררכיה נקראת מרוחב הכרטיס -->
+  <div class="panel-row">
+  <!-- הילולות צדיקים -->
+  <section id="yizkor" class="reveal panel">
+    <div class="container">
+      <div class="sec-head">
+        <div class="yizkor-head">
+          <span class="sec-eyebrow" data-i18n="yizkorEyebrow">לפי הלוח העברי</span>
+          <h2 class="sec-title" data-i18n="yizkorTitle">הילולות צדיקים</h2>
+        </div>
+        <p class="sec-sub" data-i18n="yizkorSub">ימי פטירת הצדיקים הקדושים — שבועיים הקרובים</p>
+      </div>
+
+      <div class="table-wrap">
+        <table id="yizkor-table">
+          <thead>
+            <tr>
+              <th data-i18n="yizkorColName">שם</th>
+              <th data-i18n="yizkorColHebDate">תאריך עברי</th>
+              <th data-i18n="yizkorColGreg">תאריך לועזי</th>
+            </tr>
+          </thead>
+          <tbody id="yizkor-tbody">
+            <tr><td colspan="3" class="yizkor-empty">טוען...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
   <!-- מיקום -->
-  <section id="location" class="reveal">
+  <section id="location" class="reveal panel">
     <div class="container">
       <div class="sec-head">
         <span class="sec-eyebrow" data-i18n="locationEyebrow">דלת פתוחה לכל דורש</span>
@@ -2463,6 +2574,7 @@
       </div>
     </div>
   </section>
+  </div>
 
   <!-- Donate CTA -->
   <section id="donate-cta" class="reveal">
