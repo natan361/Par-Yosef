@@ -11,10 +11,21 @@
   <meta name="google-site-verification" content="qx2b90_PXOia1VlLvlGnAw4HmJwRs-GygcYn7qAapXI" />
   <!-- Favicons: declared explicitly because the site lives under /Par-Yosef/,
        so a browser's default /favicon.ico probe resolves outside the site root -->
-  <link rel="icon" href="favicon.ico" sizes="any">
-  <link rel="icon" type="image/png" sizes="96x96" href="photo/favicon-96.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="photo/favicon-192.png">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <!-- Exactly ONE rel="icon" — do not add more.
+       Google supports a single favicon per hostname, and when a page declares
+       several it drops the favicon altogether if any one of them falls short of
+       the requirements. That is what put a generic globe next to us in search
+       while the browser tab showed the logo fine.
+       The path is absolute so it resolves the same from every URL depth, and
+       favicon.ico carries 16/32/48/96 frames because Google recommends larger
+       than 48x48. Do NOT add photo/favicon-192.png back as a <link> here —
+       it still exists, but only as a PWA icon in site.webmanifest, which is
+       not a rel="icon" and so does not trigger the duplicate problem.
+       apple-touch-icon stays, but not because it is a "different rel" — Google
+       lists it as a favicon source too. It is safe because it complies on its
+       own (180x180, square, PNG). -->
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest">
   <meta property="og:site_name" content="פאר יוסף">
   <meta property="og:locale" content="he_IL">
@@ -278,10 +289,15 @@
        Palette is untouched: the ground is our own --sand, the rule our
        own --gold-500. Only the arrangement is borrowed.
        ══════════════════════════════════════════════════════════════ */
+    /* Every number below was measured off the reference in a real browser,
+       not estimated from a screenshot. */
     :root {
       --wrap:       1110px;  /* the reference's boxed column */
-      --panel-gap:  var(--s5);
-      --r-panel:    4px;     /* sharp corners — institutional, not soft */
+      --panel-gap:  28px;    /* measured: gaps run 16–38, clustering at 28 */
+      --r-panel:    0;       /* measured: 0px. square, with no apology */
+      --panel-rule: 8px;     /* measured: an 8px gold cap, not a hairline */
+      /* measured: one flat 2px shadow, near-invisible. not our soft stack. */
+      --sh-flat:    0 2px 4px rgba(0,0,0,.075);
     }
 
     /* The section becomes the gutter; the container becomes the panel.
@@ -292,16 +308,35 @@
     }
     .panel > .container {
       max-width: var(--wrap);
-      padding: var(--s5) var(--s5) var(--s6);
+      padding: var(--s4) var(--s5);            /* measured: 16px / 24px */
       background: var(--surface);
-      border: 1px solid var(--line-2);
-      border-top: 3px solid var(--gold-500);   /* the rule now caps the panel */
+      border: 1px solid var(--line);
+      border-top: var(--panel-rule) solid var(--gold-500);
       border-radius: var(--r-panel);
-      box-shadow: var(--sh-1);
+      box-shadow: var(--sh-flat);
     }
-    /* Cards nested inside a panel take the panel's sharper corner, so the
-       whole composition reads as one geometry. Buttons keep their pill. */
-    .panel { --r-xs: 4px; --r-sm: 4px; --r-md: 4px; --r-lg: 4px; }
+    /* Inside a panel the whole geometry goes square and flat: every nested
+       card inherits the panel's radius and its single flat shadow, so the
+       composition reads as one institutional surface rather than a tray of
+       soft floating objects. Buttons keep their pill. */
+    .panel {
+      --r-xs: 0; --r-sm: 0; --r-md: 0; --r-lg: 0;
+      --sh-1: var(--sh-flat);
+      --sh-2: var(--sh-flat);
+      --sh-3: var(--sh-flat);
+      /* The reference fits 13 sections into the height we spend on 12. Most of
+         that difference is internal air, so inside a panel the large spacing
+         steps drop one notch each. The small steps are untouched — this
+         compresses layout, not legibility. */
+      --s6: 24px;   /* was 32 */
+      --s7: 32px;   /* was 48 */
+      --s8: 40px;   /* was 64 */
+      --s9: 56px;   /* was 96 */
+    }
+
+    /* Full-bleed bands keep the old rhythm's shape but not its scale — 96px of
+       padding top and bottom is what made the page twice the reference's height. */
+    section:not(.panel) { --sec-y: clamp(40px, 4vw, 56px); }
 
     /* Section header collapses from a stack into a single row:
        title on the right where a Hebrew reader starts, meta on the left. */
@@ -318,15 +353,20 @@
       row-gap: var(--s3);
     }
     .panel .sec-head {
-      margin-bottom: var(--s5);
-      padding-bottom: var(--s4);
+      margin-bottom: var(--s4);
+      padding-bottom: var(--s3);
       border-bottom: 1px solid var(--line-2);
     }
+    /* measured: 40px / weight 500 / line-height 42px. The reference gets its
+       hierarchy from size, not from weight — a big, light, gold title over
+       16px bold ink card titles. */
     .panel .sec-title {
       grid-column: 1; grid-row: 1;
       margin-bottom: 0;
       gap: 0;
-      font-size: var(--fs-xl);
+      font-size: clamp(28px, 3.4vw, 40px);
+      font-weight: 500;
+      line-height: 1.05;
       color: var(--gold-700);        /* 5.2:1 on white — the accessible gold */
     }
     /* the rule moved to the panel's top edge, so the title no longer carries one */
@@ -358,6 +398,9 @@
     }
     .panel-row > section.panel { padding: 0; }
     .panel-row > .panel > .container { max-width: none; height: 100%; }
+    /* two panels side by side need real width — unstack well before the
+       mobile breakpoint, or a map and a table both end up unreadable */
+    @media (max-width: 900px) { .panel-row { grid-template-columns: 1fr; } }
 
     /* Mobile: a paired row unstacks, and the header row becomes a stack —
        there is no width to put title and meta on one line. */
