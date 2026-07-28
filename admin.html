@@ -357,7 +357,7 @@
       </form>
 
       <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-        <a href="index.html" style="display:inline-flex;align-items:center;min-height:46px;
+        <a href="/" style="display:inline-flex;align-items:center;min-height:46px;
            padding:12px 24px;color:#587079;font-weight:500;font-size:15px;
            text-decoration:none">חזרה לדף הבית</a>
         <button id="admin-gate-signout" onclick="gateSignOut()"
@@ -372,7 +372,7 @@
 
   <header id="site-header">
     <div class="header-inner">
-      <a href="index.html" class="logo-wrap">
+      <a href="/" class="logo-wrap">
         <img src="photo/logo-main.png" alt="פאר יוסף" height="48" style="filter:drop-shadow(0 0 4px rgba(0,0,0,0.4))" onerror="this.style.display='none'">
         <div>
           <span class="logo-name">פאר יוסף</span>
@@ -380,12 +380,12 @@
         </div>
       </a>
       <nav class="desktop-nav" id="desktop-nav" aria-label="ניווט ראשי">
-        <a href="index.html">דף הבית</a>
-        <a href="videos.html">שיעורים / חדשות</a>
-        <a href="gallery.html">גלריה</a>
-        <a href="zmanim.html">זמנים</a>
-        <a href="donate.html">תרומות</a>
-        <a href="admin.html" class="active" style="color:var(--gold)">ניהול</a>
+        <a href="/">דף הבית</a>
+        <a href="/videos">שיעורים / חדשות</a>
+        <a href="/gallery">גלריה</a>
+        <a href="/zmanim">זמנים</a>
+        <a href="/donate">תרומות</a>
+        <a href="/admin" class="active" style="color:var(--gold)">ניהול</a>
       </nav>
       <div class="auth-area">
         <span id="auth-user" class="auth-username"></span>
@@ -398,12 +398,12 @@
 
   <nav class="nav-overlay" id="nav-overlay" role="dialog" aria-label="ניווט">
     <button class="nav-close" id="nav-close" aria-label="סגור">✕</button>
-    <a href="index.html">דף הבית</a>
-    <a href="videos.html">שיעורים / חדשות</a>
-    <a href="gallery.html">גלריה</a>
-    <a href="zmanim.html">זמנים</a>
-    <a href="donate.html">תרומות</a>
-    <a href="admin.html" style="color:var(--gold)">ניהול</a>
+    <a href="/">דף הבית</a>
+    <a href="/videos">שיעורים / חדשות</a>
+    <a href="/gallery">גלריה</a>
+    <a href="/zmanim">זמנים</a>
+    <a href="/donate">תרומות</a>
+    <a href="/admin" style="color:var(--gold)">ניהול</a>
   </nav>
 
   <!-- Admin Hero -->
@@ -911,7 +911,7 @@
     <div class="container" style="max-width:1160px;margin:0 auto;padding:0 24px">
       <div class="footer-strip-inner">
         <div class="footer-strip-item">קדושי סלוניקי, ירושלים</div>
-        <div class="footer-strip-item"><a href="index.html">חזרה לאתר</a></div>
+        <div class="footer-strip-item"><a href="/">חזרה לאתר</a></div>
       </div>
     </div>
   </div>
@@ -1014,7 +1014,7 @@
       document.getElementById('auth-btn').textContent = 'התנתקות';
       document.getElementById('auth-btn').onclick = async () => {
         await _supabase.auth.signOut();
-        window.location.href = 'index.html';
+        window.location.href = '/';
       };
 
       autoCleanEvents();

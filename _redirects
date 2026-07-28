@@ -1,0 +1,18 @@
+# Netlify — canonical URL enforcement.
+#
+# Every page is reachable at two URLs: /donate.html (the real file) and /donate
+# (Netlify's clean URL). The canonical tag + sitemap declare the clean one, so
+# Google reported the .html twins as "Alternate page with proper canonical tag"
+# — crawled, understood, but never indexed. Internal links now point at the
+# clean URLs; these 301s retire the .html twins for good (old links, bookmarks,
+# and anything Google already has in its index).
+#
+# The `!` (force) is required: a real file exists at the source path, and
+# without it Netlify would serve the file instead of redirecting.
+
+/index.html     /          301!
+/videos.html    /videos    301!
+/gallery.html   /gallery   301!
+/zmanim.html    /zmanim    301!
+/donate.html    /donate    301!
+/admin.html     /admin     301!

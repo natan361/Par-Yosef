@@ -45,7 +45,13 @@ createServer(async (req, res) => {
   try {
     const s = await stat(filePath);
     if (s.isDirectory()) filePath = join(filePath, 'index.html');
-  } catch { /* will 404 below */ }
+  } catch {
+    // Clean URLs: /donate → donate.html, mirroring how Netlify serves the site.
+    // Internal links point at the extension-less form, so local dev must resolve it too.
+    if (!extname(filePath)) {
+      try { await stat(filePath + '.html'); filePath += '.html'; } catch { /* will 404 below */ }
+    }
+  }
 
   try {
     const data = await readFile(filePath);
